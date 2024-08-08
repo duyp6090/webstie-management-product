@@ -40,6 +40,10 @@ const productSchema = new mongoose.Schema({
     },
     images: [String],
     thumbnail: String,
+    deleted: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 // Create Model Of Products

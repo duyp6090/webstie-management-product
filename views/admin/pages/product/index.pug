@@ -1,1 +1,30 @@
-h1 maomao
+extend ../../layouts/default.pug
+
+block main 
+    h1 Danh sách sản phẩm
+
+    table.table.table-hover.table.table-sm 
+        thead 
+            tr 
+                th STT
+                th Hình ảnh
+                th Tiêu đề
+                th Giá
+                th Trạng thái
+                th Hành động
+        tbody
+            each item, index in products
+                tr 
+                    td #{index + 1}
+                    td 
+                        img(src=item.thumbnail, alt="" width="100px" height="auto")
+                    td #{item.title}
+                    td #{item.price}
+                    td
+                        if (item.availabilityStatus == 'No Stock')
+                            a(href="#" class="btn btn-danger") Hết hàng
+                        else 
+                            a(href="#" class="btn btn-success") Hoạt động
+                    td
+                        button(class="btn btn-warning btn-sm") Sửa
+                        button(class="btn btn-danger btn-sm ml-1") Xóa
