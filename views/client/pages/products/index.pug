@@ -1,0 +1,19 @@
+extends ../../layouts/default.pug 
+include ../../mixin/box-head.pug
+
+block main 
+    .container.my-3 
+        .row
+            .col-12
+                +box-head('Danh sách sản phẩm!')
+        .row 
+            each product in products
+                .col-4.mb-3 
+                    .product-item 
+                        .inner-img 
+                            img(src=product.thumbnail alt="Product image")
+                        .inner-content
+                            h3.inner-title #{product.title}
+                            .inner-price-new #{product.newPrice}$
+                            .inner-price-old #{product.price}$
+                            .inner-discount -#{product.discountPercentage}%

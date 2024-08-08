@@ -1,0 +1,7 @@
+# help reject file when push to git that help to reduce size of project
+
+# Ignore the node_modules directory
+/node_modules
+
+# Ignore environment file
+.env

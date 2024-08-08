@@ -1,0 +1,41 @@
+:root {
+    --color-pink: #ff589e;
+    --color-purple: #8261ee;
+    --color-text: #8d77a3;
+    --color-white: #fffffc;
+    --color-black: #777;
+    --color-black-two: #1e1e1e;
+    --color-orange: #f7462e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.button {
+    background-color: var(--color-pink);
+    border-radius: 40px;
+    padding: 10px 20px;
+}

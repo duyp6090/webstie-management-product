@@ -1,0 +1,18 @@
+extends ../../layouts/default.pug 
+include ../../mixin/box-head.pug
+
+block main 
+    .container.my-3 
+        .row
+            .col-12
+                +box-head('Danh sách sản phẩm!')
+        .row 
+            .col-4.mb-3 
+                .product-item 
+                    .inner-img 
+                        img(src="/img/iphone9.webp" alt="Product image")
+                    .inner-content
+                        h3.inner-title Iphone9 
+                        .inner-price-new 1000$
+                        .inner-price-old 1200$
+                        .inner-discount 20% off
