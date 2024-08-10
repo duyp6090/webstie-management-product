@@ -6,8 +6,16 @@ block main
     .card.mb-3 
         .card-header Bộ lọc và Tìm kiếm 
         .card-body 
-            each item in fillterStatus
-                button(class=`btn btn-sm ml-1 btn-outline-success ${item.class}` button-status= item.status) #{item.name}
+            .row
+                .col-6 
+                    each item in fillterStatus
+                        button(class=`btn btn-sm ml-1 btn-outline-success ${item.class}` button-status= item.status) #{item.name}
+                .col-6
+                    form(id="search-form" method="GET")
+                        .input-group.mb-3
+                            input(type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" name="search" value=searchFind)
+                            .input-group-append
+                                button(type="submit" class="btn btn-primary") Tìm kiếm
 
     table.table.table-hover.table.table-sm 
         thead 

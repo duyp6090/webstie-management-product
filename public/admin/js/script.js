@@ -11,9 +11,6 @@ buttonStatus.forEach((button) => {
         // Get the status of the button
         const status = button.getAttribute("button-status");
 
-        // Add class active to the button
-        button.classList.add("active");
-
         // If status is not empty
         if (status) {
             url.searchParams.set("status", status);
@@ -25,3 +22,26 @@ buttonStatus.forEach((button) => {
 });
 
 // End event process of the click on button
+
+// Form search
+const formSearch = document.querySelector("#search-form");
+
+// Add event listener to form search
+formSearch.addEventListener("submit", (e) => {
+    // Prevent default action
+    e.preventDefault();
+
+    // Get the value of the search input
+    const keySearch = formSearch.querySelector("input[name='search']").value;
+
+    // If search is not empty
+    if (keySearch) {
+        url.searchParams.set("search", keySearch);
+    } else url.searchParams.delete("search");
+
+    // Re-set location
+    window.location.href = url.href;
+    console.log(url.href);
+});
+
+// End form search

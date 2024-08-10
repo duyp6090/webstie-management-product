@@ -5,7 +5,7 @@ const Product = require("../../../model/product.model.js");
 class productAdminController {
     // Get Products Page
     async getProduct(req, res) {
-        // Fillter
+        // Fillter button status
         let fillterStatus = [
             {
                 name: "Tất cả",
@@ -40,7 +40,15 @@ class productAdminController {
             find["availabilityStatus"] = "No Stock";
         } else statusFind = "";
 
-        // Update Class active Fillter
+        // Search Find
+        let searchFind = req.query.search;
+
+        if (searchFind) {
+            const regex = new RegExp(searchFind, "i");
+            find["title"] = regex;
+        }
+
+        // Update Class active Fillter button
         fillterStatus.forEach((fillItem) => {
             if (fillItem.status == statusFind) {
                 fillItem.class = "active";
@@ -50,12 +58,11 @@ class productAdminController {
         // Get Products
         const products = await Product.find(find);
 
-        console.log(products);
-
         res.render("admin/pages/product/index.pug", {
             title: "Products",
             products: products,
             fillterStatus: fillterStatus,
+            searchFind: searchFind,
         });
     }
 }
