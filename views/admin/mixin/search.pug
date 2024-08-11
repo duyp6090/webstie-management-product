@@ -1,0 +1,6 @@
+mixin search(searchFind)
+    form(id="search-form" method="GET")
+        .input-group.mb-3
+            input(type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" name="search" value=searchFind)
+            .input-group-append
+                button(type="submit" class="btn btn-primary") Tìm kiếm

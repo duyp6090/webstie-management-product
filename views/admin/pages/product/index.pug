@@ -1,4 +1,10 @@
 extend ../../layouts/default.pug
+//- fillter status block
+include ../../mixin/fillter-status.pug
+//- search block
+include ../../mixin/search.pug
+//- pagination Page
+include ../../mixin/pagination.pug
 
 block main 
     h1 Danh sách sản phẩm
@@ -8,14 +14,9 @@ block main
         .card-body 
             .row
                 .col-6 
-                    each item in fillterStatus
-                        button(class=`btn btn-sm ml-1 btn-outline-success ${item.class}` button-status= item.status) #{item.name}
+                    +fillter-status(fillterStatus)
                 .col-6
-                    form(id="search-form" method="GET")
-                        .input-group.mb-3
-                            input(type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" name="search" value=searchFind)
-                            .input-group-append
-                                button(type="submit" class="btn btn-primary") Tìm kiếm
+                    +search(searchFind)
 
     table.table.table-hover.table.table-sm 
         thead 
@@ -42,3 +43,4 @@ block main
                     td
                         button(class="btn btn-warning btn-sm") Sửa
                         button(class="btn btn-danger btn-sm ml-1") Xóa
+    +paginationPages(paginations)

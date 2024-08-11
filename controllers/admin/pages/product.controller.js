@@ -1,30 +1,21 @@
 // Import model
 const Product = require("../../../model/product.model.js");
 
+// Import fillterStatus
+const fillterStatusHelper = require("../../../helper/fillterStatus.js");
+
+// Import search
+const searchHelper = require("../../../helper/search.js");
+
+// Import pagination
+const paginationHelper = require("../../../helper/pagination.js");
+
 // Class to handle product - Admin
 class productAdminController {
     // Get Products Page
     async getProduct(req, res) {
         // Fillter button status
-        let fillterStatus = [
-            {
-                name: "Tất cả",
-                status: "",
-                class: "active",
-            },
-
-            {
-                name: "Hoạt động",
-                status: "active",
-                class: "",
-            },
-
-            {
-                name: "Dừng hoạt động",
-                status: "inactive",
-                class: "",
-            },
-        ];
+        const fillterStatus = fillterStatusHelper(req.query);
 
         // Find Condition
         let find = {
@@ -38,31 +29,44 @@ class productAdminController {
             find["availabilityStatus"] = { $ne: "No Stock" };
         } else if (statusFind == "inactive") {
             find["availabilityStatus"] = "No Stock";
-        } else statusFind = "";
-
-        // Search Find
-        let searchFind = req.query.search;
-
-        if (searchFind) {
-            const regex = new RegExp(searchFind, "i");
-            find["title"] = regex;
         }
 
-        // Update Class active Fillter button
-        fillterStatus.forEach((fillItem) => {
-            if (fillItem.status == statusFind) {
-                fillItem.class = "active";
-            } else fillItem.class = "";
-        });
+        // Search Helper
+        const objectSeacrh = searchHelper(req.query);
+
+        // Search Find
+        let searchFind = objectSeacrh.regex;
+
+        if (searchFind) {
+            find["title"] = searchFind;
+        }
+
+        // Pagination
+
+        // Count documents
+        const totalProducts = await Product.countDocuments(find);
+
+        // object - pagination
+        let objectPagination = paginationHelper(
+            {
+                limit: 4,
+                currentPage: 1,
+            },
+            req.query,
+            totalProducts
+        );
 
         // Get Products
-        const products = await Product.find(find);
+        const products = await Product.find(find)
+            .limit(objectPagination.limit)
+            .skip(objectPagination.skip);
 
         res.render("admin/pages/product/index.pug", {
             title: "Products",
             products: products,
             fillterStatus: fillterStatus,
-            searchFind: searchFind,
+            searchFind: objectSeacrh.keyword,
+            paginations: objectPagination,
         });
     }
 }

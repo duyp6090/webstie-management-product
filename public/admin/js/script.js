@@ -45,3 +45,24 @@ formSearch.addEventListener("submit", (e) => {
 });
 
 // End form search
+
+// Pagination
+const paginations = document.querySelectorAll("[button-pagination]");
+
+// Loop through each pagination
+paginations.forEach((pagination) => {
+    // Add event listener to each pagination
+    pagination.addEventListener("click", () => {
+        // Get page number
+        const pageNumber = pagination.innerText;
+
+        // Re-set url page
+        if (pageNumber != "1") url.searchParams.set("page", pageNumber);
+        else url.searchParams.delete("page");
+
+        // Re-load url website
+        window.location.href = url.href;
+    });
+});
+
+// End event pagination
