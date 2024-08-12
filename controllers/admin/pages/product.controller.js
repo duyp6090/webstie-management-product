@@ -69,6 +69,7 @@ class productAdminController {
             paginations: objectPagination,
         });
     }
+
     // [PATCH] Change status
     async changeStatus(req, res) {
         // Get id and status from params
@@ -80,6 +81,31 @@ class productAdminController {
             { _id: idProducts },
             { availabilityStatus: statusProducts == "active" ? "Stock" : "No Stock" }
         );
+
+        // Redirect
+        res.redirect("back");
+    }
+
+    // [PATCH] Change multi status
+    async changeStatusMulti(req, res) {
+        const type = req.body.type;
+        const ids = req.body.ids.split(",");
+
+        // available status
+        let availabilityStatus = "";
+
+        // Check type
+        switch (type) {
+            case "active":
+                availabilityStatus = "Stock";
+                break;
+            case "inactive":
+                availabilityStatus = "No Stock";
+                break;
+        }
+
+        // Update multi status
+        await Product.updateMany({ _id: { $in: ids } }, { availabilityStatus: availabilityStatus });
 
         // Redirect
         res.redirect("back");

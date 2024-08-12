@@ -1,10 +1,17 @@
 extend ../../layouts/default.pug
+
 //- fillter status block
 include ../../mixin/fillter-status.pug
+
 //- search block
 include ../../mixin/search.pug
+
 //- pagination Page
 include ../../mixin/pagination.pug
+
+//- form change status
+include ../../mixin/form-change-multi.pug
+
 
 block main 
     h1 Danh sách sản phẩm
@@ -18,43 +25,61 @@ block main
                 .col-6
                     +search(searchFind)
 
-    table.table.table-hover.table.table-sm 
-        thead 
-            tr 
-                th STT
-                th Hình ảnh
-                th Tiêu đề
-                th Giá
-                th Trạng thái
-                th Hành động
-        tbody
-            each item, index in products
-                tr 
-                    td #{index + 1}
-                    td 
-                        img(src=item.thumbnail, alt="" width="100px" height="auto")
-                    td #{item.title}
-                    td #{item.price}
-                    td
-                        if (item.availabilityStatus == 'No Stock')
-                            a(
-                                href="javascript:;"
-                                data-status="inactive"
-                                data-id=`${item._id}` 
-                                button-change-status
-                                class="btn btn-danger"
-                            ) Dừng hoạt động
-                        else 
-                            a(
-                                href="javascript:;"
-                                data-status="active"
-                                data-id=`${item._id}`
-                                button-change-status
-                                class="btn btn-success"
-                            ) Hoạt động
-                    td
-                        button(class="btn btn-warning btn-sm") Sửa
-                        button(class="btn btn-danger btn-sm ml-1") Xóa
+    .card.mb-3
+        .card-header Danh sách
+        .card-body 
+            //- form change status
+            +form-change-multi(`/${prefixAdmin}/products/change-multi?_method=PATCH`)
+
+            //- table products
+            table.table.table-hover.table-sm 
+                thead 
+                    tr 
+                        th 
+                            input(
+                                type="checkbox"
+                                name="check-all"
+                            )
+                        th STT
+                        th Hình ảnh
+                        th Tiêu đề
+                        th Giá
+                        th Trạng thái
+                        th Hành động
+                tbody
+                    each item, index in products
+                        tr 
+                            th 
+                                input(
+                                    type="checkbox"
+                                    name="id"
+                                    value=item.id
+                                )
+                            td #{index + 1}
+                            td 
+                                img(src=item.thumbnail, alt="" width="100px" height="auto")
+                            td #{item.title}
+                            td #{item.price}
+                            td
+                                if (item.availabilityStatus == 'No Stock')
+                                    a(
+                                        href="javascript:;"
+                                        data-status="inactive"
+                                        data-id=`${item._id}` 
+                                        button-change-status
+                                        class="btn btn-danger"
+                                    ) Dừng hoạt động
+                                else 
+                                    a(
+                                        href="javascript:;"
+                                        data-status="active"
+                                        data-id=`${item._id}`
+                                        button-change-status
+                                        class="btn btn-success"
+                                    ) Hoạt động
+                            td
+                                button(class="btn btn-warning btn-sm") Sửa
+                                button(class="btn btn-danger btn-sm ml-1") Xóa
     +paginationPages(paginations)
 
     form(

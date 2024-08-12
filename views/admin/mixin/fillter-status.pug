@@ -1,3 +1,6 @@
 mixin fillter-status(fillterStatus)
     each item in fillterStatus
-        button(class=`btn btn-sm ml-1 btn-outline-success ${item.class}` button-status= item.status) #{item.name}
+        button(
+            class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
+            button-status= item.status
+        ) #{item.name}

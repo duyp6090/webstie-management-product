@@ -1,4 +1,5 @@
 // Change status
+
 const buttonChnageStatus = document.querySelectorAll("[button-change-status]");
 const formChangeStatus = document.getElementById("form-change-status");
 const path = formChangeStatus.getAttribute("data-path");
@@ -22,3 +23,72 @@ buttonChnageStatus.forEach((button) => {
 });
 
 // End change status
+
+// Change multi status
+
+const formChangeMulti = document.getElementById("form-change-multi");
+const typeChangeMulti = formChangeMulti.querySelector("select[name=type]");
+const inputChangeMultiStatus = document.querySelector("input[name=ids]");
+const checkboxALL = document.querySelector("input[type=checkbox]");
+const checkboxItem = document.querySelectorAll("input[type=checkbox][name=id]");
+
+// Function to get multi id to change status
+function getMultiIdToChangeStatus() {
+    let ids = [];
+    checkboxItem.forEach((checkbox) => {
+        if (checkbox.checked) {
+            ids.push(checkbox.value);
+        }
+    });
+    return ids.join(",");
+}
+
+// Hanlde checkbox all
+checkboxALL.addEventListener("change", () => {
+    checkboxItem.forEach((checkbox) => {
+        checkbox.checked = checkboxALL.checked;
+    });
+
+    // Call function get multiId to change status
+    let ids = getMultiIdToChangeStatus();
+
+    // Set value for input
+    inputChangeMultiStatus.value = ids;
+});
+
+// Handle checkbox item
+checkboxItem.forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+        numberCheckedItems = Array.from(checkboxItem).filter(
+            (checkbox) => checkbox.checked == true
+        );
+        if (numberCheckedItems.length == checkboxItem.length) {
+            checkboxALL.checked = true;
+        } else {
+            checkboxALL.checked = false;
+        }
+
+        // Call function get multiId to change status
+        let ids = getMultiIdToChangeStatus();
+
+        // Set value for input
+        inputChangeMultiStatus.value = ids;
+    });
+});
+
+//  Handle submid form
+formChangeMulti.addEventListener("submit", (e) => {
+    // Preventd default
+    e.preventDefault();
+
+    // Check conditon to submit form
+    if (inputChangeMultiStatus.value == "") {
+        alert("Please select the product to change status");
+    } else if (typeChangeMulti.value == "") {
+        alert("Please select the type to change status");
+    } else {
+        formChangeMulti.submit();
+    }
+});
+
+// End change multi status
