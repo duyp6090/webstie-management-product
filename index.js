@@ -1,6 +1,11 @@
 const express = require("express");
-const Database = require("./config/database.js");
 const app = express();
+
+// Import database
+const Database = require("./config/database.js");
+
+// Method override
+const methodOverride = require("method-override");
 
 // Config env
 require("dotenv").config();
@@ -28,6 +33,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // App Locals Variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+
+// Use method override
+app.use(methodOverride("_method"));
 
 // Use Amin router
 webInitRouteAdmin(app);

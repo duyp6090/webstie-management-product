@@ -37,10 +37,31 @@ block main
                     td #{item.price}
                     td
                         if (item.availabilityStatus == 'No Stock')
-                            a(href="#" class="btn btn-danger") Hết hàng
+                            a(
+                                href="javascript:;"
+                                data-status="inactive"
+                                data-id=`${item._id}` 
+                                button-change-status
+                                class="btn btn-danger"
+                            ) Dừng hoạt động
                         else 
-                            a(href="#" class="btn btn-success") Hoạt động
+                            a(
+                                href="javascript:;"
+                                data-status="active"
+                                data-id=`${item._id}`
+                                button-change-status
+                                class="btn btn-success"
+                            ) Hoạt động
                     td
                         button(class="btn btn-warning btn-sm") Sửa
                         button(class="btn btn-danger btn-sm ml-1") Xóa
     +paginationPages(paginations)
+
+    form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`/${prefixAdmin}/products/change-status`
+    )
+
+    script(src="/admin/js/product.js")

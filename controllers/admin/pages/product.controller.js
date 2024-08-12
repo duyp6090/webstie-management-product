@@ -12,17 +12,17 @@ const paginationHelper = require("../../../helper/pagination.js");
 
 // Class to handle product - Admin
 class productAdminController {
-    // Get Products Page
+    // [Get] Products page
     async getProduct(req, res) {
         // Fillter button status
         const fillterStatus = fillterStatusHelper(req.query);
 
-        // Find Condition
+        // Find condition
         let find = {
             deleted: false,
         };
 
-        // Status Find
+        // Status find
         let statusFind = req.query.status;
 
         if (statusFind == "active") {
@@ -68,6 +68,21 @@ class productAdminController {
             searchFind: objectSeacrh.keyword,
             paginations: objectPagination,
         });
+    }
+    // [PATCH] Change status
+    async changeStatus(req, res) {
+        // Get id and status from params
+        const idProducts = req.params.id;
+        const statusProducts = req.params.status;
+
+        // Find product by id
+        await Product.updateOne(
+            { _id: idProducts },
+            { availabilityStatus: statusProducts == "active" ? "Stock" : "No Stock" }
+        );
+
+        // Redirect
+        res.redirect("back");
     }
 }
 

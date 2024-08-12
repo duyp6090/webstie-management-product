@@ -7,5 +7,6 @@ const productAdminController = require("../../controllers/admin/pages/product.co
 
 // Get Product Page - Admin
 router.get("/", productAdminController.getProduct);
+router.patch("/change-status/:status/:id", productAdminController.changeStatus);
 
 module.exports = router;
