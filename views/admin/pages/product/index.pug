@@ -79,14 +79,29 @@ block main
                                     ) Hoạt động
                             td
                                 button(class="btn btn-warning btn-sm") Sửa
-                                button(class="btn btn-danger btn-sm ml-1") Xóa
+                                button(
+                                    class="btn btn-danger btn-sm ml-1"
+                                    data-id=item._id
+                                    button-delete
+                                ) Xóa
     +paginationPages(paginations)
 
+    //- form change status
     form(
         action=""
         method="POST"
         id="form-change-status"
         data-path=`/${prefixAdmin}/products/change-status`
+        class = "d-none"
+    )
+
+    //- form delete
+    form(
+        action=""
+        method="POST"
+        id="form-delete-product"
+        data-path=`/${prefixAdmin}/products/delete`
+        class = "d-none"
     )
 
     script(src="/admin/js/product.js")

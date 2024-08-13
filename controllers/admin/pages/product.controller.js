@@ -110,6 +110,18 @@ class productAdminController {
         // Redirect
         res.redirect("back");
     }
+
+    // [DELETE] Delete product
+    async deleteProduct(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Find product by id
+        await Product.deleteOne({ _id: id });
+
+        // Redirect
+        res.redirect("back");
+    }
 }
 
 module.exports = new productAdminController();

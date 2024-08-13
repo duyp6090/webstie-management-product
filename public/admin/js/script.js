@@ -1,4 +1,4 @@
-// Process onclick event of the button
+// Process onclick event of the button status
 const buttonStatus = document.querySelectorAll("[button-status]");
 
 // Define current url
@@ -21,7 +21,7 @@ buttonStatus.forEach((button) => {
     });
 });
 
-// End event process of the click on button
+// End event process of the click on button status
 
 // Form search
 const formSearch = document.querySelector("#search-form");
@@ -41,7 +41,6 @@ formSearch.addEventListener("submit", (e) => {
 
     // Re-set location
     window.location.href = url.href;
-    console.log(url.href);
 });
 
 // End form search
@@ -54,7 +53,7 @@ paginations.forEach((pagination) => {
     // Add event listener to each pagination
     pagination.addEventListener("click", () => {
         // Get page number
-        const pageNumber = pagination.innerText;
+        const pageNumber = pagination.getAttribute("button-pagination");
 
         // Re-set url page
         if (pageNumber != "1") url.searchParams.set("page", pageNumber);
