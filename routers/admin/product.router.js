@@ -5,16 +5,28 @@ const router = express.Router();
 // Import Controller - Product Page - Admin
 const productAdminController = require("../../controllers/admin/pages/product.controller.js");
 
-// Get Product Page - Admin
+// Product Page - Admin
 router.get("/", productAdminController.getProduct);
 
-// Patch to change status
+// Change status product
 router.patch("/change-status/:status/:id", productAdminController.changeStatus);
 
-// Patch to chane muilti status
+// Chane muilti status products
 router.patch("/change-multi", productAdminController.changeStatusMulti);
 
-// Delete product
-router.delete("/delete/:id", productAdminController.deleteProduct);
+// Delete product temporatity
+router.delete("/delete/:id", productAdminController.deleteProductTemporatity);
+
+// Delete product forever
+router.delete("/delete-forever/:id", productAdminController.deleteProduct);
+
+// Get trash product
+router.get("/trash", productAdminController.getTrashProduct);
+
+// Delete - Resotre multi product in trash
+router.patch("/delete-restore", productAdminController.deleteRestoreMultiProduct);
+
+// Restore product in trash
+router.patch("/restore/:id", productAdminController.restoreProduct);
 
 module.exports = router;

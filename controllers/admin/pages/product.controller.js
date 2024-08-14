@@ -56,6 +56,11 @@ class productAdminController {
             totalProducts
         );
 
+        // Count products deleted
+        const totalProductsDeleted = await Product.countDocuments({
+            deleted: true,
+        });
+
         // Get Products
         const products = await Product.find(find)
             .limit(objectPagination.limit)
@@ -67,10 +72,11 @@ class productAdminController {
             fillterStatus: fillterStatus,
             searchFind: objectSeacrh.keyword,
             paginations: objectPagination,
+            totalProductsDeleted: totalProductsDeleted,
         });
     }
 
-    // [PATCH] Change status
+    // [PATCH] Change status product
     async changeStatus(req, res) {
         // Get id and status from params
         const idProducts = req.params.id;
@@ -86,38 +92,139 @@ class productAdminController {
         res.redirect("back");
     }
 
-    // [PATCH] Change multi status
+    // [PATCH] Change multi status products
     async changeStatusMulti(req, res) {
         const type = req.body.type;
         const ids = req.body.ids.split(",");
 
-        // available status
-        let availabilityStatus = "";
+        // Object to update
+        let optionUpdate = {};
 
         // Check type
         switch (type) {
             case "active":
-                availabilityStatus = "Stock";
+                optionUpdate.availabilityStatus = "Stock";
                 break;
             case "inactive":
-                availabilityStatus = "No Stock";
+                optionUpdate.availabilityStatus = "No Stock";
+                break;
+            case "delete":
+                optionUpdate.deleted = true;
                 break;
         }
 
         // Update multi status
-        await Product.updateMany({ _id: { $in: ids } }, { availabilityStatus: availabilityStatus });
+        await Product.updateMany({ _id: { $in: ids } }, optionUpdate);
 
         // Redirect
         res.redirect("back");
     }
 
-    // [DELETE] Delete product
+    // [DELETE] Delete product forever
     async deleteProduct(req, res) {
         // Get id from params
         const id = req.params.id;
 
         // Find product by id
         await Product.deleteOne({ _id: id });
+
+        // Redirect
+        res.redirect("back");
+    }
+
+    // [DELETE] Delete product temporarity
+    async deleteProductTemporatity(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Find product by id
+        await Product.updateOne({ _id: id }, { deleted: true });
+
+        // Redirect
+        res.redirect("back");
+    }
+
+    // [GET] Trash product
+    async getTrashProduct(req, res) {
+        // Fillter button status
+        const fillterStatus = fillterStatusHelper(req.query);
+
+        // Find condition
+        let find = {
+            deleted: true,
+        };
+
+        // Status find
+        let statusFind = req.query.status;
+
+        if (statusFind == "active") {
+            find["availabilityStatus"] = { $ne: "No Stock" };
+        } else if (statusFind == "inactive") {
+            find["availabilityStatus"] = "No Stock";
+        }
+
+        // Search Helper
+        const objectSeacrh = searchHelper(req.query);
+
+        // Search Find
+        let searchFind = objectSeacrh.regex;
+
+        if (searchFind) {
+            find["title"] = searchFind;
+        }
+
+        // Pagination
+
+        // Count documents
+        const totalProducts = await Product.countDocuments(find);
+
+        // object - pagination
+        let objectPagination = paginationHelper(
+            {
+                limit: 4,
+                currentPage: 1,
+            },
+            req.query,
+            totalProducts
+        );
+
+        // Get Products
+        const products = await Product.find(find)
+            .limit(objectPagination.limit)
+            .skip(objectPagination.skip);
+
+        res.render("admin/pages/product/trash-product.pug", {
+            title: "Products",
+            products: products,
+            fillterStatus: fillterStatus,
+            searchFind: objectSeacrh.keyword,
+            paginations: objectPagination,
+        });
+    }
+
+    // [PATCH] Delete - Restore multi products
+    async deleteRestoreMultiProduct(req, res) {
+        const type = req.body.type;
+        const ids = req.body.ids.split(",");
+
+        // Check type
+        if (type == "restore") {
+            await Product.updateMany({ _id: { $in: ids } }, { deleted: false });
+        } else {
+            await Product.deleteMany({ _id: { $in: ids } });
+        }
+
+        // Redirect
+        res.redirect("back");
+    }
+
+    // [PATCH] Restore product
+    async restoreProduct(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Find product by id
+        await Product.updateOne({ _id: id }, { deleted: false });
 
         // Redirect
         res.redirect("back");

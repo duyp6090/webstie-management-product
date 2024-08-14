@@ -1,4 +1,7 @@
-// Change status
+// Import productSupport
+import productSupport from "./productSupport.js";
+
+// Change status one product
 const buttonChnageStatus = document.querySelectorAll("[button-change-status]");
 const formChangeStatus = document.getElementById("form-change-status");
 const path = formChangeStatus.getAttribute("data-path");
@@ -21,58 +24,15 @@ buttonChnageStatus.forEach((button) => {
     });
 });
 
-// End change status
+// End change status one product
 
-// Change multi status
+// Change multi status products
 const formChangeMulti = document.getElementById("form-change-multi");
 const typeChangeMulti = formChangeMulti.querySelector("select[name=type]");
-const inputChangeMultiStatus = document.querySelector("input[name=ids]");
-const checkboxALL = document.querySelector("input[type=checkbox]");
-const checkboxItem = document.querySelectorAll("input[type=checkbox][name=id]");
+const inputChangeMultiStatus = formChangeMulti.querySelector("input[name=ids]");
 
-// Function to get multi id to change status
-function getMultiIdToChangeStatus() {
-    let ids = [];
-    checkboxItem.forEach((checkbox) => {
-        if (checkbox.checked) {
-            ids.push(checkbox.value);
-        }
-    });
-    return ids.join(",");
-}
-
-// Hanlde checkbox all
-checkboxALL.addEventListener("change", () => {
-    checkboxItem.forEach((checkbox) => {
-        checkbox.checked = checkboxALL.checked;
-    });
-
-    // Call function get multiId to change status
-    let ids = getMultiIdToChangeStatus();
-
-    // Set value for input
-    inputChangeMultiStatus.value = ids;
-});
-
-// Handle checkbox item
-checkboxItem.forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-        numberCheckedItems = Array.from(checkboxItem).filter(
-            (checkbox) => checkbox.checked == true
-        );
-        if (numberCheckedItems.length == checkboxItem.length) {
-            checkboxALL.checked = true;
-        } else {
-            checkboxALL.checked = false;
-        }
-
-        // Call function get multiId to change status
-        let ids = getMultiIdToChangeStatus();
-
-        // Set value for input
-        inputChangeMultiStatus.value = ids;
-    });
-});
+// Handle checkbox
+productSupport.HandleCheckbox(inputChangeMultiStatus);
 
 //  Handle submid form
 formChangeMulti.addEventListener("submit", (e) => {
@@ -85,13 +45,19 @@ formChangeMulti.addEventListener("submit", (e) => {
     } else if (typeChangeMulti.value == "") {
         alert("Please select the type to change status");
     } else {
-        formChangeMulti.submit();
+        // Check type delete
+        if (typeChangeMulti.value == "delete") {
+            const isConfirm = confirm("Are you sure you want to delete this product?");
+            if (isConfirm) {
+                formChangeMulti.submit();
+            }
+        } else formChangeMulti.submit();
     }
 });
 
-// End change multi status
+// End change multi status products
 
-// Handle delete product
+// Delete product temporatity
 const formDeleteProduct = document.getElementById("form-delete-product");
 const buttonDeleteproduct = document.querySelectorAll("button[button-delete]");
 
@@ -117,4 +83,4 @@ buttonDeleteproduct.forEach((button) => {
     });
 });
 
-// End delete product
+// End delete product temporatity

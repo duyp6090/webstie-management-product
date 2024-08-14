@@ -1,3 +1,4 @@
+//- Entend default layout
 extend ../../layouts/default.pug
 
 //- fillter status block
@@ -9,11 +10,11 @@ include ../../mixin/search.pug
 //- pagination Page
 include ../../mixin/pagination.pug
 
-//- form change status
-include ../../mixin/form-change-multi.pug
+//- Form change status
+include ../../mixin/form-delete-restore.pug
 
-//- save trash
-include ../../mixin/save-trash.pug
+//- Delete and restore
+include ../../mixin/delete-restore.pug
 
 
 block main 
@@ -34,11 +35,10 @@ block main
             .row 
                 .col-6
                     //- form change status
-                    +form-change-multi(`/${prefixAdmin}/products/change-multi?_method=PATCH`)
-                if (totalProductsDeleted > 0)
-                    .col-6 
-                        //- save trash
-                        +save-trash(`/${prefixAdmin}/products/trash`)
+                    +form-delete-restore(`/${prefixAdmin}/products/delete-restore?_method=PATCH`)
+                .col-6 
+                    //- back to products page
+                    a(href="/admin/products" class="btn btn-primary") Quay lại trang sản phẩm
 
             //- table products
             table.table.table-hover.table-sm 
@@ -87,34 +87,26 @@ block main
                                         class="btn btn-success"
                                     ) Hoạt động
                             td
-                                button(
-                                    class="btn btn-warning btn-sm"
-                                    data-id=item._id
-                                    button-updated
-                                ) Sửa
-                                button(
-                                    class="btn btn-danger btn-sm ml-1"
-                                    data-id=item._id
-                                    button-delete
-                                ) Xóa
+                                +delete-restore(item)
     +paginationPages(paginations)
 
-    //- form change status
-    form(
-        action=""
-        method="POST"
-        id="form-change-status"
-        data-path=`/${prefixAdmin}/products/change-status`
-        class = "d-none"
-    )
 
     //- form delete
     form(
         action=""
         method="POST"
-        id="form-delete-product"
-        data-path=`/${prefixAdmin}/products/delete`
+        id="form-delete-forever-product"
+        data-path=`/${prefixAdmin}/products/delete-forever`
         class = "d-none"
     )
 
-    script(src="/admin/js/product/productCurrent.js" type="module")
+    //- form restore
+    form(
+        action=""
+        method="POST"
+        id="form-restore-product"
+        data-path=`/${prefixAdmin}/products/restore`
+        class = "d-none"
+    )
+    //- link script
+    script(src="/admin/js/product/productTrash.js" type="module")

@@ -1,0 +1,11 @@
+mixin delete-restore(item)
+        button(
+            class="btn btn-warning btn-sm"
+            data-id=item._id
+            button-restore
+        ) Khôi phục
+        button(
+            class="btn btn-danger btn-sm ml-1"
+            data-id=item._id
+            button-delete-forever
+        ) Xóa vĩnh viễn

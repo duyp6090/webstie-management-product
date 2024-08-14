@@ -1,16 +1,15 @@
-mixin form-change-multi(path)
+mixin form-delete-restore(path)
     form(
         action=path
         method="POST"
-        id="form-change-multi"
+        id="form-delete-restore"
     )
         .d-flex.align-items-start 
             .form-group 
                 select(name="type" class="form-control")
                     option(value="") Chọn hoạt động
-                    option(value="active") Hoạt động
-                    option(value="inactive") Dừng hoạt động
-                    option(value="delete") Xóa
+                    option(value="delete-forever") Xóa vĩnh viễn
+                    option(value="restore") Khôi phục
             .form-group 
                 input(
                     type="text"
