@@ -15,6 +15,9 @@ include ../../mixin/form-change-multi.pug
 //- save trash
 include ../../mixin/save-trash.pug
 
+//- Delete and update product
+include ../../mixin/delete-update.pug
+
 
 block main 
     h1 Danh sách sản phẩm
@@ -35,11 +38,16 @@ block main
                 .col-6
                     //- form change status
                     +form-change-multi(`/${prefixAdmin}/products/change-multi?_method=PATCH`)
+                .col-3
+                    //- Create new product
+                    a(
+                        href=`/${prefixAdmin}/products/create`
+                        class="btn btn-primary"
+                    ) Thêm mới
                 if (totalProductsDeleted > 0)
-                    .col-6 
+                    .col-3 
                         //- save trash
                         +save-trash(`/${prefixAdmin}/products/trash`)
-
             //- table products
             table.table.table-hover.table-sm 
                 thead 
@@ -87,16 +95,7 @@ block main
                                         class="btn btn-success"
                                     ) Hoạt động
                             td
-                                button(
-                                    class="btn btn-warning btn-sm"
-                                    data-id=item._id
-                                    button-updated
-                                ) Sửa
-                                button(
-                                    class="btn btn-danger btn-sm ml-1"
-                                    data-id=item._id
-                                    button-delete
-                                ) Xóa
+                                +delete-update(item)
     +paginationPages(paginations)
 
     //- form change status

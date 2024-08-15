@@ -63,6 +63,7 @@ class productAdminController {
 
         // Get Products
         const products = await Product.find(find)
+            .sort({ "meta.createdAt": -1 })
             .limit(objectPagination.limit)
             .skip(objectPagination.skip);
 
@@ -228,6 +229,72 @@ class productAdminController {
 
         // Redirect
         res.redirect("back");
+    }
+
+    // [GET] Create product
+    createProduct(req, res) {
+        res.render("admin/pages/product/create-product.pug", {
+            title: "Create Product",
+        });
+    }
+
+    // [POST] Add product
+    async addProduct(req, res) {
+        // Get data from body
+        const dataProduct = req.body;
+
+        // Convert some data type string to number
+        dataProduct.price = parseInt(dataProduct.price);
+        dataProduct.discount = parseInt(dataProduct.discount);
+        dataProduct.stock = parseInt(dataProduct.stock);
+        dataProduct.weight = parseInt(dataProduct.weight);
+        dataProduct.depth = parseInt(dataProduct.depth);
+        dataProduct.width = parseInt(dataProduct.width);
+        dataProduct.height = parseInt(dataProduct.height);
+        dataProduct.minimumOrder = parseInt(dataProduct.minimumOrder);
+
+        // Check availability status
+        if (dataProduct.stock > 0) {
+            dataProduct.availabilityStatus = "Stock";
+        } else {
+            dataProduct.availabilityStatus = "No Stock";
+        }
+
+        // Create new product
+        const product = new Product({
+            title: dataProduct.title,
+            description: dataProduct.desc,
+            category: dataProduct.category,
+            price: dataProduct.price,
+            discountPercentage: dataProduct.discount,
+            stock: dataProduct.stock,
+            tags: dataProduct.tags.split(","),
+            brand: dataProduct.brand,
+            sku: dataProduct.sku,
+            weight: dataProduct.weight,
+            dimensions: {
+                depth: dataProduct.depth,
+                width: dataProduct.width,
+                height: dataProduct.height,
+            },
+            warrantyInformation: dataProduct.warranty,
+            shippingInformation: dataProduct.inforShip,
+            availabilityStatus: dataProduct.availabilityStatus,
+            returnPolicy: dataProduct.returnPolicy,
+            minimumOrderQuantity: dataProduct.minimumOrder,
+            meta: {
+                qrCode: dataProduct.qrCode,
+                barCode: dataProduct.barCode,
+            },
+            images: dataProduct.images.split(","),
+            thumbnail: dataProduct.thumbnails,
+        });
+
+        // Save product
+        await product.save();
+
+        // Redirect
+        res.redirect("/admin/products");
     }
 }
 

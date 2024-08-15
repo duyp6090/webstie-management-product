@@ -29,4 +29,10 @@ router.patch("/delete-restore", productAdminController.deleteRestoreMultiProduct
 // Restore product in trash
 router.patch("/restore/:id", productAdminController.restoreProduct);
 
+// Create page to add product
+router.get("/create", productAdminController.createProduct);
+
+// Add product
+router.post("/create", productAdminController.addProduct);
+
 module.exports = router;

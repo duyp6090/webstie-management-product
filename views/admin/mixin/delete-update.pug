@@ -1,0 +1,11 @@
+mixin delete-update(item)
+      button(
+            class="btn btn-warning btn-sm"
+            data-id=item._id
+            button-updated
+        ) Sửa
+        button(
+            class="btn btn-danger btn-sm ml-1"
+            data-id=item._id
+            button-delete
+        ) Xóa

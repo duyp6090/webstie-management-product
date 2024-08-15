@@ -60,7 +60,7 @@ buttonDeleteForeverProduct.forEach((button) => {
             formDeleteForeverProduct.setAttribute("action", action);
 
             // Submit form
-            formDeleteRestoreMultiProduct.submit();
+            formDeleteForeverProduct.submit();
         }
     });
 });

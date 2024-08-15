@@ -1,6 +1,8 @@
 // Import mongoose
-
 const mongoose = require("mongoose");
+
+// Import slugs
+const slug = require("mongoose-slug-generator");
 
 // Create Schema Of Products
 const productSchema = new mongoose.Schema({
@@ -9,7 +11,10 @@ const productSchema = new mongoose.Schema({
     category: String,
     price: Number,
     discountPercentage: Number,
-    rating: Number,
+    rating: {
+        type: Number,
+        default: 0,
+    },
     stock: Number,
     tags: [String],
     brand: String,
@@ -23,7 +28,10 @@ const productSchema = new mongoose.Schema({
     warrantyInformation: String,
     shippingInformation: String,
     availabilityStatus: String,
-    reviews: [String],
+    reviews: {
+        type: [Object],
+        default: [],
+    },
     returnPolicy: String,
     minimumOrderQuantity: Number,
     meta: {
@@ -40,6 +48,11 @@ const productSchema = new mongoose.Schema({
     },
     images: [String],
     thumbnail: String,
+    slug: {
+        type: String,
+        slug: "title",
+        unique: true,
+    },
     deleted: {
         type: Boolean,
         default: false,
