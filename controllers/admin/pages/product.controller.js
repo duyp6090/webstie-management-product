@@ -260,6 +260,11 @@ class productAdminController {
             dataProduct.availabilityStatus = "No Stock";
         }
 
+        //  Assign thumbnail
+        dataProduct.thumbnails = `uploads/${req.file.filename}`;
+
+        console.log(dataProduct);
+
         // Create new product
         const product = new Product({
             title: dataProduct.title,

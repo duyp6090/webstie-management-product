@@ -2,6 +2,13 @@
 const express = require("express");
 const router = express.Router();
 
+// Import multer
+const multer = require("multer");
+
+// Import storage multer
+const storage = require("../../helper/storageMulter.js");
+const upload = multer({ storage: storage });
+
 // Import Controller - Product Page - Admin
 const productAdminController = require("../../controllers/admin/pages/product.controller.js");
 
@@ -33,6 +40,6 @@ router.patch("/restore/:id", productAdminController.restoreProduct);
 router.get("/create", productAdminController.createProduct);
 
 // Add product
-router.post("/create", productAdminController.addProduct);
+router.post("/create", upload.single("thumbnails"), productAdminController.addProduct);
 
 module.exports = router;

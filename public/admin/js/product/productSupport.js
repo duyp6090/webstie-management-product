@@ -14,7 +14,7 @@ function HandleCheckbox(InputGetMultiId) {
     }
 
     // Hanlde checkbox all
-    checkboxALL.addEventListener("change", () => {
+    checkboxALL.addEventListener("click", () => {
         checkboxItem.forEach((checkbox) => {
             checkbox.checked = checkboxALL.checked;
         });
@@ -28,8 +28,8 @@ function HandleCheckbox(InputGetMultiId) {
 
     // Handle checkbox item
     checkboxItem.forEach((checkbox) => {
-        checkbox.addEventListener("change", () => {
-            numberCheckedItems = Array.from(checkboxItem).filter(
+        checkbox.addEventListener("click", () => {
+            let numberCheckedItems = Array.from(checkboxItem).filter(
                 (checkbox) => checkbox.checked == true
             );
             if (numberCheckedItems.length == checkboxItem.length) {

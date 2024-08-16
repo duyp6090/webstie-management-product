@@ -8,6 +8,7 @@ block main
         action=`/${prefixAdmin}/products/create`
         id='form-create-product'
         method='POST'
+        enctype="multipart/form-data"
     )
         div(class="form-group")
             label(for="title") Tiêu đề
@@ -182,7 +183,7 @@ block main
         label(for="barCode") Barcode
         input(
             type="text"
-            class="form-control"
+            class="form-control"    
             id="barCode"
             name="barCode"
             placeholder="Nhập mã barcode"
@@ -200,20 +201,19 @@ block main
         label(for="images") Ảnh
         input(
             type="text"
-            class="form-control"
+            class="form-control-file"
             id="images"
             name="images"
-            placeholder="upload ảnh sản phẩm"
         )
 
         div(class="form-group")
         label(for="thumbnails") Thumbnails
         input(
-            type="text"
+            type="file"
             class="form-control"
             id="thumbnails"
             name="thumbnails"
-            placeholder="upload thumbnails sản phẩm"
+            accept="image/*"
         )
 
         button(
