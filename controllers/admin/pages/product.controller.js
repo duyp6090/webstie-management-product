@@ -263,7 +263,8 @@ class productAdminController {
         //  Assign thumbnail
         dataProduct.thumbnails = `uploads/${req.file.filename}`;
 
-        console.log(dataProduct);
+        // Assign images
+        dataProduct.images = `uploads/${req.file.filename}`;
 
         // Create new product
         const product = new Product({
@@ -291,7 +292,7 @@ class productAdminController {
                 qrCode: dataProduct.qrCode,
                 barCode: dataProduct.barCode,
             },
-            images: dataProduct.images.split(","),
+            images: dataProduct.images,
             thumbnail: dataProduct.thumbnails,
         });
 

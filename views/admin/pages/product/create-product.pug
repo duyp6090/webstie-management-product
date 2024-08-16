@@ -19,6 +19,7 @@ block main
                 name="title"
                 placeholder="Nhập tiêu đề"
             )
+
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
@@ -28,6 +29,7 @@ block main
                 name="desc"
                 placeholder="Nhập mô tả"
             )
+
         div(class="form-group")
             label(for="category") Danh mục
             input(
@@ -37,6 +39,7 @@ block main
                 name="category"
                 placeholder="Nhập danh mục cách nhau bởi dấu phẩy vd: abc, xyz"
             )
+
         div(class="form-group")
             label(for="price") Gía
             input(
@@ -48,6 +51,7 @@ block main
                 step="0.01"
                 placeholder="Nhập giá sản phẩm"
             )
+
         div(class="form-group")
             label(for="discount") Giảm giá(%)
             input(
@@ -59,6 +63,7 @@ block main
                 step="0.01"
                 placeholder="Nhập % giả giá"
             )
+
         div(class="form-group")
             label(for="stock") Số lượng
             input(
@@ -70,6 +75,7 @@ block main
                 step="0.01"
                 placeholder="Nhập số lượng sản phẩm"
             )
+
         div(class="form-group")
             label(for="tags") Thẻ liên quan
             input(
@@ -79,6 +85,7 @@ block main
                 name="tags"
                 placeholder="Nhập thẻ liên quan, ví dụ: adbc, xyz"
             )
+
         div(class="form-group")
             label(for="brand") Thương hiệu
             input(
@@ -88,6 +95,7 @@ block main
                 name="brand"
                 placeholder="Nhập thương hiệu"
             )
+
         div(class="form-group")
             label(for="sku") Mã sku
             input(
@@ -97,6 +105,7 @@ block main
                 name="sku"
                 placeholder="Nhập mã SKU"
             )
+
         div(class="form-group")
             label(for="weight") Khối lượng
             input(
@@ -108,6 +117,7 @@ block main
                 step="0.01"
                 placeholder="Nhập khối lượng sản phẩm"
             )
+
         div(class="form-group")
             label(for="height") Chiều cao
             input(
@@ -119,6 +129,7 @@ block main
                 step="0.01"
                 placeholder="Nhập chiều cao sản phẩm"
             )
+
         div(class="form-group")
             label(for="width") Chiều rộng
             input(
@@ -130,6 +141,7 @@ block main
                 step="0.01"
                 placeholder="Nhập chiều rộng sản phẩm"
             )
+
         div(class="form-group")
             label(for="depth") Chiều sâu
             input(
@@ -141,6 +153,7 @@ block main
                 step="0.01"
                 placeholder="Nhập chiều sâu sản phẩm"
             )
+
         div(class="form-group")
             label(for="warrenty") Chính sách bảo hành
             input(
@@ -150,6 +163,7 @@ block main
                 name="warrenty"
                 placeholder="Nhập thông tin bảo hành"
             )
+
         div(class="form-group")
             label(for="inforShip") Thời gian giao hàng
             input(
@@ -161,60 +175,83 @@ block main
             )
        
         div(class="form-group")
-        label(for="returnPolicy") Thời gian đổi trả
-        input(
-            type="text"
-            class="form-control"
-            id="returnPolicy"
-            name="returnPolicy"
-            placeholder="Nhập thơi gian đổi trả"
-        )
-        div(class="form-group")
-        label(for="minimumOrder") Số lượng đặt tối thiểu
-        input(
-            type="number"
-            class="form-control"
-            id="minimumOrder"
-            name="minimumOrder"
-            min="0"
-            placeholder="Nhập số lượng đặt tối thiểu"
-        )
-        div(class="form-group")
-        label(for="barCode") Barcode
-        input(
-            type="text"
-            class="form-control"    
-            id="barCode"
-            name="barCode"
-            placeholder="Nhập mã barcode"
-        )
-        div(class="form-group")
-        label(for="qrCode") QR code
-        input(
-            type="text"
-            class="form-control"
-            id="qrCode"
-            name="qrCode"
-            placeholder="Nhập mã QR code"
-        )
-        div(class="form-group")
-        label(for="images") Ảnh
-        input(
-            type="text"
-            class="form-control-file"
-            id="images"
-            name="images"
-        )
+            label(for="returnPolicy") Thời gian đổi trả
+            input(
+                type="text"
+                class="form-control"
+                id="returnPolicy"
+                name="returnPolicy"
+                placeholder="Nhập thơi gian đổi trả"
+            )
 
         div(class="form-group")
-        label(for="thumbnails") Thumbnails
-        input(
-            type="file"
-            class="form-control"
-            id="thumbnails"
-            name="thumbnails"
-            accept="image/*"
+            label(for="minimumOrder") Số lượng đặt tối thiểu
+            input(
+                type="number"
+                class="form-control"
+                id="minimumOrder"
+                name="minimumOrder"
+                min="0"
+                placeholder="Nhập số lượng đặt tối thiểu"
+            )
+
+        div(class="form-group")
+            label(for="barCode") Barcode
+            input(
+                type="text"
+                class="form-control"    
+                id="barCode"
+                name="barCode"
+                placeholder="Nhập mã barcode"
+            )
+
+        div(class="form-group")
+            label(for="qrCode") QR code
+            input(
+                type="text"
+                class="form-control"
+                id="qrCode"
+                name="qrCode"
+                placeholder="Nhập mã QR code"
+            )
+
+        div(
+            class="form-group upload-image"
         )
+            label(for="images") Ảnh
+            input(
+                type="file"
+                class="form-control-file"
+                id="images"
+                name="images"
+                accept="image/*"
+            )
+            img(
+                src="#"
+                alt="Your Image"
+                class="preview-img"
+                width="100px"
+                height="auto"
+            )
+
+        div(
+            class="form-group upload-image"
+        )
+            label(for="thumbnails") Thumbnails
+            input(
+                type="file"
+                class="form-control-file"
+                id="thumbnails"
+                name="thumbnails"
+                accept="image/*"
+            )
+            img(
+                src="#"
+                alt="Your thumbnails"
+                class="preview-img"
+                width="100px"
+                height="auto"
+            )
 
         button(
             type="submit"
