@@ -8,4 +8,7 @@ const productController = require("../../controllers/client/pages/product.contro
 // Get Products Page
 router.get("/", productController.getProductsPage);
 
+// Get detail product page
+router.get("/:slug", productController.getProductDetailPage);
+
 module.exports = router;

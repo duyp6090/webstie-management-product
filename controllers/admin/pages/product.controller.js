@@ -226,7 +226,6 @@ class productAdminController {
 
         // Get document in database
         const product = await Product.findOne({ _id: id });
-        console.log(product);
 
         // Render view
         res.render("admin/pages/product/edit-product.pug", {
@@ -355,12 +354,12 @@ class productAdminController {
         }
 
         //  Assign thumbnail
-        if (req.files) {
+        if (req.files["thumbnails"]) {
             dataProduct.thumbnails = `http://localhost:3000/uploads/${req.files["thumbnails"][0].filename}`;
         }
 
         // Assign images
-        if (req.files) {
+        if (req.files["images"]) {
             dataProduct.images = `http://localhost:3000/uploads/${req.files["images"][0].filename}`;
         }
 

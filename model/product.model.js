@@ -2,7 +2,8 @@
 const mongoose = require("mongoose");
 
 // Import slugs
-const slug = require("mongoose-slug-generator");
+const slug = require("mongoose-slug-updater");
+mongoose.plugin(slug);
 
 // Create Schema Of Products
 const productSchema = new mongoose.Schema({
