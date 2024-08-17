@@ -33,6 +33,19 @@ router.get("/trash", productAdminController.getTrashProduct);
 // Delete - Resotre multi product in trash
 router.patch("/delete-restore", productAdminController.deleteRestoreMultiProduct);
 
+// Create page updated products
+router.get("/edit/:id", productAdminController.getProductEdit);
+
+// Update product
+router.patch(
+    "/edit/:id",
+    upload.fields([
+        { name: "thumbnails", maxcount: 1 },
+        { name: "images", maxcount: 3 },
+    ]),
+    productAdminController.updateProduct
+);
+
 // Restore product in trash
 router.patch("/restore/:id", productAdminController.restoreProduct);
 
@@ -40,6 +53,13 @@ router.patch("/restore/:id", productAdminController.restoreProduct);
 router.get("/create", productAdminController.createProduct);
 
 // Add product
-router.post("/create", upload.single("thumbnails"), productAdminController.addProduct);
+router.post(
+    "/create",
+    upload.fields([
+        { name: "thumbnails", maxcount: 1 },
+        { name: "images", maxcount: 3 },
+    ]),
+    productAdminController.addProduct
+);
 
 module.exports = router;

@@ -46,7 +46,7 @@
     border-radius: 5px;
 }
 
-.preview-img[src="#"] {
+.preview-img[src=""] {
     display: none;
 }
 

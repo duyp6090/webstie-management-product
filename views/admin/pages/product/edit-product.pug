@@ -1,12 +1,12 @@
 extends ../../layouts/default.pug
 
 block main 
-    h1 Tạo sản phẩm
+    h1 #{title}
 
     //- form create product
     form(
-        action=`/${prefixAdmin}/products/create`
-        id='form-create-product'
+        action=`/${prefixAdmin}/products/edit/${product._id}?_method=PATCH`
+        id='form-updated-product'
         method='POST'
         enctype="multipart/form-data"
     )
@@ -18,7 +18,8 @@ block main
                 id="title"
                 name="title"
                 placeholder="Nhập tiêu đề"
-            )
+                value = product.title
+            ) 
 
         div(class="form-group")
             label(for="desc") Mô tả
@@ -28,7 +29,7 @@ block main
                 id="desc"
                 name="desc"
                 placeholder="Nhập mô tả"
-            )
+            )  #{product.description}
 
         div(class="form-group")
             label(for="category") Danh mục
@@ -38,6 +39,7 @@ block main
                 id="category"
                 name="category"
                 placeholder="Nhập danh mục cách nhau bởi dấu phẩy vd: abc, xyz"
+                value = product.category
             )
 
         div(class="form-group")
@@ -50,6 +52,7 @@ block main
                 min="0"
                 step="0.01"
                 placeholder="Nhập giá sản phẩm"
+                value = product.price
             )
 
         div(class="form-group")
@@ -62,6 +65,7 @@ block main
                 min="0"
                 step="0.01"
                 placeholder="Nhập % giả giá"
+                value = product.discountPercentage
             )
 
         div(class="form-group")
@@ -74,6 +78,7 @@ block main
                 min = "0"
                 step="0.01"
                 placeholder="Nhập số lượng sản phẩm"
+                value = product.stock
             )
 
         div(class="form-group")
@@ -84,6 +89,7 @@ block main
                 id="tags"
                 name="tags"
                 placeholder="Nhập thẻ liên quan, ví dụ: adbc, xyz"
+                value = product.tags.toString()
             )
 
         div(class="form-group")
@@ -94,6 +100,7 @@ block main
                 id="brand"
                 name="brand"
                 placeholder="Nhập thương hiệu"
+                value = product.brand
             )
 
         div(class="form-group")
@@ -104,6 +111,7 @@ block main
                 id="sku"
                 name="sku"
                 placeholder="Nhập mã SKU"
+                value = product.sku
             )
 
         div(class="form-group")
@@ -116,6 +124,7 @@ block main
                 min="0"
                 step="0.01"
                 placeholder="Nhập khối lượng sản phẩm"
+                value = product.weight
             )
 
         div(class="form-group")
@@ -128,6 +137,7 @@ block main
                 min="0"
                 step="0.01"
                 placeholder="Nhập chiều cao sản phẩm"
+                value = product.dimensions.height
             )
 
         div(class="form-group")
@@ -140,6 +150,7 @@ block main
                 min="0"
                 step="0.01"
                 placeholder="Nhập chiều rộng sản phẩm"
+                value = product.dimensions.width
             )
 
         div(class="form-group")
@@ -152,6 +163,7 @@ block main
                 min="0"
                 step="0.01"
                 placeholder="Nhập chiều sâu sản phẩm"
+                value = product.dimensions.depth
             )
 
         div(class="form-group")
@@ -162,16 +174,18 @@ block main
                 id="warrenty"
                 name="warrenty"
                 placeholder="Nhập thông tin bảo hành"
+                value = product.warrantyInformation
             )
 
         div(class="form-group")
-            label(for="inforShip") Thời gian giao hàng
+            label(for="inforShip") Thời gian giao hành
             input(
                 type="text"
                 class="form-control"
                 id="inforShip"
                 name="inforShip"
                 placeholder="Nhập thời gian giao hàng"
+                value = product.shippingInformation
             )
        
         div(class="form-group")
@@ -182,6 +196,7 @@ block main
                 id="returnPolicy"
                 name="returnPolicy"
                 placeholder="Nhập thơi gian đổi trả"
+                value = product.returnPolicy
             )
 
         div(class="form-group")
@@ -193,6 +208,7 @@ block main
                 name="minimumOrder"
                 min="0"
                 placeholder="Nhập số lượng đặt tối thiểu"
+                value = product.minimumOrderQuantity
             )
 
         div(class="form-group")
@@ -203,6 +219,7 @@ block main
                 id="barCode"
                 name="barCode"
                 placeholder="Nhập mã barcode"
+                value = product.meta.barCode
             )
 
         div(class="form-group")
@@ -213,6 +230,7 @@ block main
                 id="qrCode"
                 name="qrCode"
                 placeholder="Nhập mã QR code"
+                value = product.meta.qrCode
             )
 
         div(
@@ -227,7 +245,7 @@ block main
                 accept="image/*"
             )
             img(
-                src=""
+                src= product.images[0]
                 alt="Your Image"
                 class="preview-img"
                 width="100px"
@@ -246,7 +264,7 @@ block main
                 accept="image/*"
             )
             img(
-                src=""
+                src= product.thumbnail 
                 alt="Your thumbnails"
                 class="preview-img"
                 width="100px"
@@ -256,7 +274,7 @@ block main
         button(
             type="submit"
             class="btn btn-primary"
-            button-create-product
-        ) Tạo sản phẩm
+            button-updated-product
+        ) Cập nhật sản phẩm
  
 

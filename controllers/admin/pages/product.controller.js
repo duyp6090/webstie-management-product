@@ -219,6 +219,100 @@ class productAdminController {
         res.redirect("back");
     }
 
+    // [GET] Get information products
+    async getProductEdit(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Get document in database
+        const product = await Product.findOne({ _id: id });
+        console.log(product);
+
+        // Render view
+        res.render("admin/pages/product/edit-product.pug", {
+            title: "Chỉnh sửa sản phẩm",
+            product: product,
+        });
+    }
+
+    // [PATCH] Update product
+    async updateProduct(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Get data from body
+        const dataProduct = req.body;
+
+        // Convert some data type string to number
+        dataProduct.price = parseInt(dataProduct.price);
+        dataProduct.discount = parseInt(dataProduct.discount);
+        dataProduct.stock = parseInt(dataProduct.stock);
+        dataProduct.weight = parseInt(dataProduct.weight);
+        dataProduct.depth = parseInt(dataProduct.depth);
+        dataProduct.width = parseInt(dataProduct.width);
+        dataProduct.height = parseInt(dataProduct.height);
+        dataProduct.minimumOrder = parseInt(dataProduct.minimumOrder);
+
+        // Check availability status
+        if (dataProduct.stock > 0) {
+            dataProduct.availabilityStatus = "Stock";
+        } else {
+            dataProduct.availabilityStatus = "No Stock";
+        }
+
+        //  Assign thumbnail
+        if (req.files) {
+            dataProduct.thumbnails = `http://localhost:3000/uploads/${req.files["thumbnails"][0].filename}`;
+        }
+
+        // Assign images
+        if (req.files) {
+            dataProduct.images = `http://localhost:3000/uploads/${req.files["images"][0].filename}`;
+        }
+
+        // Updated product
+        try {
+            await Product.updateOne(
+                {
+                    _id: id,
+                },
+                {
+                    title: dataProduct.title,
+                    description: dataProduct.desc,
+                    category: dataProduct.category,
+                    price: dataProduct.price,
+                    discountPercentage: dataProduct.discount,
+                    stock: dataProduct.stock,
+                    tags: dataProduct.tags.split(","),
+                    brand: dataProduct.brand,
+                    sku: dataProduct.sku,
+                    weight: dataProduct.weight,
+                    dimensions: {
+                        depth: dataProduct.depth,
+                        width: dataProduct.width,
+                        height: dataProduct.height,
+                    },
+                    warrantyInformation: dataProduct.warranty,
+                    shippingInformation: dataProduct.inforShip,
+                    availabilityStatus: dataProduct.availabilityStatus,
+                    returnPolicy: dataProduct.returnPolicy,
+                    minimumOrderQuantity: dataProduct.minimumOrder,
+                    meta: {
+                        qrCode: dataProduct.qrCode,
+                        barCode: dataProduct.barCode,
+                    },
+                    images: dataProduct.images,
+                    thumbnail: dataProduct.thumbnails,
+                }
+            );
+        } catch (error) {
+            console.log(error);
+        }
+
+        // Redirect
+        res.redirect("back");
+    }
+
     // [PATCH] Restore product
     async restoreProduct(req, res) {
         // Get id from params
@@ -261,10 +355,14 @@ class productAdminController {
         }
 
         //  Assign thumbnail
-        dataProduct.thumbnails = `uploads/${req.file.filename}`;
+        if (req.files) {
+            dataProduct.thumbnails = `http://localhost:3000/uploads/${req.files["thumbnails"][0].filename}`;
+        }
 
         // Assign images
-        dataProduct.images = `uploads/${req.file.filename}`;
+        if (req.files) {
+            dataProduct.images = `http://localhost:3000/uploads/${req.files["images"][0].filename}`;
+        }
 
         // Create new product
         const product = new Product({
