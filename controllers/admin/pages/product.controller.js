@@ -400,6 +400,20 @@ class productAdminController {
         // Redirect
         res.redirect("/admin/products");
     }
+
+    // [GET] Get information products
+    async detailProduct(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Get document in database
+        const product = await Product.findOne({ _id: id });
+
+        res.render("admin/pages/product/detail-product.pug", {
+            title: "Chi tiết sản phẩm",
+            product: product,
+        });
+    }
 }
 
 module.exports = new productAdminController();

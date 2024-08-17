@@ -62,4 +62,7 @@ router.post(
     productAdminController.addProduct
 );
 
+// Detaile information product
+router.get("/detail/:id", productAdminController.detailProduct);
+
 module.exports = router;
