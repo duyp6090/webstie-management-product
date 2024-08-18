@@ -23,10 +23,10 @@ const systemConfig = require("./config/system.js");
 
 // Config view engine
 app.set("view engine", "pug");
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 
 // Config static file
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 // Config body-parser to pre-handle data
 app.use(express.json());
