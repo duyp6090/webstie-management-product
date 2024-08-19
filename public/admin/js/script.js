@@ -96,3 +96,197 @@ if (uploadImages) {
 }
 
 // End preview image
+
+// Validate form create and update information products
+
+// Function to get parent element of input and tag's error message
+function getParentElement(inputElement, selector) {
+    // Loop until find parent element
+    while (inputElement.parentElement) {
+        if (inputElement.parentElement.classList.contains(selector)) {
+            return inputElement.parentElement;
+        }
+        inputElement = inputElement.parentElement;
+    }
+}
+
+// Function handle validate form
+function valiate(inputElement, rule) {
+    // Invalid variable
+    let error = false;
+
+    // Get value of input
+    let valueInput = inputElement.value;
+
+    // Check error message
+    let errorMessage = rule.test(valueInput);
+
+    // Get parent element of input
+    let parentInputElement = getParentElement(inputElement, "form-group");
+
+    // Get error message's tag
+    let errorElement = parentInputElement.querySelector(".error-message");
+
+    // Check type of error message
+    if (errorMessage) {
+        // Assign error message to error message's tag
+        errorElement.innerText = errorMessage;
+
+        // Add class invalid to parent element of input
+        parentInputElement.classList.add("invalid");
+
+        // Assign true to error
+        error = true;
+    } else {
+        // Assign empty to error message's tag
+        errorElement.innerText = "";
+
+        // Remove class invalid to parent element of input
+        parentInputElement.classList.remove("invalid");
+    }
+    return error;
+}
+
+// Define function ValidatorForm
+function ValidatorForm(options) {
+    // variable form error
+    let errorForm = false;
+    // Get form element
+    const formElement = document.querySelector(options.form);
+
+    console.log(formElement);
+
+    // Check get success form
+    if (formElement) {
+        // Object to save rules of input
+        rulesInput = {};
+
+        // Loop through each rule
+        options.rules.forEach((rule) => {
+            // Save rule for respective input
+            if (!Array.isArray(rulesInput[rule.selector])) {
+                rulesInput[rule.selector] = [rule];
+            } else {
+                rulesInput[rule.selector].push(rule);
+            }
+        });
+
+        console.log(rulesInput);
+
+        // Loop through each input element of form
+        for (let selector in rulesInput) {
+            // Get input element of form
+            let inputElement = formElement.querySelector(selector);
+
+            // Handle when blur out of input
+            inputElement.onblur = function () {
+                // Loop through each rule of input
+                for (let rule of rulesInput[selector]) {
+                    error = valiate(inputElement, rule);
+                    // Stop when error
+                    if (error) {
+                        // Assign true to error form
+                        errorForm = error;
+                        // Stop loop
+                        break;
+                    }
+                }
+            };
+
+            // Handle when onInput
+            inputElement.oninput = function () {
+                // Get parent element of input
+                let parentInputElement = getParentElement(inputElement, "form-group");
+
+                // Get error message's tag
+                let errorElement = parentInputElement.querySelector(".error-message");
+
+                // Assign empty to error message's tag
+                errorElement.innerText = "";
+
+                // Remove class invalid to parent element of input
+                parentInputElement.classList.remove("invalid");
+            };
+        }
+    }
+    return errorForm;
+}
+
+// Define Rules
+ValidatorForm.isRequire = function (selector) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value.trim() !== "" ? undefined : "Vui lòng nhập trường này";
+        },
+    };
+};
+
+ValidatorForm.minLength = function (selector, min) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value.length >= min ? undefined : `Vui lòng nhập tối thiểu ${min} ký tự`;
+        },
+    };
+};
+
+ValidatorForm.isDigit = function (selector) {
+    return {
+        selector: selector,
+        test: function (value) {
+            // convert value to digit
+            value = parseInt(value);
+            return value ? undefined : "Vui lòng nhập số";
+        },
+    };
+};
+
+ValidatorForm.minValue = function (selector, min) {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value >= min ? undefined : `Vui lòng nhập số lớn hơn hoặc bằng ${min}`;
+        },
+    };
+};
+
+// Get form create and update information products
+const formCreateProduct = document.querySelector("#form-create-product");
+const formUpdateProduct = document.querySelector("#form-updated-product");
+
+// Object validate all form
+const validateForm = {
+    rules: [
+        ValidatorForm.isRequire("#title"),
+        ValidatorForm.isRequire("#price"),
+        ValidatorForm.isDigit("#price"),
+        ValidatorForm.minValue("#price", 0),
+    ],
+};
+
+if (formCreateProduct || formUpdateProduct) {
+    const form = formCreateProduct ? formCreateProduct : formUpdateProduct;
+    const idForm = formCreateProduct ? "#form-create-product" : "#form-updated-product";
+
+    // Save object validate all form
+    validateForm.form = idForm;
+
+    // Call function validatorForm
+    ValidatorForm(validateForm);
+
+    form.addEventListener("submit", (e) => {
+        // Block Submit Form
+        e.preventDefault();
+
+        // Call function validate form
+        let error = ValidatorForm(validateForm);
+
+        // Check error
+        if (!error) {
+            form.submit();
+        }
+    });
+}
+
+// End validate form create and update information products

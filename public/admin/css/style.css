@@ -51,3 +51,27 @@
 }
 
 /* End Image preview */
+
+/* Form validate */
+.form-control {
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+    outline: none;
+    font-size: 1.4rem;
+}
+
+.form-control:hover {
+    border-color: #1dbfaf;
+}
+
+form-group.invalid .form-control {
+    border-color: #f33a58;
+}
+
+.form-group.invalid .error-message {
+    color: #f33a58;
+}
+
+/* End form validate */

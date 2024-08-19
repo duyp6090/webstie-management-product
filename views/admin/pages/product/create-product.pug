@@ -19,6 +19,7 @@ block main
                 name="title"
                 placeholder="Nhập tiêu đề"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="desc") Mô tả
@@ -29,6 +30,7 @@ block main
                 name="desc"
                 placeholder="Nhập mô tả"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="category") Danh mục
@@ -39,6 +41,7 @@ block main
                 name="category"
                 placeholder="Nhập danh mục cách nhau bởi dấu phẩy vd: abc, xyz"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="price") Gía
@@ -47,10 +50,10 @@ block main
                 class="form-control"
                 id="price"
                 name="price"
-                min="0"
                 step="0.01"
                 placeholder="Nhập giá sản phẩm"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="discount") Giảm giá(%)
@@ -59,10 +62,10 @@ block main
                 class="form-control"
                 id="discount"
                 name="discount"
-                min="0"
                 step="0.01"
                 placeholder="Nhập % giả giá"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="stock") Số lượng
@@ -71,10 +74,10 @@ block main
                 class="form-control"
                 id="stock"
                 name="stock"
-                min = "0"
                 step="0.01"
                 placeholder="Nhập số lượng sản phẩm"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="tags") Thẻ liên quan
@@ -85,6 +88,7 @@ block main
                 name="tags"
                 placeholder="Nhập thẻ liên quan, ví dụ: adbc, xyz"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="brand") Thương hiệu
@@ -95,6 +99,7 @@ block main
                 name="brand"
                 placeholder="Nhập thương hiệu"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="sku") Mã sku
@@ -105,6 +110,7 @@ block main
                 name="sku"
                 placeholder="Nhập mã SKU"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="weight") Khối lượng
@@ -113,10 +119,10 @@ block main
                 class="form-control"
                 id="weight"
                 name="weight"
-                min="0"
                 step="0.01"
                 placeholder="Nhập khối lượng sản phẩm"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="height") Chiều cao
@@ -125,10 +131,10 @@ block main
                 class="form-control"
                 id="height"
                 name="height"
-                min="0"
                 step="0.01"
                 placeholder="Nhập chiều cao sản phẩm"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="width") Chiều rộng
@@ -137,10 +143,10 @@ block main
                 class="form-control"
                 id="width"
                 name="width"
-                min="0"
                 step="0.01"
                 placeholder="Nhập chiều rộng sản phẩm"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="depth") Chiều sâu
@@ -149,10 +155,10 @@ block main
                 class="form-control"
                 id="depth"
                 name="depth"
-                min="0"
                 step="0.01"
                 placeholder="Nhập chiều sâu sản phẩm"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="warrenty") Chính sách bảo hành
@@ -163,6 +169,7 @@ block main
                 name="warrenty"
                 placeholder="Nhập thông tin bảo hành"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="inforShip") Thời gian giao hàng
@@ -173,6 +180,7 @@ block main
                 name="inforShip"
                 placeholder="Nhập thời gian giao hàng"
             )
+            span(class="error-message")
        
         div(class="form-group")
             label(for="returnPolicy") Thời gian đổi trả
@@ -183,6 +191,7 @@ block main
                 name="returnPolicy"
                 placeholder="Nhập thơi gian đổi trả"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="minimumOrder") Số lượng đặt tối thiểu
@@ -191,9 +200,9 @@ block main
                 class="form-control"
                 id="minimumOrder"
                 name="minimumOrder"
-                min="0"
                 placeholder="Nhập số lượng đặt tối thiểu"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="barCode") Barcode
@@ -204,6 +213,7 @@ block main
                 name="barCode"
                 placeholder="Nhập mã barcode"
             )
+            span(class="error-message")
 
         div(class="form-group")
             label(for="qrCode") QR code
@@ -214,6 +224,7 @@ block main
                 name="qrCode"
                 placeholder="Nhập mã QR code"
             )
+            span(class="error-message")
 
         div(
             class="form-group upload-image"
