@@ -154,8 +154,6 @@ function ValidatorForm(options) {
     // Get form element
     const formElement = document.querySelector(options.form);
 
-    console.log(formElement);
-
     // Check get success form
     if (formElement) {
         // Object to save rules of input
@@ -171,8 +169,6 @@ function ValidatorForm(options) {
             }
         });
 
-        console.log(rulesInput);
-
         // Loop through each input element of form
         for (let selector in rulesInput) {
             // Get input element of form
@@ -187,8 +183,11 @@ function ValidatorForm(options) {
                     if (error) {
                         // Assign true to error form
                         errorForm = error;
-                        // Stop loop
+                        // Stop loop when error
                         break;
+                    } else {
+                        // Assign false to error form
+                        errorForm = false;
                     }
                 }
             };
@@ -208,8 +207,18 @@ function ValidatorForm(options) {
                 parentInputElement.classList.remove("invalid");
             };
         }
+
+        // Handle when submit form
+        formElement.onsubmit = function (e) {
+            // Prevent default action
+            e.preventDefault();
+
+            // Check error form
+            if (!errorForm) {
+                e.target.submit();
+            }
+        };
     }
-    return errorForm;
 }
 
 // Define Rules
@@ -274,19 +283,31 @@ if (formCreateProduct || formUpdateProduct) {
 
     // Call function validatorForm
     ValidatorForm(validateForm);
-
-    form.addEventListener("submit", (e) => {
-        // Block Submit Form
-        e.preventDefault();
-
-        // Call function validate form
-        let error = ValidatorForm(validateForm);
-
-        // Check error
-        if (!error) {
-            form.submit();
-        }
-    });
 }
 
 // End validate form create and update information products
+
+// Sort products
+
+const sortProducts = document.querySelector("select[name='sort']");
+
+// Check sort products
+if (sortProducts) {
+    // Handle event change of select
+    sortProducts.addEventListener("change", (e) => {
+        // Get value of select
+        const valueSort = e.target.value;
+
+        // Set value to url
+        if (valueSort !== "default") {
+            url.searchParams.set("sort", valueSort);
+        } else {
+            url.searchParams.delete("sort");
+        }
+
+        // Re-set location
+        window.location.href = url.href;
+    });
+}
+
+// End sort products

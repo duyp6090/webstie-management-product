@@ -61,9 +61,24 @@ class productAdminController {
             deleted: true,
         });
 
+        // Object seacrh
+        let sort = {};
+
+        // Get type sort and value sort
+        const sortParams = req.query.sort;
+
+        // Check type sort
+        if (sortParams == undefined) {
+            sort["meta.createdAt"] = -1;
+        } else {
+            // Get type sort and value sort
+            const [typeSort, valueSort] = sortParams.split("-");
+            sort[typeSort] = valueSort;
+        }
+
         // Get Products
         const products = await Product.find(find)
-            .sort({ "meta.createdAt": -1 })
+            .sort(sort)
             .limit(objectPagination.limit)
             .skip(objectPagination.skip);
 
@@ -74,6 +89,7 @@ class productAdminController {
             searchFind: objectSeacrh.keyword,
             paginations: objectPagination,
             totalProductsDeleted: totalProductsDeleted,
+            sortType: "",
         });
     }
 
@@ -260,12 +276,12 @@ class productAdminController {
         }
 
         //  Assign thumbnail
-        if (req.files) {
+        if (req.files["thumbnails"]) {
             dataProduct.thumbnails = `http://localhost:3000/uploads/${req.files["thumbnails"][0].filename}`;
         }
 
         // Assign images
-        if (req.files) {
+        if (req.files["images"]) {
             dataProduct.images = `http://localhost:3000/uploads/${req.files["images"][0].filename}`;
         }
 

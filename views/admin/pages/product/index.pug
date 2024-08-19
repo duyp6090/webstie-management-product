@@ -15,8 +15,11 @@ include ../../mixin/form-change-multi.pug
 //- save trash
 include ../../mixin/save-trash.pug
 
-//- Delete and update product
+//- delete and update product
 include ../../mixin/delete-update.pug
+
+//- sort target product
+include ../../mixin/sort-target.pug
 
 
 block main 
@@ -30,6 +33,12 @@ block main
                     +fillter-status(fillterStatus)
                 .col-6
                     +search(searchFind)
+    .card.mb-3 
+        .card-header Sắp xếp 
+        .card-body 
+            .row 
+                .col-4 
+                    +sort-target()
 
     .card.mb-3
         .card-header Danh sách

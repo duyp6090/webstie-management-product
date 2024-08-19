@@ -1,0 +1,12 @@
+mixin sort-target()
+    div(class="sort")
+        select(
+            name="sort"
+            id="sort"
+        )   
+            option(value="") Chọn cách sắp xếp
+            option(value="default") Mặc định
+            option(value="price-desc") Giá giảm dần
+            option(value="price-asc") Giá tăng dần
+            option(value="title-asc") Tiêu đề A - Z 
+            option(value="title-desc") Tiêu đề Z - A

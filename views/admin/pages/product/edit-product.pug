@@ -275,7 +275,7 @@ block main
                 accept="image/*"
             )
             img(
-                src= product.thumbnail == "" ? product.thumbnail : ""
+                src= product.thumbnail == "" ? "" : product.thumbnail
                 alt="Your thumbnails"
                 class="preview-img"
                 width="100px"
