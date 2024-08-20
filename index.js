@@ -2,6 +2,9 @@
 const express = require("express");
 const app = express();
 
+// Path
+const path = require("path");
+
 // Import database
 const Database = require("./config/database.js");
 
@@ -37,6 +40,9 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 // Use method override
 app.use(methodOverride("_method"));
+
+// TinyMCE
+app.use("/tinymce", express.static(path.join(__dirname, "node_modules", "tinymce")));
 
 // Use Amin router
 webInitRouteAdmin(app);

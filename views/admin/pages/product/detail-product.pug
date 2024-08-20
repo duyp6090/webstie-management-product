@@ -20,7 +20,7 @@ block main
                     class="img-fluid"
                 )
         if(product.description)
-            div(class="mb-4") Mô tả: #{product.description}
+            div(class="mb-4") Mô tả: !{product.description}
         
         a(
             href=`/admin/products/edit/${product._id}`, 

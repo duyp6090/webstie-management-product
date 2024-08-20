@@ -89,7 +89,7 @@ class productAdminController {
             searchFind: objectSeacrh.keyword,
             paginations: objectPagination,
             totalProductsDeleted: totalProductsDeleted,
-            sortType: "",
+            typeSort: sortParams,
         });
     }
 
