@@ -50,4 +50,16 @@ router.post(
 // Get detail page category
 router.get("/detail/:id", categoriesController.getDetailCategory);
 
+// Get page categories trash
+router.get("/trash", categoriesController.getPageCategoriesTrash);
+
+// Patch restore category
+router.patch("/restore/:id", categoriesController.restoreCategory);
+
+// Delete forever category
+router.delete("/delete-forever/:id", categoriesController.deleteForeverCategory);
+
+// Patch change multi status categories trash
+router.patch("/multi-delete-restore", categoriesController.changeMultiStatusCategoriesTrash);
+
 module.exports = router;

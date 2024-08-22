@@ -35,10 +35,10 @@ block main
             .row 
                 .col-6
                     //- form change status
-                    +form-delete-restore(`/${prefixAdmin}/products/delete-restore?_method=PATCH`)
+                    +form-delete-restore(`/${prefixAdmin}/categories/multi-delete-restore?_method=PATCH`)
                 .col-6 
                     //- back to products page
-                    a(href="/admin/products" class="btn btn-primary") Quay lại trang sản phẩm
+                    a(href=`/${prefixAdmin}/categories` class="btn btn-primary") Quay lại trang sản phẩm
 
             //- table products
             table.table.table-hover.table-sm 
@@ -52,11 +52,10 @@ block main
                         th STT
                         th Hình ảnh
                         th Tiêu đề
-                        th Giá
                         th Trạng thái
                         th Hành động
                 tbody
-                    each item, index in products
+                    each item, index in categories
                         tr 
                             th 
                                 input(
@@ -68,24 +67,14 @@ block main
                             td 
                                 img(src=item.thumbnail, alt="" width="100px" height="auto")
                             td #{item.title}
-                            td #{item.price}
-                            td
-                                if (item.availabilityStatus == 'No Stock')
-                                    a(
-                                        href="javascript:;"
-                                        data-status="inactive"
-                                        data-id=item._id
-                                        button-change-status
-                                        class="btn btn-danger"
-                                    ) Dừng hoạt động
-                                else 
-                                    a(
-                                        href="javascript:;"
-                                        data-status="active"
-                                        data-id=`${item._id}`
-                                        button-change-status
-                                        class="btn btn-success"
-                                    ) Hoạt động
+                            td 
+                                a(
+                                    href="javascript:;"
+                                    data-status= item.status
+                                    data-id=item._id
+                                    button-change-status
+                                    class="btn btn-danger"
+                                ) #{item.status == 'active' ? 'Hoạt động' : 'Dừng hoạt động'}
                             td
                                 +delete-restore(item)
     +paginationPages(paginations)
@@ -95,8 +84,8 @@ block main
     form(
         action=""
         method="POST"
-        id="form-delete-forever-product"
-        data-path=`/${prefixAdmin}/products/delete-forever`
+        id="form-delete-forever-category"
+        data-path=`/${prefixAdmin}/categories/delete-forever`
         class = "d-none"
     )
 
@@ -104,9 +93,9 @@ block main
     form(
         action=""
         method="POST"
-        id="form-restore-product"
-        data-path=`/${prefixAdmin}/products/restore`
+        id="form-restore-category"
+        data-path=`/${prefixAdmin}/categories/restore`
         class = "d-none"
     )
     //- link script
-    script(src="/admin/js/product/productTrash.js" type="module")
+    script(src="/admin/js/category/categoryTrash.js" type="module")

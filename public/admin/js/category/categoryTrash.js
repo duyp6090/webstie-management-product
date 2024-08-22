@@ -1,5 +1,5 @@
-// Import productSupport
-import productSupport from "./productSupport.js";
+// Import utilityHelper
+import utilityHelper from "../utility/handleCheckBock.js";
 
 // Handle delete - restore multi products
 const formDeleteRestoreMultiProduct = document.getElementById("form-delete-restore");
@@ -7,7 +7,7 @@ const typeDeleteRestoreMulti = formDeleteRestoreMultiProduct.querySelector("sele
 const inputDeleteRestoreMulti = formDeleteRestoreMultiProduct.querySelector("input[name=ids]");
 
 // Handle checkbox
-productSupport.HandleCheckbox(inputDeleteRestoreMulti);
+utilityHelper.HandleCheckbox(inputDeleteRestoreMulti);
 
 // Handle submit form
 formDeleteRestoreMultiProduct.addEventListener("submit", (e) => {
@@ -37,12 +37,12 @@ formDeleteRestoreMultiProduct.addEventListener("submit", (e) => {
 
 // End handle delete - restore multi products
 
-// Handle delete - forever product
-const formDeleteForeverProduct = document.getElementById("form-delete-forever-product");
-const buttonDeleteForeverProduct = document.querySelectorAll("button[button-delete-forever]");
+// Handle restore product
+const formDeleteCategory = document.getElementById("form-delete-forever-category");
+const buttonDeleteCategory = document.querySelectorAll("button[button-delete-forever]");
 
 // Handle click button delete forever
-buttonDeleteForeverProduct.forEach((button) => {
+buttonDeleteCategory.forEach((button) => {
     button.addEventListener("click", () => {
         // Get id product
         const id = button.getAttribute("data-id");
@@ -53,14 +53,14 @@ buttonDeleteForeverProduct.forEach((button) => {
         // Check confirm
         if (isConfirm) {
             // Get data path
-            const path = formDeleteForeverProduct.getAttribute("data-path");
+            const path = formDeleteCategory.getAttribute("data-path");
             const action = path + `/${id}?_method=DELETE`;
 
             // Set action form
-            formDeleteForeverProduct.setAttribute("action", action);
+            formDeleteCategory.setAttribute("action", action);
 
             // Submit form
-            formDeleteForeverProduct.submit();
+            formDeleteCategory.submit();
         }
     });
 });
@@ -68,11 +68,11 @@ buttonDeleteForeverProduct.forEach((button) => {
 // End handle delete - forever product
 
 // Handle restore product
-const formRestoreProduct = document.getElementById("form-restore-product");
-const buttonRestoreProduct = document.querySelectorAll("button[button-restore]");
+const formRestoreCategory = document.getElementById("form-restore-category");
+const buttonRestoreCategory = document.querySelectorAll("button[button-restore]");
 
 // Handle click button restore
-buttonRestoreProduct.forEach((button) => {
+buttonRestoreCategory.forEach((button) => {
     button.addEventListener("click", () => {
         // Get id product
         const id = button.getAttribute("data-id");
@@ -83,14 +83,14 @@ buttonRestoreProduct.forEach((button) => {
         // Check confirm
         if (isConfirm) {
             // Get data path
-            const path = formRestoreProduct.getAttribute("data-path");
+            const path = formRestoreCategory.getAttribute("data-path");
             const action = path + `/${id}?_method=PATCH`;
 
             // Set action form
-            formRestoreProduct.setAttribute("action", action);
+            formRestoreCategory.setAttribute("action", action);
 
             // Submit form
-            formRestoreProduct.submit();
+            formRestoreCategory.submit();
         }
     });
 });
