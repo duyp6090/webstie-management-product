@@ -16,6 +16,9 @@ include ../../mixin/form-delete-restore.pug
 //- Delete and restore
 include ../../mixin/delete-restore.pug
 
+//- Sort target product
+include ../../mixin/sort-target.pug
+
 
 block main 
     h1 Danh sách sản phẩm
@@ -28,6 +31,12 @@ block main
                     +fillter-status(fillterStatus)
                 .col-6
                     +search(searchFind)
+    .card.mb-3 
+        .card-header Sắp xếp 
+        .card-body 
+            .row 
+                .col-4 
+                    +sort-target(typeSort)
 
     .card.mb-3
         .card-header Danh sách

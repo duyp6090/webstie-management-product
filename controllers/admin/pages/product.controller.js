@@ -9,7 +9,6 @@ const searchHelper = require("../../../helper/search.js");
 
 // Import pagination
 const paginationHelper = require("../../../helper/pagination.js");
-const Categories = require("../../../model/categories.model.js");
 
 // Class to handle product - Admin
 class productAdminController {
@@ -207,8 +206,24 @@ class productAdminController {
             totalProducts
         );
 
+        // Object seacrh
+        let sort = {};
+
+        // Get type sort and value sort
+        const sortParams = req.query.sort;
+
+        // Check type sort
+        if (sortParams == undefined) {
+            sort["meta.createdAt"] = -1;
+        } else {
+            // Get type sort and value sort
+            const [typeSort, valueSort] = sortParams.split("-");
+            sort[typeSort] = valueSort;
+        }
+
         // Get Products
         const products = await Product.find(find)
+            .sort(sort)
             .limit(objectPagination.limit)
             .skip(objectPagination.skip);
 
@@ -218,6 +233,7 @@ class productAdminController {
             fillterStatus: fillterStatus,
             searchFind: objectSeacrh.keyword,
             paginations: objectPagination,
+            typeSort: sortParams,
         });
     }
 
