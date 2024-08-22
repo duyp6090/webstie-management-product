@@ -288,7 +288,6 @@ if (formCreateProduct || formUpdateProduct) {
 // End validate form create and update information products
 
 // Sort products
-
 const sortProducts = document.querySelector("select[name='sort']");
 
 // Check sort products

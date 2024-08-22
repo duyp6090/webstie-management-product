@@ -1,12 +1,12 @@
-mixin delete-update(item)
+mixin delete-update(item, pageCurrent)
     a(
-        href=`/${prefixAdmin}/products/detail/${item._id}`
+        href=`/${prefixAdmin}/${pageCurrent}/detail/${item._id}`
         class="btn btn-secondary btn-sm"
         data-id=item._id
         button-detail
     ) Chi tiết
     a(
-        href=`/${prefixAdmin}/products/edit/${item._id}`
+        href=`/${prefixAdmin}/${pageCurrent}/edit/${item._id}`
         class="btn btn-warning btn-sm"
         data-id=item._id
         button-updated

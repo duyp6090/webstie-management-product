@@ -1,0 +1,97 @@
+//- Extend default layout
+extends ../../layouts/default.pug
+
+block main 
+    h1(class="mb-4") Thêm mới danh mục sản phẩm
+    
+    form(
+        action=`/${prefixAdmin}/categories/create`
+        method='POST'
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text",
+                class="form-control",
+                id="title",
+                name="title",
+                placeholder="Nhập tiêu đề"
+            )
+        
+        div(class="form-group")
+            label(for="parent_id") Danh mục cha
+            input(
+                type="text",
+                class="form-control",
+                id="parent_id",
+                name="parent_id",
+                placeholder="Nhập tiêu đề"
+            )
+
+        div(class="form-group")
+            label(for="desc") Mô tả
+            textarea(
+                type="text",
+                class="form-control tinymce",
+                id="desc",
+                name="desc",
+                rows="5", 
+                placeholder="Nhập mô tả "
+            )
+        
+        div(
+            class="form-group form-check form-check-inline"
+        )
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+            )
+            label(
+                for="statusActive"
+                class="form-check-label"
+            ) Hoạt động
+
+        div(
+            class="form-group form-check form-check-inline"
+        )
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusInActive"
+                name="status"
+                value ="inactive"
+            )
+            label(
+                for="statusInActive"
+                class="form-check-label"
+            ) Dừng hoạt động
+        
+        div(
+            class="form-group upload-image"
+        )
+            label(for="thumbnails") Thumbnail
+            input(
+                type="file"
+                class="form-control-file"
+                id="thumbnails"
+                name="thumbnails"
+                accept="image/*"
+            )
+            img(
+                src=""
+                alt="Your Image"
+                class="preview-img"
+                width="100px"
+                height="auto"
+            )
+        div(
+            class="form-group upload-image"
+        )
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Thêm mới

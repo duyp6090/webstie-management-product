@@ -8,6 +8,7 @@ function search(query) {
     // Search Find
     objectSeacrh.keyword = query.search;
 
+    // Check keyword by regex
     if (objectSeacrh.keyword) {
         objectSeacrh.regex = new RegExp(objectSeacrh.keyword, "i");
     }

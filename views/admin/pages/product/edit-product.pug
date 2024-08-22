@@ -3,7 +3,7 @@ extends ../../layouts/default.pug
 block main 
     h1 #{title}
 
-    //- form create product
+    //- form edit product
     form(
         action=`/${prefixAdmin}/products/edit/${product._id}?_method=PATCH`
         id='form-updated-product'

@@ -1,0 +1,72 @@
+//- Extend layouts default
+extends ../../layouts/default.pug
+
+block main 
+    h1 #{title}
+
+    //- form edit category
+    form(
+        action=`/${prefixAdmin}/categories/edit/${category._id}?_method=PATCH`
+        id='form-updated-product'
+        method='POST'
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                placeholder="Nhập tiêu đề"
+                value = category.title
+            ) 
+            span(class="error-message")
+
+        div(class="form-group")
+            label(for="parentId") Danh mục cha
+            input(
+                type="text"
+                class="form-control"
+                id="parentId"
+                name="parentId"
+                placeholder="Nhập tiêu đề"
+                value = category.parent_id
+            ) 
+            span(class="error-message")
+
+        div(class="form-group")
+            label(for="desc") Mô tả
+            textarea(
+                type="text"
+                class="form-control tinymce"
+                id="desc"
+                name="desc"
+                placeholder="Nhập mô tả"
+            )  #{category.description}
+            span(class="error-message")
+
+        div(
+            class="form-group upload-image"
+        )
+            label(for="thumbnails") Thumbnails
+            input(
+                type="file"
+                class="form-control-file"
+                id="thumbnails"
+                name="thumbnails"
+                accept="image/*"
+            )
+            img(
+                src= category.thumbnail == "" ? "" : category.thumbnail
+                alt="Your thumbnails"
+                class="preview-img"
+                width="100px"
+                height="auto"
+            )
+
+        button(
+            type="submit"
+            class="btn btn-primary"
+            button-updated-category
+        ) Cập nhật danh mục

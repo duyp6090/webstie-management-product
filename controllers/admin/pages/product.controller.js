@@ -9,6 +9,7 @@ const searchHelper = require("../../../helper/search.js");
 
 // Import pagination
 const paginationHelper = require("../../../helper/pagination.js");
+const Categories = require("../../../model/categories.model.js");
 
 // Class to handle product - Admin
 class productAdminController {
@@ -84,6 +85,7 @@ class productAdminController {
 
         res.render("admin/pages/product/index.pug", {
             title: "Products",
+            pageCurrent: "products",
             products: products,
             fillterStatus: fillterStatus,
             searchFind: objectSeacrh.keyword,

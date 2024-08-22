@@ -1,0 +1,31 @@
+//- Extend layouts default
+extend ../../layouts/default.pug
+
+block main 
+    h1(class="mb-4") #{title}
+
+    .category
+        if(category.title)
+            h2= category.title
+
+        if(category.parent_id)
+            div(class="mb-4") Danh mục cha: #{category.parent_id}
+
+        if(category.description)
+            div(class="mb-4") Mô tả: !{category.description}
+
+        if(category.status)
+            div(class="mb-4") Trạng thái: #{category.status}
+
+        if(category.thumbnail)
+            div(class="mb-4")
+                img(
+                    src=category.thumbnail, 
+                    alt=category.title, 
+                    class="img-fluid"
+                )
+        a(
+            href=`/admin/categories/edit/${category._id}`, 
+            class="btn btn-primary"
+        ) Chỉnh sửa sản phẩm
+        
