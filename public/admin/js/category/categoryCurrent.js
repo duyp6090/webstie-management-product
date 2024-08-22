@@ -26,34 +26,6 @@ buttonChnageStatus.forEach((button) => {
 
 // End change status one category
 
-// Delete category temporatity
-const formDeleteProduct = document.getElementById("form-delete-product");
-const buttonDeleteproduct = document.querySelectorAll("button[button-delete]");
-
-// Handle click button delete
-buttonDeleteproduct.forEach((button) => {
-    button.addEventListener("click", () => {
-        // Get id category
-        const id = button.getAttribute("data-id");
-
-        // Confirm delete category
-        const isConfirm = confirm("Are you sure you want to delete this product?");
-
-        if (isConfirm) {
-            const path = formDeleteProduct.getAttribute("data-path");
-
-            // Set action form
-            const action = path + `/${id}?_method=DELETE`;
-            formDeleteProduct.setAttribute("action", action);
-
-            // Submit form
-            formDeleteProduct.submit();
-        }
-    });
-});
-
-// End delete category temporatity
-
 // Change multi status products
 const formChangeMulti = document.getElementById("form-change-multi");
 const typeChangeMulti = formChangeMulti.querySelector("select[name=type]");
@@ -84,3 +56,31 @@ formChangeMulti.addEventListener("submit", (e) => {
 });
 
 // End change multi status products
+
+// Delete category temporatity
+const formDeleteProduct = document.getElementById("form-delete-product");
+const buttonDeleteproduct = document.querySelectorAll("button[button-delete]");
+
+// Handle click button delete
+buttonDeleteproduct.forEach((button) => {
+    button.addEventListener("click", () => {
+        // Get id category
+        const id = button.getAttribute("data-id");
+
+        // Confirm delete category
+        const isConfirm = confirm("Are you sure you want to delete this product?");
+
+        if (isConfirm) {
+            const path = formDeleteProduct.getAttribute("data-path");
+
+            // Set action form
+            const action = path + `/${id}?_method=DELETE`;
+            formDeleteProduct.setAttribute("action", action);
+
+            // Submit form
+            formDeleteProduct.submit();
+        }
+    });
+});
+
+// End delete category temporatity

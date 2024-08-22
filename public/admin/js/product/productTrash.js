@@ -1,5 +1,5 @@
-// Import productSupport
-import productSupport from "./productSupport.js";
+// Import utility helpers
+import utilityHelper from "../utility/handleCheckBock.js";
 
 // Handle delete - restore multi products
 const formDeleteRestoreMultiProduct = document.getElementById("form-delete-restore");
@@ -7,7 +7,7 @@ const typeDeleteRestoreMulti = formDeleteRestoreMultiProduct.querySelector("sele
 const inputDeleteRestoreMulti = formDeleteRestoreMultiProduct.querySelector("input[name=ids]");
 
 // Handle checkbox
-productSupport.HandleCheckbox(inputDeleteRestoreMulti);
+utilityHelper.HandleCheckbox(inputDeleteRestoreMulti);
 
 // Handle submit form
 formDeleteRestoreMultiProduct.addEventListener("submit", (e) => {

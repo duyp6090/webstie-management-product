@@ -10,6 +10,9 @@ const searchHelper = require("../../../helper/search.js");
 // Import pagination
 const paginationHelper = require("../../../helper/pagination.js");
 
+// Import sortHelper
+const sortHelper = require("../../../helper/sort.js");
+
 // Class to handle categories - admin
 class categoriesController {
     // [GET] categories page
@@ -58,19 +61,10 @@ class categoriesController {
         });
 
         // Object seacrh
-        let sort = {};
+        let sort = sortHelper(req.query);
 
         // Get type sort and value sort
         const sortParams = req.query.sort;
-
-        // Check type sort
-        if (sortParams == undefined) {
-            sort["createdAt"] = -1;
-        } else {
-            // Get type sort and value sort
-            const [typeSort, valueSort] = sortParams.split("-");
-            sort[typeSort] = valueSort;
-        }
 
         // Get categories
         const categories = await Categories.find(find)
@@ -276,19 +270,10 @@ class categoriesController {
         );
 
         // Object seacrh
-        let sort = {};
+        let sort = sortHelper(req.query);
 
         // Get type sort and value sort
         const sortParams = req.query.sort;
-
-        // Check type sort
-        if (sortParams == undefined) {
-            sort["createdAt"] = -1;
-        } else {
-            // Get type sort and value sort
-            const [typeSort, valueSort] = sortParams.split("-");
-            sort[typeSort] = valueSort;
-        }
 
         // Get categories
         const categories = await Categories.find(find)

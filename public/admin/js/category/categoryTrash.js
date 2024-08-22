@@ -37,7 +37,7 @@ formDeleteRestoreMultiProduct.addEventListener("submit", (e) => {
 
 // End handle delete - restore multi products
 
-// Handle restore product
+// Handle delete - forever category
 const formDeleteCategory = document.getElementById("form-delete-forever-category");
 const buttonDeleteCategory = document.querySelectorAll("button[button-delete-forever]");
 
@@ -65,9 +65,9 @@ buttonDeleteCategory.forEach((button) => {
     });
 });
 
-// End handle delete - forever product
+// End handle delete - forever category
 
-// Handle restore product
+// Handle restore category
 const formRestoreCategory = document.getElementById("form-restore-category");
 const buttonRestoreCategory = document.querySelectorAll("button[button-restore]");
 
@@ -95,4 +95,4 @@ buttonRestoreCategory.forEach((button) => {
     });
 });
 
-// End handle restore product
+// End handle restore category

@@ -3,7 +3,7 @@ function pagination(objectPagination, query, totalProducts) {
         objectPagination.currentPage = parseInt(query.page);
     }
 
-    //  Add skip
+    //  Skip Products
     objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limit;
 
     // Total Pages

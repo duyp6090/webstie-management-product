@@ -1,5 +1,5 @@
-// Import productSupport
-import productSupport from "./productSupport.js";
+// Import utility helpers
+import utilityHelper from "../utility/handleCheckBock.js";
 
 // Change status one product
 const buttonChnageStatus = document.querySelectorAll("[button-change-status]");
@@ -32,7 +32,7 @@ const typeChangeMulti = formChangeMulti.querySelector("select[name=type]");
 const inputChangeMultiStatus = formChangeMulti.querySelector("input[name=ids]");
 
 // Handle checkbox
-productSupport.HandleCheckbox(inputChangeMultiStatus);
+utilityHelper.HandleCheckbox(inputChangeMultiStatus);
 
 //  Handle submid form
 formChangeMulti.addEventListener("submit", (e) => {
