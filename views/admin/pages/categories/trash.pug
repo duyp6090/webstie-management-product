@@ -17,7 +17,7 @@ include ../../mixin/form-delete-restore.pug
 include ../../mixin/delete-restore.pug
 
 //- Sort target product
-include ../../mixin/sort-target.pug
+include ../../mixin/sort-target-category.pug
 
 
 block main 
@@ -36,7 +36,7 @@ block main
         .card-body 
             .row 
                 .col-4 
-                    +sort-target(typeSort)
+                    +sort-target-category(typeSort)
 
     .card.mb-3
         .card-header Danh sách

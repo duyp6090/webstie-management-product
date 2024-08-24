@@ -1,0 +1,11 @@
+mixin sort-target-product(typeSort)
+    div(class="sort")
+        select(
+            name="sort"
+            id="sort"
+        )   
+            option(value="default" selected=typeSort==undefind) Mặc định
+            option(value="price-desc" selected=typeSort=="price-desc") Giá giảm dần
+            option(value="price-asc" selected=typeSort=="price-asc") Giá tăng dần
+            option(value="title-asc" selected=typeSort=="title-asc") Tiêu đề A - Z 
+            option(value="title-desc" selected=typeSort=="title-desc") Tiêu đề Z - A

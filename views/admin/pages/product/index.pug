@@ -19,7 +19,7 @@ include ../../mixin/save-trash.pug
 include ../../mixin/delete-update.pug
 
 //- sort target product
-include ../../mixin/sort-target.pug
+include ../../mixin/sort-target-product.pug
 
 
 block main 
@@ -38,7 +38,7 @@ block main
         .card-body 
             .row 
                 .col-4 
-                    +sort-target(typeSort)
+                    +sort-target-product(typeSort)
 
     .card.mb-3
         .card-header Danh sách

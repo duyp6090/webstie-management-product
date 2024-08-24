@@ -14,7 +14,7 @@ include ../../mixin/search.pug
 include ../../mixin/pagination.pug
 
 //- sort target category
-include ../../mixin/sort-target.pug
+include ../../mixin/sort-target-category.pug
 
 //- form change multi status
 include ../../mixin/form-change-multi.pug
@@ -39,7 +39,7 @@ block main
     .card-body 
         .row 
             .col-4 
-                +sort-target(typeSort)
+                +sort-target-category(typeSort)
 
     .card.mb-3 
         .card-header Danh sách

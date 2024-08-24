@@ -1,0 +1,11 @@
+mixin getCategories(subTitleObject, key, subTitleObjects, level)
+    //- Check if subTtileObject not undefined
+    if(subTitleObject)
+        //- Create "--" for each level
+        - let prefix = Array(level).join('-- ')
+        option(value=subTitleObject[0].id) #{prefix}#{key}
+        if (subTitleObject.length > 1)
+            each val, index in subTitleObject
+                if (index > 0)
+                    +getCategories(subTitleObjects[val.title] || [val], val.title, subTitleObjects, level + 1)
+            #{subTitleObjects[key] = null}

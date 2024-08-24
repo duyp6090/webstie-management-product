@@ -13,6 +13,9 @@ const paginationHelper = require("../../../helper/pagination.js");
 // Import sortHelper
 const sortHelper = require("../../../helper/sort.js");
 
+// Import findParentIdHelper
+const findParentIdHelper = require("../../../helper/findParentId.js");
+
 // Class to handle categories - admin
 class categoriesController {
     // [GET] categories page
@@ -141,7 +144,22 @@ class categoriesController {
 
     // [GET] create category page
     async getPageCreateCategory(req, res) {
-        res.render("admin/pages/categories/create.pug");
+        // Find condition
+        let find = {
+            deleted: false,
+        };
+
+        // Get categories
+        const categories = await Categories.find(find);
+
+        // Find subtitle by id
+        const subTitleObjects = findParentIdHelper(categories);
+
+        // Render create category page
+        res.render("admin/pages/categories/create.pug", {
+            categories: categories,
+            subTitleObjects: subTitleObjects,
+        });
     }
 
     // [POST] create category

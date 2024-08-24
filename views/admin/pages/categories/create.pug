@@ -1,6 +1,9 @@
 //- Extend default layout
 extends ../../layouts/default.pug
 
+//- Import mixin getCategories
+include ../../mixin/get-categories.pug
+
 block main 
     h1(class="mb-4") Thêm mới danh mục sản phẩm
     
@@ -18,16 +21,18 @@ block main
                 name="title",
                 placeholder="Nhập tiêu đề"
             )
-        
+
         div(class="form-group")
             label(for="parent_id") Danh mục cha
-            input(
-                type="text",
-                class="form-control",
-                id="parent_id",
-                name="parent_id",
-                placeholder="Nhập tiêu đề"
+            select(
+                name="parent_id"
+                id="parent_id"
+                class="form-control"
             )
+                option(value="") -- Chọn danh mục cha --
+                if (subTitleObjects)
+                    each subTitleObject, key in subTitleObjects
+                        +getCategories(subTitleObject, key, subTitleObjects, level = 1)  
 
         div(class="form-group")
             label(for="desc") Mô tả
