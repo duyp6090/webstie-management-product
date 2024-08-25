@@ -253,7 +253,9 @@ class productAdminController {
         const product = await Product.findOne({ _id: id });
 
         // Get list categories
-        const categories = await Categories.find();
+        const categories = await Categories.find({
+            deleted: false,
+        });
         const subTitleObjects = findParentById(categories);
 
         // Render view
@@ -357,7 +359,9 @@ class productAdminController {
     // [GET] Create product
     async createProduct(req, res) {
         // Get list categories
-        const categories = await Categories.find();
+        const categories = await Categories.find({
+            deleted: false,
+        });
 
         // Get subTitleObjects
         const subTitleObjects = findParentById(categories);
