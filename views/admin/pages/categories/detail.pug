@@ -9,7 +9,7 @@ block main
             h2= category.title
 
         if(category.parent_id)
-            div(class="mb-4") Danh mục cha: #{category.parent_id}
+            div(class="mb-4") Danh mục cha: #{parentCategoryTitle}
 
         if(category.description)
             div(class="mb-4") Mô tả: !{category.description}

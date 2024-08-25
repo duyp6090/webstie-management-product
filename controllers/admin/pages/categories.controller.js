@@ -194,10 +194,17 @@ class categoriesController {
         // Get category by id
         const category = await Categories.findById({ _id: id });
 
+        // Get all categories
+        const categories = await Categories.find({ deleted: false });
+
+        // Get subtitle category by id
+        const subTitleObjects = findParentIdHelper(categories);
+
         // Render edit category page
         res.render("admin/pages/categories/edit.pug", {
             title: "Chỉnh sửa danh mục",
             category: category,
+            subTitleObjects: subTitleObjects,
         });
     }
 
@@ -219,7 +226,7 @@ class categoriesController {
             { _id: id },
             {
                 title: newCategory.title,
-                parent_id: newCategory.parentId,
+                parent_id: newCategory.parent_id,
                 description: newCategory.desc,
                 status: newCategory.status,
                 thumbnail: newCategory.thumbnails,
@@ -238,11 +245,22 @@ class categoriesController {
         // Get category by id
         const category = await Categories.findOne({ _id: id });
 
-        console.log(category);
+        // Title parent category
+        let parentCategoryTitle = null;
+
+        // Get parent category
+        if (category.parent_id) {
+            const parentCategory = await Categories.findOne({ _id: category.parent_id });
+            // Assign parent title category
+            parentCategoryTitle = parentCategory.title;
+        } else {
+            parentCategoryTitle = category.title;
+        }
 
         // Render detail category page
         res.render("admin/pages/categories/detail.pug", {
             title: "Chi tiết danh mục",
+            parentCategoryTitle: parentCategoryTitle,
             category: category,
         });
     }

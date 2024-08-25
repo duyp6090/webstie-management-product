@@ -1,5 +1,8 @@
 extends ../../layouts/default.pug
 
+//- Import mixin getCategories
+include ../../mixin/get-categories.pug
+
 block main 
     h1 #{title}
 
@@ -23,6 +26,18 @@ block main
             span(class="error-message")
 
         div(class="form-group")
+            label(for="category_id") Danh mục
+            select(
+                name="category_id"
+                id="category_id"
+                class="form-control"
+            )
+                option(value="" selected=product.category_id=="") Không có danh mục
+                if (subTitleObjects)
+                    each subTitleObject, key in subTitleObjects
+                        +getCategories(subTitleObject, key, subTitleObjects, level=1, product.category_id) 
+
+        div(class="form-group")
             label(for="desc") Mô tả
             textarea(
                 type="text"
@@ -31,18 +46,6 @@ block main
                 name="desc"
                 placeholder="Nhập mô tả"
             )  #{product.description}
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="category") Danh mục
-            input(
-                type="text"
-                class="form-control"
-                id="category"
-                name="category"
-                placeholder="Nhập danh mục cách nhau bởi dấu phẩy vd: abc, xyz"
-                value = product.category
-            )
             span(class="error-message")
 
         div(class="form-group")

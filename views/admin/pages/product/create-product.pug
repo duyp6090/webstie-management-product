@@ -1,5 +1,8 @@
 extends ../../layouts/default.pug
 
+//- Import mixin getCategories
+include ../../mixin/get-categories.pug
+
 block main 
     h1 Tạo sản phẩm
 
@@ -20,6 +23,18 @@ block main
                 placeholder="Nhập tiêu đề"
             )
             span(class="error-message")
+        
+        div(class="form-group")
+            label(for="category_id") Danh mục
+            select(
+                name="category_id"
+                id="category_id"
+                class="form-control"
+            )
+                option(value="") Chọn danh mục
+                if (subTitleObjects)
+                    each subTitleObject, key in subTitleObjects
+                        +getCategories(subTitleObject, key, subTitleObjects, level=1) 
 
         div(class="form-group")
             label(for="desc") Mô tả
@@ -29,17 +44,6 @@ block main
                 id="desc"
                 name="desc"
                 placeholder="Nhập mô tả"
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="category") Danh mục
-            input(
-                type="text"
-                class="form-control"
-                id="category"
-                name="category"
-                placeholder="Nhập danh mục cách nhau bởi dấu phẩy vd: abc, xyz"
             )
             span(class="error-message")
 

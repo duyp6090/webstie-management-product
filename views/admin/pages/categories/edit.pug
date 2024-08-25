@@ -1,6 +1,9 @@
 //- Extend layouts default
 extends ../../layouts/default.pug
 
+//- Import mixin getCategories
+include ../../mixin/get-categories.pug
+
 block main 
     h1 #{title}
 
@@ -24,16 +27,16 @@ block main
             span(class="error-message")
 
         div(class="form-group")
-            label(for="parentId") Danh mục cha
-            input(
-                type="text"
+            label(for="parent_id") Danh mục cha
+            select(
+                name="parent_id"
+                id="parent_id"
                 class="form-control"
-                id="parentId"
-                name="parentId"
-                placeholder="Nhập tiêu đề"
-                value = category.parent_id
-            ) 
-            span(class="error-message")
+            )
+                option(value="" selected=category.parent_id=="") Không có danh mục
+                if (subTitleObjects)
+                    each subTitleObject, key in subTitleObjects
+                        +getCategories(subTitleObject, key, subTitleObjects, level=1, category.parent_id) 
 
         div(class="form-group")
             label(for="desc") Mô tả

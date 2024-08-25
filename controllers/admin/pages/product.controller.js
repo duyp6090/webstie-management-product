@@ -1,6 +1,9 @@
 // Import model
 const Product = require("../../../model/product.model.js");
 
+// Import categories model
+const Categories = require("../../../model/categories.model.js");
+
 // Import fillterStatus
 const fillterStatusHelper = require("../../../helper/fillterStatus.js");
 
@@ -12,6 +15,9 @@ const paginationHelper = require("../../../helper/pagination.js");
 
 // Import sortHelper
 const sortHelper = require("../../../helper/sort.js");
+
+// Import findParentById
+const findParentById = require("../../../helper/findParentId.js");
 
 // Class to handle product - Admin
 class productAdminController {
@@ -246,10 +252,15 @@ class productAdminController {
         // Get document in database
         const product = await Product.findOne({ _id: id });
 
+        // Get list categories
+        const categories = await Categories.find();
+        const subTitleObjects = findParentById(categories);
+
         // Render view
         res.render("admin/pages/product/edit-product.pug", {
             title: "Chỉnh sửa sản phẩm",
             product: product,
+            subTitleObjects: subTitleObjects,
         });
     }
 
@@ -297,7 +308,7 @@ class productAdminController {
                 {
                     title: dataProduct.title,
                     description: dataProduct.desc,
-                    category: dataProduct.category,
+                    category_id: dataProduct.category_id,
                     price: dataProduct.price,
                     discountPercentage: dataProduct.discount,
                     stock: dataProduct.stock,
@@ -344,9 +355,16 @@ class productAdminController {
     }
 
     // [GET] Create product
-    createProduct(req, res) {
+    async createProduct(req, res) {
+        // Get list categories
+        const categories = await Categories.find();
+
+        // Get subTitleObjects
+        const subTitleObjects = findParentById(categories);
+
         res.render("admin/pages/product/create-product.pug", {
             title: "Create Product",
+            subTitleObjects: subTitleObjects,
         });
     }
 

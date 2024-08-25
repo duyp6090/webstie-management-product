@@ -8,8 +8,11 @@ mongoose.plugin(slug);
 // Create Schema Of Products
 const productSchema = new mongoose.Schema({
     title: String,
+    category_id: {
+        type: String,
+        default: "",
+    },
     description: String,
-    category: String,
     price: Number,
     discountPercentage: Number,
     rating: {
