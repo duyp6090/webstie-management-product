@@ -1,0 +1,55 @@
+extends ../../layouts/default.pug 
+
+//- pagination Page
+include ../../mixin/pagination.pug
+
+//- form change status
+include ../../mixin/form-change-multi.pug
+
+//- save trash
+include ../../mixin/save-trash.pug
+
+//- delete and update product
+include ../../mixin/delete-update.pug
+
+
+block main 
+    h1(class="mb-4") Nhóm quyền
+
+    .card.mb-3 
+        .card-header Danh sách nhóm quyền
+        .card-body 
+            .row 
+                .col-8 
+                .col-4.text-right 
+                    a(
+                        href=`/${prefixAdmin}/roles/create`
+                        class="btn btn-primary"
+                    ) + Tạo mới
+            //- table products
+            table.table.table-hover.table-sm 
+                thead 
+                    tr 
+                        th 
+                            input(
+                                type="checkbox"
+                                name="check-all"
+                            )
+                        th STT
+                        th Nhóm quyền
+                        th Mô tả ngắn
+                        th Hành động
+                    tbody
+                        each item, index in roles
+                            tr 
+                                th 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item.id
+                                    )
+                                td #{index + 1}
+                                td #{item.title}
+                                td #{item.description}
+                                td
+                                    +delete-update(item, pageCurrent)

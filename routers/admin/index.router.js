@@ -7,6 +7,9 @@ const productRouter = require("./product.router.js");
 // Import Category Admin
 const categoryRouter = require("./categories.router.js");
 
+// Import Role Admin
+const roleRouter = require("./role.router.js");
+
 // Import System Config
 const { prefixAdmin } = require("../../config/system.js");
 
@@ -16,6 +19,8 @@ function webInitRouteAdmin(app) {
     app.use(`/${prefixAdmin}/products`, productRouter);
 
     app.use(`/${prefixAdmin}/categories`, categoryRouter);
+
+    app.use(`/${prefixAdmin}/roles`, roleRouter);
 }
 
 module.exports = webInitRouteAdmin;

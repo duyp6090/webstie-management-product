@@ -1,0 +1,39 @@
+extends ../../layouts/default.pug 
+
+block main 
+    h1(class="mb-4") Thêm mới nhóm quyền
+
+    //- form create role
+    form(
+        action=`/${prefixAdmin}/roles/edit/${role._id}?_method=PATCH`
+        id='form-create-product'
+        method='POST'
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                value=role.title            )
+            span(class="error-message")
+        
+        div(class="form-group")
+            label(for="desc") Mô tả
+            input(
+                type="text"
+                class="form-control"
+                id="desc"
+                name="desc"
+                value=role.description
+            )
+            span(class="error-message")
+        
+        button(
+            type="submit"
+            class="btn btn-primary"
+            button-create-product
+        ) Cập nhật quyền hạn
+ 
+        
