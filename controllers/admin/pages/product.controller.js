@@ -43,7 +43,7 @@ class productAdminController {
         // Search Helper
         const objectSeacrh = searchHelper(req.query);
 
-        // Search Find
+        // Search regex
         let searchFind = objectSeacrh.regex;
 
         if (searchFind) {

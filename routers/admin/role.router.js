@@ -20,6 +20,21 @@ router.get("/edit/:id", roleController.getEditRole);
 // Patch edit role
 router.patch("/edit/:id", roleController.editRole);
 
+// Delete role temporarily
+router.delete("/delete/:id", roleController.deleteRoleTemporarily);
+
+// Delete role forever
+router.delete("/delete-forever/:id", roleController.deleteRoleForever);
+
+// Get trash role's page
+router.get("/trash", roleController.getTrashRole);
+
+// Patch restore role
+router.patch("/restore/:id", roleController.restoreRole);
+
+// Get detail page role
+router.get("/detail/:id", roleController.getDetailRole);
+
 // Get authorization role's page
 router.get("/authorization", roleController.getAuthorizationRole);
 

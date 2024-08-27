@@ -1,0 +1,20 @@
+extends ../../layouts/default.pug 
+
+block main 
+    h1(class="mb-4") Chi tiết phân quyền
+
+    .role 
+        if(role.title)
+            h2= role.title
+        if(role.description)
+            div(class="mb-4") Mô tả: #{role.description}
+        if(role.permissions)
+            //- Loop through authorization in role
+            b Quyền hạn:
+            each typerAuthorizations, nameAuthorization in role.permissions
+                div(class="mb-4")
+                    b #{nameAuthorization}
+                    ul 
+                        //- Loop through type authorization
+                        each typeAuthorization in typerAuthorizations
+                            li #{typeAuthorization}

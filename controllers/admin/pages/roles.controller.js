@@ -1,6 +1,12 @@
 // Import model role
 const Role = require("../../../model/role.model.js");
 
+// Import search
+const searchHelper = require("../../../helper/search.js");
+
+// Import pagination
+const paginationHelper = require("../../../helper/pagination.js");
+
 // Class to handle roles
 class roleAdminController {
     // [GET] - Role's main page
@@ -10,13 +16,46 @@ class roleAdminController {
             deleted: false,
         };
 
+        // Search
+        let objectSearch = searchHelper(req.query);
+
+        // Search find
+        let searchFind = objectSearch.regex;
+
+        if (searchFind) {
+            find["title"] = searchFind;
+        }
+
+        // Get deleted roles
+        const deletedRoles = await Role.find({ deleted: true });
+
+        // Pagination
+
+        // Count all roles
+        const totalRoles = await Role.countDocuments(find);
+
+        // Object pagination
+        let objectPagination = paginationHelper(
+            {
+                currentPage: 1,
+                limit: 4,
+            },
+            req.query,
+            totalRoles
+        );
+
         // Get roles
-        const roles = await Role.find(find);
+        const roles = await Role.find(find)
+            .limit(objectPagination.limit)
+            .skip(objectPagination.skip);
 
         res.render("admin/pages/role/index.pug", {
             title: "Role",
             roles: roles,
             pageCurrent: "roles",
+            searchFind: objectSearch.keyword,
+            deletedRoles: deletedRoles,
+            paginations: objectPagination,
         });
     }
 
@@ -80,6 +119,37 @@ class roleAdminController {
         res.redirect("back");
     }
 
+    // [DELETE] - Delete role temporarily
+    async deleteRoleTemporarily(req, res) {
+        // Get role id
+        const id = req.params.id;
+
+        // Find by id and update
+        await Role.findByIdAndUpdate(
+            { _id: id },
+            {
+                deleted: true,
+            }
+        );
+
+        // Redirect
+        res.redirect("back");
+    }
+
+    // [GET] - Detail role's page
+    async getDetailRole(req, res) {
+        // Get role id
+        const id = req.params.id;
+
+        // Find role by id
+        const role = await Role.findById(id);
+
+        res.render("admin/pages/role/detail.pug", {
+            title: "Detail Role",
+            role: role,
+        });
+    }
+
     // [GET] - Authorization role's page
     async getAuthorizationRole(req, res) {
         // Get all role
@@ -126,6 +196,81 @@ class roleAdminController {
                 }
             );
         });
+
+        // Redirect
+        res.redirect("back");
+    }
+
+    // [GET] - Trash role's page
+    async getTrashRole(req, res) {
+        // Find condition
+        let find = {
+            deleted: true,
+        };
+
+        // Search
+        let objectSearch = searchHelper(req.query);
+
+        // Search find
+        let searchFind = objectSearch.regex;
+
+        if (searchFind) {
+            find["title"] = searchFind;
+        }
+
+        // Pagination
+
+        // Count all roles
+        const totalRoles = await Role.countDocuments(find);
+
+        // Object pagination
+        let objectPagination = paginationHelper(
+            {
+                currentPage: 1,
+                limit: 4,
+            },
+            req.query,
+            totalRoles
+        );
+
+        // Get roles
+        const roles = await Role.find(find)
+            .limit(objectPagination.limit)
+            .skip(objectPagination.skip);
+
+        res.render("admin/pages/role/trash.pug", {
+            title: "Role",
+            roles: roles,
+            pageCurrent: "roles",
+            searchFind: objectSearch.keyword,
+            paginations: objectPagination,
+        });
+    }
+
+    // [DELETE] - Delete role forever
+    async deleteRoleForever(req, res) {
+        // Get role id
+        const id = req.params.id;
+
+        // Find by id and delete
+        await Role.deleteOne({ _id: id });
+
+        // Redirect
+        res.redirect("back");
+    }
+
+    // [PATCH] - Restore role
+    async restoreRole(req, res) {
+        // Get role id
+        const id = req.params.id;
+
+        // Find by id and update
+        await Role.findByIdAndUpdate(
+            { _id: id },
+            {
+                deleted: false,
+            }
+        );
 
         // Redirect
         res.redirect("back");
