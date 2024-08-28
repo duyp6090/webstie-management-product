@@ -45,7 +45,6 @@ if (formSearch) {
         window.location.href = url.href;
     });
 }
-
 // End form search
 
 // Pagination
@@ -68,7 +67,6 @@ if (paginations) {
         });
     });
 }
-
 // End event pagination
 
 // Preview image
@@ -94,7 +92,6 @@ if (uploadImages) {
         });
     });
 }
-
 // End preview image
 
 // Validate form create and update information products
@@ -284,7 +281,6 @@ if (formCreateProduct || formUpdateProduct) {
     // Call function validatorForm
     ValidatorForm(validateForm);
 }
-
 // End validate form create and update information products
 
 // Sort products
@@ -308,5 +304,4 @@ if (sortProducts) {
         window.location.href = url.href;
     });
 }
-
 // End sort products

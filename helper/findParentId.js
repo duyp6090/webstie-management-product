@@ -12,8 +12,8 @@ function findParentById(categories) {
 
     // Loop through the categories
     categories.forEach((category) => {
-        // Check parent_id
-        if (category.parent_id) {
+        // Check parent_id and parent exists in list categories
+        if (category.parent_id && idConvertToCategory[category.parent_id]) {
             // Convert parent_id to category
             let parentCategory = idConvertToCategory[category.parent_id];
 
@@ -35,6 +35,7 @@ function findParentById(categories) {
             titleIdObject[parentCategory.title] = [parentCategory];
         }
     });
+
     // Return titleIdObject
     return titleIdObject;
 }

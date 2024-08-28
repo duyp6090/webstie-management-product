@@ -54,7 +54,6 @@ formChangeMulti.addEventListener("submit", (e) => {
         } else formChangeMulti.submit();
     }
 });
-
 // End change multi status products
 
 // Delete category temporatity

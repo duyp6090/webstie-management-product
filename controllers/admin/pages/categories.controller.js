@@ -16,6 +16,9 @@ const sortHelper = require("../../../helper/sort.js");
 // Import findParentIdHelper
 const findParentIdHelper = require("../../../helper/findParentId.js");
 
+// Import findSubcategories
+const findSubcategories = require("../../../helper/findSubcategories.js");
+
 // Class to handle categories - admin
 class categoriesController {
     // [GET] categories page
@@ -75,6 +78,12 @@ class categoriesController {
             .limit(objectPagination.limit)
             .skip(objectPagination.skip);
 
+        // const category = await Categories.find(find);
+
+        // const newCategories = findParentIdHelper(category);
+
+        // console.log(newCategories);
+
         // Render categories page
         res.render("admin/pages/categories/index.pug", {
             pageTitle: "Categories",
@@ -104,10 +113,16 @@ class categoriesController {
     // [DELETE] delete category temporatity
     async deleteCategory(req, res) {
         // Get id from request
-        const id = req.params.id;
+        const idCategory = req.params.id;
 
-        // Updated category
-        await Categories.findByIdAndUpdate({ _id: id }, { deleted: true });
+        // Get full categories
+        const categories = await Categories.find({ deleted: false });
+
+        // Find sub category by parent_id
+        const subCategories = findSubcategories(idCategory, categories);
+
+        // Updated many category
+        await Categories.updateMany({ _id: { $in: subCategories } }, { deleted: true });
 
         // Redirect to categories page
         res.redirect("back");
@@ -332,10 +347,16 @@ class categoriesController {
     // [PATCH] restore category
     async restoreCategory(req, res) {
         // Get id from request
-        const id = req.params.id;
+        const idCategory = req.params.id;
+
+        // Get full categories
+        const categories = await Categories.find({ deleted: true });
+
+        // Find sub category by parent_id
+        const subCategories = findSubcategories(idCategory, categories);
 
         // Updated category
-        await Categories.findByIdAndUpdate({ _id: id }, { deleted: false });
+        await Categories.updateMany({ _id: { $in: subCategories } }, { deleted: false });
 
         // Redirect to categories page
         res.redirect("back");
@@ -344,10 +365,16 @@ class categoriesController {
     // [DELETE] delete forever category
     async deleteForeverCategory(req, res) {
         // Get id from request
-        const id = req.params.id;
+        const idCategory = req.params.id;
+
+        // Get full categories
+        const categories = await Categories.find({ deleted: true });
+
+        // Find sub category by parent_id
+        const subCategories = findSubcategories(idCategory, categories);
 
         // Delete category forever
-        await Categories.deleteOne({ _id: id });
+        await Categories.deleteMany({ _id: { $in: subCategories } });
 
         // Redirect to categories page
         res.redirect("back");
