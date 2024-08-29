@@ -1,0 +1,123 @@
+extends ../../layouts/default.pug 
+
+//- fillter status block
+include ../../mixin/fillter-status.pug
+
+//- search block
+include ../../mixin/search.pug
+
+//- pagination Page
+include ../../mixin/pagination.pug
+
+//- form change status
+include ../../mixin/form-change-multi.pug
+
+//- save trash
+include ../../mixin/save-trash.pug
+
+//- delete and update product
+include ../../mixin/delete-update.pug
+
+
+block main 
+    h1(class="mb-4") Tài khoản
+
+    .card.mb-3 
+        .card-header Bộ lọc và Tìm kiếm 
+        .card-body 
+            .row
+                .col-6 
+                    +fillter-status(fillterStatus)
+                .col-6
+                    +search(searchFind)
+
+    .card.mb-3 
+        .card-header Danh sách tài khoản
+        .card-body 
+            .row 
+                .col-6
+                    //- form change status
+                    +form-change-multi(`/${prefixAdmin}/accounts/change-multi?_method=PATCH`)
+                .col-3.text-center
+                    //- save trash
+                    if(totalAccountDeleted.length > 0)
+                        +save-trash(`/${prefixAdmin}/accounts/trash`)
+                .col-3.text-center
+                    //- Create new role
+                    a(
+                        href=`/${prefixAdmin}/accounts/create`
+                        class="btn btn-primary"
+                    ) + Tạo mới
+            //- table products
+            table.table.table-hover.table-sm 
+                thead 
+                    tr 
+                        th 
+                            input(
+                                type="checkbox"
+                                name="check-all"
+                            )
+                        th STT
+                        th Hình ảnh
+                        th Họ tên
+                        th Phân quyền
+                        th Email
+                        th Trạng thái
+                        th Hành động
+                tbody
+                    each item, index in accounts
+                        tr 
+                            th 
+                                input(
+                                    type="checkbox"
+                                    name="id"
+                                    value=item._id
+                                )
+                            td #{index + 1}
+                            td 
+                                img(src=item.avatar, alt="" width="100px" height="auto")
+                            td #{item.fullName}
+                            td #{item.roleId}
+                            td #{item.email}
+                            td
+                                if (item.status == 'inactive')
+                                    a(
+                                        href="javascript:;"
+                                        data-status=item.status
+                                        data-id=`${item._id}` 
+                                        button-change-status
+                                        class="btn btn-danger"
+                                    ) Dừng hoạt động
+                                else 
+                                    a(
+                                        href="javascript:;"
+                                        data-status=item.status
+                                        data-id=`${item._id}`
+                                        button-change-status
+                                        class="btn btn-success"
+                                    ) Hoạt động
+                            td
+                                +delete-update(item, pageCurrent)
+
+    +paginationPages(paginations)
+
+     //- form change status
+    form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`/${prefixAdmin}/accounts/change-status`
+        class = "d-none"
+    )
+
+    //- form delete
+    form(
+        action=""
+        method="POST"
+        id="form-delete-account"
+        data-path=`/${prefixAdmin}/accounts/delete`
+        class = "d-none"
+    )
+
+    //- Link script js
+    script(src="/admin/js/account/accountCurrent.js" type="module")

@@ -10,6 +10,9 @@ const categoryRouter = require("./categories.router.js");
 // Import Role Admin
 const roleRouter = require("./role.router.js");
 
+// Import Account Admin
+const accountRouter = require("./account.router.js");
+
 // Import System Config
 const { prefixAdmin } = require("../../config/system.js");
 
@@ -21,6 +24,8 @@ function webInitRouteAdmin(app) {
     app.use(`/${prefixAdmin}/categories`, categoryRouter);
 
     app.use(`/${prefixAdmin}/roles`, roleRouter);
+
+    app.use(`/${prefixAdmin}/accounts`, accountRouter);
 }
 
 module.exports = webInitRouteAdmin;

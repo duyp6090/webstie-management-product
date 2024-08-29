@@ -12,6 +12,7 @@
     "devDependencies": {
         "dotenv": "^16.4.5",
         "express": "^4.19.2",
+        "md5": "^2.3.0",
         "method-override": "^3.0.0",
         "mongodb": "^6.8.0",
         "mongoose": "^8.5.2",
