@@ -1,4 +1,5 @@
-extends ../../layouts/default.pug 
+//- Entend default layout
+extend ../../layouts/default.pug
 
 //- fillter status block
 include ../../mixin/fillter-status.pug
@@ -9,18 +10,15 @@ include ../../mixin/search.pug
 //- pagination Page
 include ../../mixin/pagination.pug
 
-//- form change status
-include ../../mixin/form-change-multi.pug
+//- Form change status
+include ../../mixin/form-delete-restore.pug
 
-//- save trash
-include ../../mixin/save-trash.pug
-
-//- delete and update product
-include ../../mixin/delete-update.pug
+//- Delete and restore
+include ../../mixin/delete-restore.pug
 
 
 block main 
-    h1(class="mb-4") Tài khoản
+    h1 Danh sách tài khoản đã xóa
 
     .card.mb-3 
         .card-header Bộ lọc và Tìm kiếm 
@@ -31,23 +29,17 @@ block main
                 .col-6
                     +search(searchFind)
 
-    .card.mb-3 
-        .card-header Danh sách tài khoản
-        .card-body 
+    .card.mb-3
+        .card-header Danh sách
+        .card-body
             .row 
                 .col-6
                     //- form change status
-                    +form-change-multi(`/${prefixAdmin}/accounts/change-multi?_method=PATCH`)
-                .col-3.text-center
-                    //- save trash
-                    if(totalAccountDeleted > 0)
-                        +save-trash(`/${prefixAdmin}/accounts/trash`)
-                .col-3.text-center
-                    //- Create new role
-                    a(
-                        href=`/${prefixAdmin}/accounts/create`
-                        class="btn btn-primary"
-                    ) + Tạo mới
+                    +form-delete-restore(`/${prefixAdmin}/accounts/multi-delete-restore?_method=PATCH`)
+                .col-6 
+                    //- back to products page
+                    a(href=`/${prefixAdmin}/accounts` class="btn btn-primary") Quay lại trang sản phẩm
+
             //- table products
             table.table.table-hover.table-sm 
                 thead 
@@ -66,7 +58,7 @@ block main
                         th Hành động
                 tbody
                     each item, index in accounts
-                        tr 
+                         tr 
                             th 
                                 input(
                                     type="checkbox"
@@ -88,27 +80,27 @@ block main
                                     class=`btn ${item.status == 'inactive'? 'btn-danger':'btn-success'}`
                                 ) #{item.status == 'inactive' ? 'Dừng hoạt động' : 'Hoạt động'}
                             td
-                                +delete-update(item, pageCurrent)
-
+                                +delete-restore(item)
     +paginationPages(paginations)
 
-     //- form change status
-    form(
-        action=""
-        method="POST"
-        id="form-change-status"
-        data-path=`/${prefixAdmin}/accounts/change-status`
-        class = "d-none"
-    )
 
     //- form delete
     form(
         action=""
         method="POST"
-        id="form-delete-account"
-        data-path=`/${prefixAdmin}/accounts/delete`
+        id="form-delete-forever-account"
+        data-path=`/${prefixAdmin}/accounts/delete-forever`
         class = "d-none"
     )
 
-    //- Link script js
-    script(src="/admin/js/account/accountCurrent.js" type="module")
+    //- form restore
+    form(
+        action=""
+        method="POST"
+        id="form-restore-account"
+        data-path=`/${prefixAdmin}/accounts/restore`
+        class = "d-none"
+    )
+
+     //- Link script js
+    script(src="/admin/js/account/accountTrash.js" type="module")

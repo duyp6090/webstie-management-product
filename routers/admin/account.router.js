@@ -44,8 +44,17 @@ router.patch(
 // Get page detail account
 router.get("/detail/:id", accountsController.getPageDetailAccount);
 
+// Get page account trash
+router.get("/trash", accountsController.getPageAccountTrash);
+
 // Delete account temporarily
 router.delete("/delete/:id", accountsController.deleteAccountTemporarily);
+
+// Delete account forever
+router.delete("/delete-forever/:id", accountsController.deleteAccountForever);
+
+// Restore account
+router.patch("/restore/:id", accountsController.restoreAccount);
 
 // Module exports
 module.exports = router;

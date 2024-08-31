@@ -233,6 +233,62 @@ class accountsController {
         });
     }
 
+    // [GET] page account trash
+    async getPageAccountTrash(req, res) {
+        // Fillter button status
+        const fillterStatus = fillterStatusHelper(req.query);
+
+        // Find condition
+        let find = {
+            deleted: true,
+        };
+
+        // Status find
+        if (req.query.status) {
+            find.status = req.query.status;
+        }
+
+        // Search Helper
+        const objectSeacrh = searchHelper(req.query);
+
+        // Search regex
+        let searchFind = objectSeacrh.regex;
+
+        if (searchFind) {
+            find["fullName"] = searchFind;
+        }
+
+        // Pagination
+
+        // Total account
+        const totalAccount = await Account.countDocuments(find);
+
+        // object - pagination
+        let objectPagination = paginationHelper(
+            {
+                limit: 4,
+                currentPage: 1,
+            },
+            req.query,
+            totalAccount
+        );
+
+        // Get all account
+        const accounts = await Account.find(find)
+            .select("-password -token")
+            .limit(objectPagination.limit)
+            .skip(objectPagination.skip);
+
+        res.render("admin/pages/accounts/trash.pug", {
+            title: "Danh sách tài khoản",
+            pageCurrent: "accounts",
+            accounts: accounts,
+            fillterStatus: fillterStatus,
+            searchFind: objectSeacrh.keyword,
+            paginations: objectPagination,
+        });
+    }
+
     // [DELETE] delete account temporarily
     async deleteAccountTemporarily(req, res) {
         // Get id from params
@@ -240,6 +296,30 @@ class accountsController {
 
         // Find and update account
         await Account.findByIdAndUpdate({ _id: id }, { deleted: true });
+
+        // Redirect to page account
+        res.redirect("back");
+    }
+
+    // [DELETE] delete account forever
+    async deleteAccountForever(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Find and delete account
+        await Account.deleteOne({ _id: id });
+
+        // Redirect to page account
+        res.redirect("back");
+    }
+
+    // [PATCH] restore account
+    async restoreAccount(req, res) {
+        // Get id from params
+        const id = req.params.id;
+
+        // Find and update account
+        await Account.findByIdAndUpdate({ _id: id }, { deleted: false });
 
         // Redirect to page account
         res.redirect("back");
