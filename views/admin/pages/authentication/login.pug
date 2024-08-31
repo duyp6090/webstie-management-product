@@ -1,0 +1,35 @@
+extends ../../layouts/auth.pug 
+
+block main 
+    .container.my-5 
+        .row.justify-content-center 
+            .col-8 
+                h1(class="text-center") Đăng nhập
+                form(
+                    action-= `${prefixAdmin}/auth/login`
+                    method="POST"
+                )
+                    div(class="form-group")
+                        label(for="email") Email
+                        input(
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            placeholder="Nhập email"
+                        )
+
+                    div(class="form-group")
+                        label(for="password") Mật khẩu
+                        input(
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Nhập mật khẩu"
+                        )
+                    div(class="form-group")
+                        button(
+                            type="submit"
+                            class="btn btn-primary"
+                        ) Đăng nhập 
