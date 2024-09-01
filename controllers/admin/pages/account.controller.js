@@ -105,7 +105,9 @@ class accountsController {
             }
 
             // Hash password
-            dataAccount.password = md5(dataAccount.password);
+            if (dataAccount.password) {
+                dataAccount.password = md5(dataAccount.password);
+            }
 
             // Create new account
             const newAccount = new Account({

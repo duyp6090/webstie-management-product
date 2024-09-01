@@ -11,5 +11,8 @@ router.get("/login", authenticationController.getLoginPage);
 // Post authentication page (check login)
 router.post("/login", authenticationController.postLogin);
 
+// Get logout
+router.get("/logout", authenticationController.logOut);
+
 // Export router
 module.exports = router;

@@ -30,11 +30,23 @@ class authenticationController {
             if (account.password == md5(password)) {
                 // Check status account
                 if (account.status == "active") {
+                    // Set cookie
+                    res.cookie("token", account.token);
+
                     // Redirect to page dashboard
                     res.redirect("/admin/dashboard");
                 }
             }
         }
+    }
+
+    // [GET] admin page logout
+    logOut(req, res) {
+        // Clear cookie
+        res.clearCookie("token");
+
+        // Redirect to page login
+        res.redirect("/admin/auth/login");
     }
 }
 

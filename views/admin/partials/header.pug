@@ -1,7 +1,13 @@
 header.header  
     .container-fluid
-        .row-align-items-center
+        .row.align-items-center
             .col-3 
                 .inner-logo 
                     a(href="/admin/dashboard") 
                         | Admin
+            .col-9
+                div(class="text-right")
+                    a(
+                        href=`/${prefixAdmin}/auth/logout`,
+                        class="btn btn-danger btn-sm"
+                    ) Logout
