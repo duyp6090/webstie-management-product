@@ -24,6 +24,9 @@ const webInitRouteAdmin = require("./routers/admin/index.router.js");
 // Import System Config
 const systemConfig = require("./config/system.js");
 
+// Import cookie - parser
+const cookieParser = require("cookie-parser");
+
 // Config view engine
 app.set("view engine", "pug");
 app.set("views", `${__dirname}/views`);
@@ -43,6 +46,9 @@ app.use(methodOverride("_method"));
 
 // TinyMCE
 app.use("/tinymce", express.static(path.join(__dirname, "node_modules", "tinymce")));
+
+// Use cookie parser
+app.use(cookieParser());
 
 // Use Amin router
 webInitRouteAdmin(app);

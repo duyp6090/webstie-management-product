@@ -16,19 +16,22 @@ const accountRouter = require("./account.router.js");
 // Import Authentication Admin
 const authenticationRouter = require("./authentication.router.js");
 
+// Import Middleware
+const requireAuthentication = require("../../middleware/admin/auth.middleware.js");
+
 // Import System Config
 const { prefixAdmin } = require("../../config/system.js");
 
 function webInitRouteAdmin(app) {
-    app.use(`/${prefixAdmin}/dashboard`, dashBoardRouter);
+    app.use(`/${prefixAdmin}/dashboard`, requireAuthentication, dashBoardRouter);
 
-    app.use(`/${prefixAdmin}/products`, productRouter);
+    app.use(`/${prefixAdmin}/products`, requireAuthentication, productRouter);
 
-    app.use(`/${prefixAdmin}/categories`, categoryRouter);
+    app.use(`/${prefixAdmin}/categories`, requireAuthentication, categoryRouter);
 
-    app.use(`/${prefixAdmin}/roles`, roleRouter);
+    app.use(`/${prefixAdmin}/roles`, requireAuthentication, roleRouter);
 
-    app.use(`/${prefixAdmin}/accounts`, accountRouter);
+    app.use(`/${prefixAdmin}/accounts`, requireAuthentication, accountRouter);
 
     app.use(`/${prefixAdmin}/auth`, authenticationRouter);
 }

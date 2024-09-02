@@ -8,6 +8,18 @@ const md5 = require("md5");
 class authenticationController {
     // [GET] admin page login
     getLoginPage(req, res) {
+        // Get token
+        const token = req.cookies.token;
+
+        // Get account by token
+        const account = Account.findOne({ token: token });
+
+        // Redirect to dashboard if token exist
+        if (account) {
+            res.redirect("/admin/dashboard");
+            return;
+        }
+
         res.render("admin/pages/authentication/login", {
             pageTitle: "Trang đăng nhập",
         });
