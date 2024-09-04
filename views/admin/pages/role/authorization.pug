@@ -1,51 +1,56 @@
 extends ../../layouts/default.pug 
 
 block main 
-    h1(class="mb-4") Phân quyền 
-    if(roles)
-        div(class="text-right")
-            button(
-                type="submit"
-                class="btn btn-primary mb-3"
-                button-submit-authorization
-            ) Cập nhật
+    if(role.permissions.groupRole && role.permissions.groupRole.includes('authorization'))
+        h1(class="mb-4") Phân quyền 
+        if(roles)
+            div(class="text-right")
+                button(
+                    type="submit"
+                    class="btn btn-primary mb-3"
+                    button-submit-authorization
+                ) Cập nhật
 
-        table(class="table table-hovertable-sm ")
-            thead 
-                tr 
-                    th Tính năng 
-                    each role in roles 
-                        th(class="text-center" data-idRole=role._id) #{role.title}
-            tbody 
-                //- Loop through array authorization
-                each itemAuthorization in arrAuthorization
+            table(class="table table-hovertable-sm ")
+                thead 
                     tr 
-                        td(colspan="4", class=`${itemAuthorization.nameAutorization}`) 
-                            b #{itemAuthorization.nameAutorization}
-                    //- Loop through array type authorization
-                    each typeAuthorization in itemAuthorization.typeAuthorizations 
-                        tr(data-name=`${itemAuthorization.nameAutorization + '-' + typeAuthorization}`)
-                            td #{typeAuthorization}
-                            each role in roles 
-                                td(class="text-center")
-                                    input(
-                                        type="checkbox"
-                                        class="form-check-input"
-                                        checked = role.permissions[itemAuthorization.nameAutorization] ? (role.permissions[itemAuthorization.nameAutorization].includes(typeAuthorization) ? true : false) : false
-                                    )
+                        th Tính năng 
+                        each item in roles 
+                            th(class="text-center" data-idRole=item._id) #{item.title}
+                tbody 
+                    //- Loop through array authorization
+                    each itemAuthorization in arrAuthorization
+                        tr 
+                            td(colspan="4", class=`${itemAuthorization.nameAutorization}`) 
+                                b #{itemAuthorization.nameAutorization}
+                        //- Loop through array type authorization
+                        each typeAuthorization in itemAuthorization.typeAuthorizations 
+                            tr(data-name=`${itemAuthorization.nameAutorization + '-' + typeAuthorization}`)
+                                td #{typeAuthorization}
+                                each item in roles 
+                                    td(class="text-center")
+                                        input(
+                                            type="checkbox"
+                                            class="form-check-input"
+                                            checked = item.permissions[itemAuthorization.nameAutorization] ? (item.permissions[itemAuthorization.nameAutorization].includes(typeAuthorization) ? true : false) : false
+                                        )
+        else 
+            a(href="/admin/roles/create") Tạo mới phân quyền
+
+        
+        form(
+            id="form-change-authorization"
+            method="POST"
+            action=`/${prefixAdmin}/roles/authorization?_method=PATCH`
+        )
+            div(class="form-group")
+                input(
+                    type="text"
+                    name="permissions"
+                    class="d-none"
+                )
+        //- Link script handleRole
+        script(src="/admin/js/role/handleRole.js")
     else 
-        a(href="/admin/roles/create") Tạo mới phân quyền
-    
-    form(
-        id="form-change-authorization"
-        method="POST"
-        action=`/${prefixAdmin}/roles/authorization?_method=PATCH`
-    )
-        div(class="form-group")
-            input(
-                type="text"
-                name="permissions"
-                class="d-none"
-            )
-    //- Link script handleRole
-    script(src="/admin/js/role/handleRole.js")
+        h1(class="mb-4") Bạn không có quyền phân quyền
+        a(href="/admin/roles") Quay lại trang nhóm quyền

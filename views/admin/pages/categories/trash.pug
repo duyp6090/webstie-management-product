@@ -21,90 +21,97 @@ include ../../mixin/sort-target-category.pug
 
 
 block main 
-    h1 Danh sách sản phẩm
+    if(role.permissions.category && role.permissions.category.includes('view'))
+        h1 Danh sách sản phẩm
 
-    .card.mb-3 
-        .card-header Bộ lọc và Tìm kiếm 
-        .card-body 
-            .row
-                .col-6 
-                    +fillter-status(fillterStatus)
-                .col-6
-                    +search(searchFind)
-    .card.mb-3 
-        .card-header Sắp xếp 
-        .card-body 
-            .row 
-                .col-4 
-                    +sort-target-category(typeSort)
+        .card.mb-3 
+            .card-header Bộ lọc và Tìm kiếm 
+            .card-body 
+                .row
+                    .col-6 
+                        +fillter-status(fillterStatus)
+                    .col-6
+                        +search(searchFind)
+        .card.mb-3 
+            .card-header Sắp xếp 
+            .card-body 
+                .row 
+                    .col-4 
+                        +sort-target-category(typeSort)
 
-    .card.mb-3
-        .card-header Danh sách
-        .card-body
-            .row 
-                .col-6
-                    //- form change status
-                    +form-delete-restore(`/${prefixAdmin}/categories/multi-delete-restore?_method=PATCH`)
-                .col-6 
-                    //- back to products page
-                    a(href=`/${prefixAdmin}/categories` class="btn btn-primary") Quay lại trang sản phẩm
+        .card.mb-3
+            .card-header Danh sách
+            .card-body
+                .row 
+                    .col-6
+                        //- form change status
+                        +form-delete-restore(`/${prefixAdmin}/categories/multi-delete-restore?_method=PATCH`)
+                    .col-6 
+                        //- back to products page
+                        a(href=`/${prefixAdmin}/categories` class="btn btn-primary") Quay lại trang sản phẩm
 
-            //- table products
-            table.table.table-hover.table-sm 
-                thead 
-                    tr 
-                        th 
-                            input(
-                                type="checkbox"
-                                name="check-all"
-                            )
-                        th STT
-                        th Hình ảnh
-                        th Tiêu đề
-                        th Trạng thái
-                        th Hành động
-                tbody
-                    each item, index in categories
+                //- table products
+                table.table.table-hover.table-sm 
+                    thead 
                         tr 
                             th 
                                 input(
                                     type="checkbox"
-                                    name="id"
-                                    value=item._id
+                                    name="check-all"
                                 )
-                            td #{index + 1}
-                            td 
-                                img(src=item.thumbnail, alt="" width="100px" height="auto")
-                            td #{item.title}
-                            td 
-                                a(
-                                    href="javascript:;"
-                                    data-status= item.status
-                                    data-id=item._id
-                                    button-change-status
-                                    class="btn btn-danger"
-                                ) #{item.status == 'active' ? 'Hoạt động' : 'Dừng hoạt động'}
-                            td
-                                +delete-restore(item)
-    +paginationPages(paginations)
+                            th STT
+                            th Hình ảnh
+                            th Tiêu đề
+                            th Trạng thái
+                            th Hành động
+                    tbody
+                        each item, index in categories
+                            tr 
+                                th 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item._id
+                                    )
+                                td #{index + 1}
+                                td 
+                                    img(src=item.thumbnail, alt="" width="100px" height="auto")
+                                td #{item.title}
+                                if(role.permissions.category.includes('edit'))
+                                    td 
+                                        a(
+                                            href="javascript:;"
+                                            data-status= item.status
+                                            data-id=item._id
+                                            button-change-status
+                                            class="btn btn-danger"
+                                        ) #{item.status == 'active' ? 'Hoạt động' : 'Dừng hoạt động'}
+                                else 
+                                    td
+                                td
+                                    +delete-restore(item, role.permissions.category)
+        +paginationPages(paginations)
 
 
-    //- form delete
-    form(
-        action=""
-        method="POST"
-        id="form-delete-forever-category"
-        data-path=`/${prefixAdmin}/categories/delete-forever`
-        class = "d-none"
-    )
+        //- form delete
+        form(
+            action=""
+            method="POST"
+            id="form-delete-forever-category"
+            data-path=`/${prefixAdmin}/categories/delete-forever`
+            class = "d-none"
+        )
 
-    //- form restore
-    form(
-        action=""
-        method="POST"
-        id="form-restore-category"
-        data-path=`/${prefixAdmin}/categories/restore`
-        class = "d-none"
-    )
-    //- link script
-    script(src="/admin/js/category/categoryTrash.js" type="module")
+        //- form restore
+        form(
+            action=""
+            method="POST"
+            id="form-restore-category"
+            data-path=`/${prefixAdmin}/categories/restore`
+            class = "d-none"
+        )
+        //- link script
+        script(src="/admin/js/category/categoryTrash.js" type="module")
+    else 
+        h1 Bạn không có quyền truy cập trang này
+        a(href="/admin/categories" class="btn btn-primary") Quay lại trang sản phẩm

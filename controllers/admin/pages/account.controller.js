@@ -67,6 +67,17 @@ class accountsController {
             .limit(objectPagination.limit)
             .skip(objectPagination.skip);
 
+        console.log(accounts);
+
+        // Loop all account
+        for (let account of accounts) {
+            // Find role by id
+            const role = await Role.findOne({ _id: account.roleId });
+
+            // Assign role to account
+            account.roleTitle = role.title;
+        }
+
         res.render("admin/pages/accounts/index.pug", {
             title: "Danh sách tài khoản",
             pageCurrent: "accounts",

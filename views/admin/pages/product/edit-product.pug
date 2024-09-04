@@ -4,291 +4,298 @@ extends ../../layouts/default.pug
 include ../../mixin/get-categories.pug
 
 block main 
-    h1 #{title}
+    if(role.permissions.product && role.permissions.product.includes('edit'))
+        h1 #{title}
 
-    //- form edit product
-    form(
-        action=`/${prefixAdmin}/products/edit/${product._id}?_method=PATCH`
-        id='form-updated-product'
-        method='POST'
-        enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                placeholder="Nhập tiêu đề"
-                value = product.title
-            ) 
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="category_id") Danh mục
-            select(
-                name="category_id"
-                id="category_id"
-                class="form-control"
-            )
-                option(value="" selected=product.category_id=="") Không có danh mục
-                if (subTitleObjects)
-                    each subTitleObject, key in subTitleObjects
-                        +getCategories(subTitleObject, key, subTitleObjects, level=1, product.category_id) 
-
-        div(class="form-group")
-            label(for="desc") Mô tả
-            textarea(
-                type="text"
-                class="form-control tinymce"
-                id="desc"
-                name="desc"
-                placeholder="Nhập mô tả"
-            )  #{product.description}
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                class="form-control"
-                id="price"
-                name="price"
-                step="0.01"
-                placeholder="Nhập giá sản phẩm"
-                value = product.price
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="discount") Giảm giá(%)
-            input(
-                type="number"
-                class="form-control"
-                id="discount"
-                name="discount"
-                step="0.01"
-                placeholder="Nhập % giả giá"
-                value = product.discountPercentage
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="stock") Số lượng
-            input(
-                type="number"
-                class="form-control"
-                id="stock"
-                name="stock"
-                step="0.01"
-                placeholder="Nhập số lượng sản phẩm"
-                value = product.stock
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="tags") Thẻ liên quan
-            input(
-                type="text"
-                class="form-control"
-                id="tags"
-                name="tags"
-                placeholder="Nhập thẻ liên quan, ví dụ: adbc, xyz"
-                value = product.tags.toString()
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="brand") Thương hiệu
-            input(
-                type="text"
-                class="form-control"
-                id="brand"
-                name="brand"
-                placeholder="Nhập thương hiệu"
-                value = product.brand
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="sku") Mã sku
-            input(
-                type="text"
-                class="form-control"
-                id="sku"
-                name="sku"
-                placeholder="Nhập mã SKU"
-                value = product.sku
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="weight") Khối lượng
-            input(
-                type="number"
-                class="form-control"
-                id="weight"
-                name="weight"
-                step="0.01"
-                placeholder="Nhập khối lượng sản phẩm"
-                value = product.weight
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="height") Chiều cao
-            input(
-                type="number"
-                class="form-control"
-                id="height"
-                name="height"
-                step="0.01"
-                placeholder="Nhập chiều cao sản phẩm"
-                value = product.dimensions.height
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="width") Chiều rộng
-            input(
-                type="number"
-                class="form-control"
-                id="width"
-                name="width"
-                step="0.01"
-                placeholder="Nhập chiều rộng sản phẩm"
-                value = product.dimensions.width
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="depth") Chiều sâu
-            input(
-                type="number"
-                class="form-control"
-                id="depth"
-                name="depth"
-                step="0.01"
-                placeholder="Nhập chiều sâu sản phẩm"
-                value = product.dimensions.depth
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="warrenty") Chính sách bảo hành
-            input(
-                type="text"
-                class="form-control"
-                id="warrenty"
-                name="warrenty"
-                placeholder="Nhập thông tin bảo hành"
-                value = product.warrantyInformation
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="inforShip") Thời gian giao hành
-            input(
-                type="text"
-                class="form-control"
-                id="inforShip"
-                name="inforShip"
-                placeholder="Nhập thời gian giao hàng"
-                value = product.shippingInformation
-            )
-            span(class="error-message")
-       
-        div(class="form-group")
-            label(for="returnPolicy") Thời gian đổi trả
-            input(
-                type="text"
-                class="form-control"
-                id="returnPolicy"
-                name="returnPolicy"
-                placeholder="Nhập thơi gian đổi trả"
-                value = product.returnPolicy
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="minimumOrder") Số lượng đặt tối thiểu
-            input(
-                type="number"
-                class="form-control"
-                id="minimumOrder"
-                name="minimumOrder"
-                placeholder="Nhập số lượng đặt tối thiểu"
-                value = product.minimumOrderQuantity
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="barCode") Barcode
-            input(
-                type="text"
-                class="form-control"    
-                id="barCode"
-                name="barCode"
-                placeholder="Nhập mã barcode"
-                value = product.meta.barCode
-            )
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="qrCode") QR code
-            input(
-                type="text"
-                class="form-control"
-                id="qrCode"
-                name="qrCode"
-                placeholder="Nhập mã QR code"
-                value = product.meta.qrCode
-            )
-            span(class="error-message")
-
-        div(
-            class="form-group upload-image"
+        //- form edit product
+        form(
+            action=`/${prefixAdmin}/products/edit/${product._id}?_method=PATCH`
+            id='form-updated-product'
+            method='POST'
+            enctype="multipart/form-data"
         )
-            label(for="images") Ảnh
-            input(
-                type="file"
-                class="form-control-file"
-                id="images"
-                name="images"
-                accept="image/*"
-            )
-            img(
-                src= product.images[0]
-                alt="Your Image"
-                class="preview-img"
-                width="100px"
-                height="auto"
-            )
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Nhập tiêu đề"
+                    value = product.title
+                ) 
+                span(class="error-message")
 
-        div(
-            class="form-group upload-image"
-        )
-            label(for="thumbnails") Thumbnails
-            input(
-                type="file"
-                class="form-control-file"
-                id="thumbnails"
-                name="thumbnails"
-                accept="image/*"
-            )
-            img(
-                src= product.thumbnail == "" ? "" : product.thumbnail
-                alt="Your thumbnails"
-                class="preview-img"
-                width="100px"
-                height="auto"
-            )
+            div(class="form-group")
+                label(for="category_id") Danh mục
+                select(
+                    name="category_id"
+                    id="category_id"
+                    class="form-control"
+                )
+                    option(value="" selected=product.category_id=="") Không có danh mục
+                    if (subTitleObjects)
+                        each subTitleObject, key in subTitleObjects
+                            +getCategories(subTitleObject, key, subTitleObjects, level=1, product.category_id) 
 
-        button(
-            type="submit"
+            div(class="form-group")
+                label(for="desc") Mô tả
+                textarea(
+                    type="text"
+                    class="form-control tinymce"
+                    id="desc"
+                    name="desc"
+                    placeholder="Nhập mô tả"
+                )  #{product.description}
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="price") Giá
+                input(
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="price"
+                    step="0.01"
+                    placeholder="Nhập giá sản phẩm"
+                    value = product.price
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="discount") Giảm giá(%)
+                input(
+                    type="number"
+                    class="form-control"
+                    id="discount"
+                    name="discount"
+                    step="0.01"
+                    placeholder="Nhập % giả giá"
+                    value = product.discountPercentage
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="stock") Số lượng
+                input(
+                    type="number"
+                    class="form-control"
+                    id="stock"
+                    name="stock"
+                    step="0.01"
+                    placeholder="Nhập số lượng sản phẩm"
+                    value = product.stock
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="tags") Thẻ liên quan
+                input(
+                    type="text"
+                    class="form-control"
+                    id="tags"
+                    name="tags"
+                    placeholder="Nhập thẻ liên quan, ví dụ: adbc, xyz"
+                    value = product.tags.toString()
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="brand") Thương hiệu
+                input(
+                    type="text"
+                    class="form-control"
+                    id="brand"
+                    name="brand"
+                    placeholder="Nhập thương hiệu"
+                    value = product.brand
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="sku") Mã sku
+                input(
+                    type="text"
+                    class="form-control"
+                    id="sku"
+                    name="sku"
+                    placeholder="Nhập mã SKU"
+                    value = product.sku
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="weight") Khối lượng
+                input(
+                    type="number"
+                    class="form-control"
+                    id="weight"
+                    name="weight"
+                    step="0.01"
+                    placeholder="Nhập khối lượng sản phẩm"
+                    value = product.weight
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="height") Chiều cao
+                input(
+                    type="number"
+                    class="form-control"
+                    id="height"
+                    name="height"
+                    step="0.01"
+                    placeholder="Nhập chiều cao sản phẩm"
+                    value = product.dimensions.height
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="width") Chiều rộng
+                input(
+                    type="number"
+                    class="form-control"
+                    id="width"
+                    name="width"
+                    step="0.01"
+                    placeholder="Nhập chiều rộng sản phẩm"
+                    value = product.dimensions.width
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="depth") Chiều sâu
+                input(
+                    type="number"
+                    class="form-control"
+                    id="depth"
+                    name="depth"
+                    step="0.01"
+                    placeholder="Nhập chiều sâu sản phẩm"
+                    value = product.dimensions.depth
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="warrenty") Chính sách bảo hành
+                input(
+                    type="text"
+                    class="form-control"
+                    id="warrenty"
+                    name="warrenty"
+                    placeholder="Nhập thông tin bảo hành"
+                    value = product.warrantyInformation
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="inforShip") Thời gian giao hành
+                input(
+                    type="text"
+                    class="form-control"
+                    id="inforShip"
+                    name="inforShip"
+                    placeholder="Nhập thời gian giao hàng"
+                    value = product.shippingInformation
+                )
+                span(class="error-message")
+        
+            div(class="form-group")
+                label(for="returnPolicy") Thời gian đổi trả
+                input(
+                    type="text"
+                    class="form-control"
+                    id="returnPolicy"
+                    name="returnPolicy"
+                    placeholder="Nhập thơi gian đổi trả"
+                    value = product.returnPolicy
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="minimumOrder") Số lượng đặt tối thiểu
+                input(
+                    type="number"
+                    class="form-control"
+                    id="minimumOrder"
+                    name="minimumOrder"
+                    placeholder="Nhập số lượng đặt tối thiểu"
+                    value = product.minimumOrderQuantity
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="barCode") Barcode
+                input(
+                    type="text"
+                    class="form-control"    
+                    id="barCode"
+                    name="barCode"
+                    placeholder="Nhập mã barcode"
+                    value = product.meta.barCode
+                )
+                span(class="error-message")
+
+            div(class="form-group")
+                label(for="qrCode") QR code
+                input(
+                    type="text"
+                    class="form-control"
+                    id="qrCode"
+                    name="qrCode"
+                    placeholder="Nhập mã QR code"
+                    value = product.meta.qrCode
+                )
+                span(class="error-message")
+
+            div(
+                class="form-group upload-image"
+            )
+                label(for="images") Ảnh
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="images"
+                    name="images"
+                    accept="image/*"
+                )
+                img(
+                    src= product.images[0]
+                    alt="Your Image"
+                    class="preview-img"
+                    width="100px"
+                    height="auto"
+                )
+
+            div(
+                class="form-group upload-image"
+            )
+                label(for="thumbnails") Thumbnails
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="thumbnails"
+                    name="thumbnails"
+                    accept="image/*"
+                )
+                img(
+                    src= product.thumbnail == "" ? "" : product.thumbnail
+                    alt="Your thumbnails"
+                    class="preview-img"
+                    width="100px"
+                    height="auto"
+                )
+
+            button(
+                type="submit"
+                class="btn btn-primary"
+                button-updated-product
+            ) Cập nhật sản phẩm
+    else 
+        h1 Bạn không có quyền truy cập trang này
+        a(
+            href=`/${prefixAdmin}/products`
             class="btn btn-primary"
-            button-updated-product
-        ) Cập nhật sản phẩm
- 
+        ) Quay lại trang chủ
+    
 

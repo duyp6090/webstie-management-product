@@ -2,33 +2,40 @@
 extend ../../layouts/default.pug
 
 block main 
-    h1(class="mb-4") #{title}
+    if(role.permissions.account && role.permissions.account.includes('view'))
+        h1(class="mb-4") #{title}
 
-    .account
-        if(account.fullName)
-            div(class="mb-4") Họ và tên: #{account.fullName}
+        .account
+            if(account.fullName)
+                div(class="mb-4") Họ và tên: #{account.fullName}
 
-        if(account.email)
-            div(class="mb-4") Email: #{account.email}
+            if(account.email)
+                div(class="mb-4") Email: #{account.email}
 
-        if(account.phone)
-            div(class="mb-4") Số điện thoại: !{account.phone}
+            if(account.phone)
+                div(class="mb-4") Số điện thoại: !{account.phone}
 
-        if(account.roleId)
-            div(class="mb-4") Phân quyền: #{role.title}
+            if(account.roleId)
+                div(class="mb-4") Phân quyền: #{role.title}
 
-        if(account.status)
-            div(class="mb-4") Trạng thái: #{account.status}
+            if(account.status)
+                div(class="mb-4") Trạng thái: #{account.status}
 
-        if(account.avatar)
-            div(class="mb-4")
-                img(
-                    src=account.avatar, 
-                    alt=account.title, 
-                    class="img-fluid"
-                )
+            if(account.avatar)
+                div(class="mb-4")
+                    img(
+                        src=account.avatar, 
+                        alt=account.title, 
+                        class="img-fluid"
+                    )
+            a(
+                href=`/admin/accounts/edit/${account._id}`, 
+                class="btn btn-primary"
+            ) Chỉnh sửa sản phẩm
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
         a(
-            href=`/admin/accounts/edit/${account._id}`, 
+            href="/admin/accounts"
             class="btn btn-primary"
-        ) Chỉnh sửa sản phẩm
+        ) Quay lại trang tài khoản
         

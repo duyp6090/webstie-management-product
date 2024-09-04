@@ -94,7 +94,7 @@ class roleAdminController {
 
         res.render("admin/pages/role/edit.pug", {
             title: "Edit Role",
-            role: role,
+            roleEdit: role,
         });
     }
 
@@ -146,7 +146,7 @@ class roleAdminController {
 
         res.render("admin/pages/role/detail.pug", {
             title: "Detail Role",
-            role: role,
+            roleDetail: role,
         });
     }
 
@@ -168,6 +168,10 @@ class roleAdminController {
             {
                 nameAutorization: "groupRole",
                 typeAuthorizations: ["view", "create", "edit", "delete", "authorization"],
+            },
+            {
+                nameAutorization: "account",
+                typeAuthorizations: ["view", "create", "edit", "delete"],
             },
         ];
 

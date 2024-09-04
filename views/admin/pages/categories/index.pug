@@ -23,105 +23,116 @@ include ../../mixin/form-change-multi.pug
 include ../../mixin/save-trash.pug
 
 block main 
-    h1 Danh sách danh mục
+    if(role.permissions.category && role.permissions.category.includes('view'))
+        h1 Danh sách danh mục
 
-    .card.mb-3 
-        .card-header Bộ lọc và Tìm kiếm 
-        .card-body 
-            .row
-                .col-6 
-                    +fillter-status(fillterStatus)
-                .col-6
-                    +search(searchFind)
-
-    .card.mb-3 
-    .card-header Sắp xếp 
-    .card-body 
-        .row 
-            .col-4 
-                +sort-target-category(typeSort)
-
-    .card.mb-3 
-        .card-header Danh sách
+        .card.mb-3 
+            .card-header Bộ lọc và Tìm kiếm 
             .card-body 
-                .row 
+                .row
+                    .col-6 
+                        +fillter-status(fillterStatus)
                     .col-6
-                        //- form change status
-                        +form-change-multi(`/${prefixAdmin}/categories/change-multi?_method=PATCH`)
-                    .col-3
-                        //- Create new category
-                        a(
-                            href=`/${prefixAdmin}/categories/create`
-                            class="btn btn-primary"
-                        ) Thêm mới
-                    if (totalProductsDeleted > 0)
-                        .col-3 
-                            //- save trash
-                            +save-trash(`/${prefixAdmin}/categories/trash`)
-                table.table.table-hover.table-sm 
-                    thead 
-                        tr 
-                            th 
-                                input(
-                                    type="checkbox"
-                                    name="check-all"
-                                )
-                            th STT
-                            th Hình ảnh
-                            th Tiêu đề
-                            th Trạng thái
-                            th Hành động
-                    tbody
-                        each item, index in categories
+                        +search(searchFind)
+
+        .card.mb-3 
+        .card-header Sắp xếp 
+        .card-body 
+            .row 
+                .col-4 
+                    +sort-target-category(typeSort)
+
+        .card.mb-3 
+            .card-header Danh sách
+                .card-body 
+                    .row 
+                        .col-6
+                            //- form change status
+                            +form-change-multi(`/${prefixAdmin}/categories/change-multi?_method=PATCH`)
+                        .col-3
+                            if(role.permissions.category.includes('create'))
+                                //- Create new category
+                                a(
+                                    href=`/${prefixAdmin}/categories/create`
+                                    class="btn btn-primary"
+                                ) Thêm mới
+                        if (totalProductsDeleted > 0)
+                            .col-3 
+                                //- save trash
+                                +save-trash(`/${prefixAdmin}/categories/trash`)
+                    table.table.table-hover.table-sm 
+                        thead 
                             tr 
                                 th 
                                     input(
                                         type="checkbox"
-                                        name="id"
-                                        value=item.id
+                                        name="check-all"
                                     )
-                                td #{index + 1}
-                                td 
-                                    img(src=item.thumbnail, alt="" width="100px" height="auto")
-                                td #{item.title}    
-                                td
-                                    if (item.status == 'inactive')
-                                        a(
-                                            href="javascript:;"
-                                            data-status=item.status
-                                            data-id=`${item._id}` 
-                                            button-change-status
-                                            class="btn btn-danger"
-                                        ) Dừng hoạt động
+                                th STT
+                                th Hình ảnh
+                                th Tiêu đề
+                                th Trạng thái
+                                th Hành động
+                        tbody
+                            each item, index in categories
+                                tr 
+                                    th 
+                                        input(
+                                            type="checkbox"
+                                            name="id"
+                                            value=item.id
+                                        )
+                                    td #{index + 1}
+                                    td 
+                                        img(src=item.thumbnail, alt="" width="100px" height="auto")
+                                    td #{item.title} 
+                                    if(role.permissions.category.includes('edit'))   
+                                        td
+                                            if (item.status == 'inactive')
+                                                a(
+                                                    href="javascript:;"
+                                                    data-status=item.status
+                                                    data-id=`${item._id}` 
+                                                    button-change-status
+                                                    class="btn btn-danger"
+                                                ) Dừng hoạt động
+                                            else 
+                                                a(
+                                                    href="javascript:;"
+                                                    data-status=item.status
+                                                    data-id=`${item._id}`
+                                                    button-change-status
+                                                    class="btn btn-success"
+                                                ) Hoạt động
                                     else 
-                                        a(
-                                            href="javascript:;"
-                                            data-status=item.status
-                                            data-id=`${item._id}`
-                                            button-change-status
-                                            class="btn btn-success"
-                                        ) Hoạt động
-                                td
-                                    +delete-update(item, pageCurrent)
-    +paginationPages(paginations)
+                                        td
+                                    td
+                                        +delete-update(item, pageCurrent, role.permissions.category)
+        +paginationPages(paginations)
 
-     //- form change status
-    form(
-        action=""
-        method="POST"
-        id="form-change-status"
-        data-path=`/${prefixAdmin}/categories/change-status`
-        class = "d-none"
-    )
+        //- form change status
+        form(
+            action=""
+            method="POST"
+            id="form-change-status"
+            data-path=`/${prefixAdmin}/categories/change-status`
+            class = "d-none"
+        )
 
-    //- form delete
-    form(
-        action=""
-        method="POST"
-        id="form-delete-product"
-        data-path=`/${prefixAdmin}/categories/delete`
-        class = "d-none"
-    )
+        //- form delete
+        form(
+            action=""
+            method="POST"
+            id="form-delete-product"
+            data-path=`/${prefixAdmin}/categories/delete`
+            class = "d-none"
+        )
 
-    //- Link script js
-    script(src="/admin/js/category/categoryCurrent.js" type="module")
+        //- Link script js
+        script(src="/admin/js/category/categoryCurrent.js" type="module")
+    else 
+        h1 Bạn không có quyền truy cập trang này
+        a(
+            href="/admin/dashboard", 
+            class="btn btn-primary"
+        ) Quay lại trang chủ

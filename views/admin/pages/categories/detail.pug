@@ -2,30 +2,36 @@
 extend ../../layouts/default.pug
 
 block main 
-    h1(class="mb-4") #{title}
+    if(role.permissions.category.includes('view'))
+        h1(class="mb-4") #{title}
 
-    .category
-        if(category.title)
-            h2= category.title
+        .category
+            if(category.title)
+                h2= category.title
 
-        if(category.parent_id)
-            div(class="mb-4") Danh mục cha: #{parentCategoryTitle}
+            if(category.parent_id)
+                div(class="mb-4") Danh mục cha: #{parentCategoryTitle}
 
-        if(category.description)
-            div(class="mb-4") Mô tả: !{category.description}
+            if(category.description)
+                div(class="mb-4") Mô tả: !{category.description}
 
-        if(category.status)
-            div(class="mb-4") Trạng thái: #{category.status}
+            if(category.status)
+                div(class="mb-4") Trạng thái: #{category.status}
 
-        if(category.thumbnail)
-            div(class="mb-4")
-                img(
-                    src=category.thumbnail, 
-                    alt=category.title, 
-                    class="img-fluid"
-                )
+            if(category.thumbnail)
+                div(class="mb-4")
+                    img(
+                        src=category.thumbnail, 
+                        alt=category.title, 
+                        class="img-fluid"
+                    )
+            a(
+                href=`/admin/categories/edit/${category._id}`, 
+                class="btn btn-primary"
+            ) Chỉnh sửa sản phẩm
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
         a(
-            href=`/admin/categories/edit/${category._id}`, 
+            href="/admin/categories", 
             class="btn btn-primary"
-        ) Chỉnh sửa sản phẩm
-        
+        ) Quay lại trang danh mục sản phẩm 

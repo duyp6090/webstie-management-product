@@ -5,98 +5,105 @@ extends ../../layouts/default.pug
 include ../../mixin/get-categories.pug
 
 block main 
-    h1(class="mb-4") Thêm mới danh mục sản phẩm
-    
-    form(
-        action=`/${prefixAdmin}/categories/create`
-        method='POST'
-        enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-                type="text",
-                class="form-control",
-                id="title",
-                name="title",
-                placeholder="Nhập tiêu đề"
-            )
-
-        div(class="form-group")
-            label(for="parent_id") Danh mục cha
-            select(
-                name="parent_id"
-                id="parent_id"
-                class="form-control"
-            )
-                option(value="") -- Chọn danh mục cha --
-                if (subTitleObjects)
-                    each subTitleObject, key in subTitleObjects
-                        +getCategories(subTitleObject, key, subTitleObjects, level = 1)  
-
-        div(class="form-group")
-            label(for="desc") Mô tả
-            textarea(
-                type="text",
-                class="form-control tinymce",
-                id="desc",
-                name="desc",
-                rows="5", 
-                placeholder="Nhập mô tả "
-            )
+    if(role.permissions.category.includes('create'))
+        h1(class="mb-4") Thêm mới danh mục sản phẩm
         
-        div(
-            class="form-group form-check form-check-inline"
+        form(
+            action=`/${prefixAdmin}/categories/create`
+            method='POST'
+            enctype="multipart/form-data"
         )
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusActive"
-                name="status"
-                value="active"
-            )
-            label(
-                for="statusActive"
-                class="form-check-label"
-            ) Hoạt động
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                    type="text",
+                    class="form-control",
+                    id="title",
+                    name="title",
+                    placeholder="Nhập tiêu đề"
+                )
 
-        div(
-            class="form-group form-check form-check-inline"
-        )
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusInActive"
-                name="status"
-                value ="inactive"
+            div(class="form-group")
+                label(for="parent_id") Danh mục cha
+                select(
+                    name="parent_id"
+                    id="parent_id"
+                    class="form-control"
+                )
+                    option(value="") -- Chọn danh mục cha --
+                    if (subTitleObjects)
+                        each subTitleObject, key in subTitleObjects
+                            +getCategories(subTitleObject, key, subTitleObjects, level = 1)  
+
+            div(class="form-group")
+                label(for="desc") Mô tả
+                textarea(
+                    type="text",
+                    class="form-control tinymce",
+                    id="desc",
+                    name="desc",
+                    rows="5", 
+                    placeholder="Nhập mô tả "
+                )
+            
+            div(
+                class="form-group form-check form-check-inline"
             )
-            label(
-                for="statusInActive"
-                class="form-check-label"
-            ) Dừng hoạt động
-        
-        div(
-            class="form-group upload-image"
-        )
-            label(for="thumbnails") Thumbnail
-            input(
-                type="file"
-                class="form-control-file"
-                id="thumbnails"
-                name="thumbnails"
-                accept="image/*"
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                )
+                label(
+                    for="statusActive"
+                    class="form-check-label"
+                ) Hoạt động
+
+            div(
+                class="form-group form-check form-check-inline"
             )
-            img(
-                src=""
-                alt="Your Image"
-                class="preview-img"
-                width="100px"
-                height="auto"
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInActive"
+                    name="status"
+                    value ="inactive"
+                )
+                label(
+                    for="statusInActive"
+                    class="form-check-label"
+                ) Dừng hoạt động
+            
+            div(
+                class="form-group upload-image"
             )
-        div(
-            class="form-group upload-image"
-        )
-            button(
-                type="submit"
-                class="btn btn-primary"
-            ) Thêm mới
+                label(for="thumbnails") Thumbnail
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="thumbnails"
+                    name="thumbnails"
+                    accept="image/*"
+                )
+                img(
+                    src=""
+                    alt="Your Image"
+                    class="preview-img"
+                    width="100px"
+                    height="auto"
+                )
+            div(
+                class="form-group upload-image"
+            )
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Thêm mới
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
+        a(
+            href="/admin/categories", 
+            class="btn btn-primary"
+        ) Quay lại trang danh mục sản phẩm

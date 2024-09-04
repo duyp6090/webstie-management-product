@@ -5,104 +5,111 @@ extends ../../layouts/default.pug
 include ../../mixin/get-categories.pug
 
 block main 
-    h1 #{title}
+    if(role.permissions.category.includes('edit'))
+        h1 #{title}
 
-    //- form edit category
-    form(
-        action=`/${prefixAdmin}/categories/edit/${category._id}?_method=PATCH`
-        id='form-updated-product'
-        method='POST'
-        enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                placeholder="Nhập tiêu đề"
-                value = category.title
-            ) 
-            span(class="error-message")
-
-        div(class="form-group")
-            label(for="parent_id") Danh mục cha
-            select(
-                name="parent_id"
-                id="parent_id"
-                class="form-control"
-            )
-                option(value="" selected=category.parent_id=="") Không có danh mục
-                if (subTitleObjects)
-                    each subTitleObject, key in subTitleObjects
-                        +getCategories(subTitleObject, key, subTitleObjects, level=1, category.parent_id) 
-
-        div(class="form-group")
-            label(for="desc") Mô tả
-            textarea(
-                type="text"
-                class="form-control tinymce"
-                id="desc"
-                name="desc"
-                placeholder="Nhập mô tả"
-            )  #{category.description}
-            span(class="error-message")
-        
-        div(
-            class="form-group form-check form-check-inline"
+        //- form edit category
+        form(
+            action=`/${prefixAdmin}/categories/edit/${category._id}?_method=PATCH`
+            id='form-updated-product'
+            method='POST'
+            enctype="multipart/form-data"
         )
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusActive"
-                name="status"
-                value="active"
-                checked= category.status == "active" ? true: false
-            )
-            label(
-                for="statusActive"
-                class="form-check-label"
-            ) Hoạt động
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Nhập tiêu đề"
+                    value = category.title
+                ) 
+                span(class="error-message")
 
-        div(
-            class="form-group form-check form-check-inline"
-        )
-            input(
-                type="radio"
-                class="form-check-input"
-                id="statusInActive"
-                name="status"
-                value ="inactive"
-                checked= category.status == "inactive" ? true: false
-            )
-            label(
-                for="statusInActive"
-                class="form-check-label"
-            ) Dừng hoạt động
-        
+            div(class="form-group")
+                label(for="parent_id") Danh mục cha
+                select(
+                    name="parent_id"
+                    id="parent_id"
+                    class="form-control"
+                )
+                    option(value="" selected=category.parent_id=="") Không có danh mục
+                    if (subTitleObjects)
+                        each subTitleObject, key in subTitleObjects
+                            +getCategories(subTitleObject, key, subTitleObjects, level=1, category.parent_id) 
 
-        div(
-            class="form-group upload-image"
-        )
-            label(for="thumbnails") Thumbnails
-            input(
-                type="file"
-                class="form-control-file"
-                id="thumbnails"
-                name="thumbnails"
-                accept="image/*"
+            div(class="form-group")
+                label(for="desc") Mô tả
+                textarea(
+                    type="text"
+                    class="form-control tinymce"
+                    id="desc"
+                    name="desc"
+                    placeholder="Nhập mô tả"
+                )  #{category.description}
+                span(class="error-message")
+            
+            div(
+                class="form-group form-check form-check-inline"
             )
-            img(
-                src= category.thumbnail == "" ? "" : category.thumbnail
-                alt="Your thumbnails"
-                class="preview-img"
-                width="100px"
-                height="auto"
-            )
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusActive"
+                    name="status"
+                    value="active"
+                    checked= category.status == "active" ? true: false
+                )
+                label(
+                    for="statusActive"
+                    class="form-check-label"
+                ) Hoạt động
 
-        button(
-            type="submit"
+            div(
+                class="form-group form-check form-check-inline"
+            )
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusInActive"
+                    name="status"
+                    value ="inactive"
+                    checked= category.status == "inactive" ? true: false
+                )
+                label(
+                    for="statusInActive"
+                    class="form-check-label"
+                ) Dừng hoạt động
+            
+
+            div(
+                class="form-group upload-image"
+            )
+                label(for="thumbnails") Thumbnails
+                input(
+                    type="file"
+                    class="form-control-file"
+                    id="thumbnails"
+                    name="thumbnails"
+                    accept="image/*"
+                )
+                img(
+                    src= category.thumbnail == "" ? "" : category.thumbnail
+                    alt="Your thumbnails"
+                    class="preview-img"
+                    width="100px"
+                    height="auto"
+                )
+
+            button(
+                type="submit"
+                class="btn btn-primary"
+                button-updated-category
+            ) Cập nhật danh mục
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
+        a(
+            href="/admin/categories", 
             class="btn btn-primary"
-            button-updated-category
-        ) Cập nhật danh mục
+        ) Quay lại trang danh mục sản phẩm

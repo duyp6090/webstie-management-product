@@ -1,40 +1,44 @@
 extends ../../layouts/default.pug 
 
 block main 
-    h1(class="mb-4") Thêm mới nhóm quyền
+    if(role.permissions.groupRole && role.permissions.groupRole.includes('create'))
+        h1(class="mb-4") Thêm mới nhóm quyền
 
-    //- form create role
-    form(
-        action=`/${prefixAdmin}/roles/create`
-        id='form-create-product'
-        method='POST'
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-                type="text"
-                class="form-control"
-                id="title"
-                name="title"
-                placeholder="Nhập tiêu đề"
-            )
-            span(class="error-message")
-        
-        div(class="form-group")
-            label(for="desc") Mô tả
-            input(
-                type="text"
-                class="form-control"
-                id="desc"
-                name="desc"
-                placeholder="Nhập mô tả"
-            )
-            span(class="error-message")
-        
-        button(
-            type="submit"
-            class="btn btn-primary"
-            button-create-product
-        ) Tạo nhóm quyền
+        //- form create role
+        form(
+            action=`/${prefixAdmin}/roles/create`
+            id='form-create-product'
+            method='POST'
+        )
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Nhập tiêu đề"
+                )
+                span(class="error-message")
+            
+            div(class="form-group")
+                label(for="desc") Mô tả
+                input(
+                    type="text"
+                    class="form-control"
+                    id="desc"
+                    name="desc"
+                    placeholder="Nhập mô tả"
+                )
+                span(class="error-message")
+            
+            button(
+                type="submit"
+                class="btn btn-primary"
+                button-create-product
+            ) Tạo nhóm quyền
+    else 
+        h1(class="mb-4") Bạn không có quyền tạo mới nhóm quyền
+        a(href="/admin/roles") Quay lại trang nhóm quyền
  
         

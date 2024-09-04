@@ -15,58 +15,59 @@ include ../../mixin/delete-restore.pug
 
 
 block main 
-    h1 Nhóm quyền
+    if(role.permissions.groupRole && role.permissions.groupRole.includes('view'))
+        h1 Nhóm quyền
 
-    .card.mb-3 
-        .card-header Tìm kiếm 
-        .card-body 
-            .row
-                .col-6
-                    +search(searchFind)
+        .card.mb-3 
+            .card-header Tìm kiếm 
+            .card-body 
+                .row
+                    .col-6
+                        +search(searchFind)
 
-    .card.mb-3
-        .card-header Danh sách nhóm quyền
-        .card-body
-            .row 
-                .col-6
-                    //- back to products page
-                    a(href=`/${prefixAdmin}/roles` class="btn btn-primary") Quay lại trang nhóm quyền
+        .card.mb-3
+            .card-header Danh sách nhóm quyền
+            .card-body
+                .row 
+                    .col-6
+                        //- back to products page
+                        a(href=`/${prefixAdmin}/roles` class="btn btn-primary") Quay lại trang nhóm quyền
 
-            //- table products
-            table.table.table-hover.table-sm 
-                thead 
-                    tr 
-                        th STT
-                        th Nhóm quyền
-                        th Mô tả ngắn
-                        th Hành động
-                    tbody
-                        each item, index in roles
-                            tr 
-                                td #{index + 1}
-                                td #{item.title}
-                                td #{item.description}
-                                td
-                                    +delete-restore(item)
-    +paginationPages(paginations)
+                //- table products
+                table.table.table-hover.table-sm 
+                    thead 
+                        tr 
+                            th STT
+                            th Nhóm quyền
+                            th Mô tả ngắn
+                            th Hành động
+                        tbody
+                            each item, index in roles
+                                tr 
+                                    td #{index + 1}
+                                    td #{item.title}
+                                    td #{item.description}
+                                    td
+                                        +delete-restore(item, role.permissions.groupRole)
+        +paginationPages(paginations)
 
 
-    //- form delete
-    form(
-        action=""
-        method="POST"
-        id="form-delete-forever-role"
-        data-path=`/${prefixAdmin}/roles/delete-forever`
-        class = "d-none"
-    )
+        //- form delete
+        form(
+            action=""
+            method="POST"
+            id="form-delete-forever-role"
+            data-path=`/${prefixAdmin}/roles/delete-forever`
+            class = "d-none"
+        )
 
-    //- form restore
-    form(
-        action=""
-        method="POST"
-        id="form-restore-role"
-        data-path=`/${prefixAdmin}/roles/restore`
-        class = "d-none"
-    )
-    //- link script
-    script(src="/admin/js/role/roleTrash.js" type="module")
+        //- form restore
+        form(
+            action=""
+            method="POST"
+            id="form-restore-role"
+            data-path=`/${prefixAdmin}/roles/restore`
+            class = "d-none"
+        )
+        //- link script
+        script(src="/admin/js/role/roleTrash.js" type="module")

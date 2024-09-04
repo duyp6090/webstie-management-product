@@ -1,20 +1,24 @@
 extends ../../layouts/default.pug 
 
 block main 
-    h1(class="mb-4") Chi tiết phân quyền
+    if(role.permissions.groupRole && role.permissions.groupRole.includes('view'))
+        h1(class="mb-4") Chi tiết phân quyền
 
-    .role 
-        if(role.title)
-            h2= role.title
-        if(role.description)
-            div(class="mb-4") Mô tả: #{role.description}
-        if(role.permissions)
-            //- Loop through authorization in role
-            b Quyền hạn:
-            each typerAuthorizations, nameAuthorization in role.permissions
-                div(class="mb-4")
-                    b #{nameAuthorization}
-                    ul 
-                        //- Loop through type authorization
-                        each typeAuthorization in typerAuthorizations
-                            li #{typeAuthorization}
+        .role 
+            if(roleDetail.title)
+                h2= roleDetail.title
+            if(roleDetail.description)
+                div(class="mb-4") Mô tả: #{roleDetail.description}
+            if(roleDetail.permissions)
+                //- Loop through authorization in roleDetail
+                b Quyền hạn:
+                each typerAuthorizations, nameAuthorization in roleDetail.permissions
+                    div(class="mb-4")
+                        b #{nameAuthorization}
+                        ul 
+                            //- Loop through type authorization
+                            each typeAuthorization in typerAuthorizations
+                                li #{typeAuthorization}
+    else 
+        h1(class="mb-4") Bạn không có quyền xem chi tiết nhóm quyền
+        a(href="/admin/roles") Quay lại trang nhóm quyền

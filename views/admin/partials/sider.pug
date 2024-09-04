@@ -3,13 +3,18 @@
         ul 
             li 
                 a(href=`/${prefixAdmin}/dashboard`) Bảng điều khiển
-            li
-                a(href=`/${prefixAdmin}/products`) Danh sách sản phẩm
-            li
-                a(href=`/${prefixAdmin}/categories`) Danh mục sản phẩm
-            li 
-                a(href=`/${prefixAdmin}/roles`) Nhóm quyền
-            li 
-                a(href=`/${prefixAdmin}/roles/authorization`) Phân quyền
-            li 
-                a(href=`/${prefixAdmin}/accounts`) Danh sách tài khoản
+            if(role.permissions.product && role.permissions.product.includes('view'))
+                li
+                    a(href=`/${prefixAdmin}/products`) Danh sách sản phẩm
+            if(role.permissions.category && role.permissions.category.includes('view'))
+                li
+                    a(href=`/${prefixAdmin}/categories`) Danh mục sản phẩm
+            if(role.permissions.groupRole && role.permissions.groupRole.includes('view'))
+                li 
+                    a(href=`/${prefixAdmin}/roles`) Nhóm quyền
+            if(role.permissions.groupRole && role.permissions.groupRole.includes('authorization'))
+                li 
+                    a(href=`/${prefixAdmin}/roles/authorization`) Phân quyền
+            if(role.permissions.account && role.permissions.account.includes('view'))
+                li 
+                    a(href=`/${prefixAdmin}/accounts`) Danh sách tài khoản

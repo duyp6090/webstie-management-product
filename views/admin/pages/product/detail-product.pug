@@ -1,29 +1,36 @@
 extend ../../layouts/default.pug
 
 block main 
-    h1(class="mb-4") Chi tiết sản phẩm
+    if(role.permissions.product && role.permissions.product.includes('view'))
+        h1(class="mb-4") Chi tiết sản phẩm
 
-    .product 
-        if(product.title)
-            h2= product.title
-        if(product.price)
-            div(class="mb-4") Giá: #{product.price}
-        if(product.discountPercentage)
-            div(class="mb-4") Giảm giá: #{product.discountPercentage}%
-        if(product.stock)
-            div(class="mb-4") Số lượng: #{product.stock}
-        if(product.thumbnail)
-            div(class="mb-4")
-                img(
-                    src=product.thumbnail, 
-                    alt=product.title, 
-                    class="img-fluid"
-                )
-        if(product.description)
-            div(class="mb-4") Mô tả: !{product.description}
-        
+        .product 
+            if(product.title)
+                h2= product.title
+            if(product.price)
+                div(class="mb-4") Giá: #{product.price}
+            if(product.discountPercentage)
+                div(class="mb-4") Giảm giá: #{product.discountPercentage}%
+            if(product.stock)
+                div(class="mb-4") Số lượng: #{product.stock}
+            if(product.thumbnail)
+                div(class="mb-4")
+                    img(
+                        src=product.thumbnail, 
+                        alt=product.title, 
+                        class="img-fluid"
+                    )
+            if(product.description)
+                div(class="mb-4") Mô tả: !{product.description}
+            
+            a(
+                href=`/admin/products/edit/${product._id}`, 
+                class="btn btn-primary"
+            ) Chỉnh sửa sản phẩm
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
         a(
-            href=`/admin/products/edit/${product._id}`, 
+            href="/admin/products", 
             class="btn btn-primary"
-        ) Chỉnh sửa sản phẩm
+        ) Quay lại trang sản phẩm
         

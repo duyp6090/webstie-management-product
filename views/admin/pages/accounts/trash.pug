@@ -18,89 +18,99 @@ include ../../mixin/delete-restore.pug
 
 
 block main 
-    h1 Danh sách tài khoản đã xóa
+    if(role.permissions.account && role.permissions.account.includes('view'))
+        h1 Danh sách tài khoản đã xóa
 
-    .card.mb-3 
-        .card-header Bộ lọc và Tìm kiếm 
-        .card-body 
-            .row
-                .col-6 
-                    +fillter-status(fillterStatus)
-                .col-6
-                    +search(searchFind)
+        .card.mb-3 
+            .card-header Bộ lọc và Tìm kiếm 
+            .card-body 
+                .row
+                    .col-6 
+                        +fillter-status(fillterStatus)
+                    .col-6
+                        +search(searchFind)
 
-    .card.mb-3
-        .card-header Danh sách
-        .card-body
-            .row 
-                .col-6
-                    //- form change status
-                    +form-delete-restore(`/${prefixAdmin}/accounts/multi-delete-restore?_method=PATCH`)
-                .col-6 
-                    //- back to products page
-                    a(href=`/${prefixAdmin}/accounts` class="btn btn-primary") Quay lại trang sản phẩm
+        .card.mb-3
+            .card-header Danh sách
+            .card-body
+                .row 
+                    .col-6
+                        //- form change status
+                        +form-delete-restore(`/${prefixAdmin}/accounts/multi-delete-restore?_method=PATCH`)
+                    .col-6 
+                        //- back to products page
+                        a(href=`/${prefixAdmin}/accounts` class="btn btn-primary") Quay lại trang sản phẩm
 
-            //- table products
-            table.table.table-hover.table-sm 
-                thead 
-                    tr 
-                        th 
-                            input(
-                                type="checkbox"
-                                name="check-all"
-                            )
-                        th STT
-                        th Hình ảnh
-                        th Họ tên
-                        th Phân quyền
-                        th Email
-                        th Trạng thái
-                        th Hành động
-                tbody
-                    each item, index in accounts
-                         tr 
+                //- table products
+                table.table.table-hover.table-sm 
+                    thead 
+                        tr 
                             th 
                                 input(
                                     type="checkbox"
-                                    name="id"
-                                    value=item._id
+                                    name="check-all"
                                 )
-                            td #{index + 1}
-                            td 
-                                img(src=item.avatar, alt="" width="100px" height="auto")
-                            td #{item.fullName}
-                            td #{item.roleId}
-                            td #{item.email}
-                            td
-                                a(
-                                    href="javascript:;"
-                                    data-status=item.status
-                                    data-id=`${item._id}` 
-                                    button-change-status
-                                    class=`btn ${item.status == 'inactive'? 'btn-danger':'btn-success'}`
-                                ) #{item.status == 'inactive' ? 'Dừng hoạt động' : 'Hoạt động'}
-                            td
-                                +delete-restore(item)
-    +paginationPages(paginations)
+                            th STT
+                            th Hình ảnh
+                            th Họ tên
+                            th Phân quyền
+                            th Email
+                            th Trạng thái
+                            th Hành động
+                    tbody
+                        each item, index in accounts
+                            tr 
+                                th 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item._id
+                                    )
+                                td #{index + 1}
+                                td 
+                                    img(src=item.avatar, alt="" width="100px" height="auto")
+                                td #{item.fullName}
+                                td #{item.roleId}
+                                td #{item.email}
+                                if(role.permissions.account.includes('edit'))
+                                    td
+                                        a(
+                                            href="javascript:;"
+                                            data-status=item.status
+                                            data-id=`${item._id}` 
+                                            button-change-status
+                                            class=`btn ${item.status == 'inactive'? 'btn-danger':'btn-success'}`
+                                        ) #{item.status == 'inactive' ? 'Dừng hoạt động' : 'Hoạt động'}
+                                else 
+                                    td
+                                td
+                                    +delete-restore(item, role.permissions.account)
+        +paginationPages(paginations)
 
 
-    //- form delete
-    form(
-        action=""
-        method="POST"
-        id="form-delete-forever-account"
-        data-path=`/${prefixAdmin}/accounts/delete-forever`
-        class = "d-none"
-    )
+        //- form delete
+        form(
+            action=""
+            method="POST"
+            id="form-delete-forever-account"
+            data-path=`/${prefixAdmin}/accounts/delete-forever`
+            class = "d-none"
+        )
 
-    //- form restore
-    form(
-        action=""
-        method="POST"
-        id="form-restore-account"
-        data-path=`/${prefixAdmin}/accounts/restore`
-        class = "d-none"
-    )
+        //- form restore
+        form(
+            action=""
+            method="POST"
+            id="form-restore-account"
+            data-path=`/${prefixAdmin}/accounts/restore`
+            class = "d-none"
+        )
 
-     //- Link script js
-    script(src="/admin/js/account/accountTrash.js" type="module")
+        //- Link script js
+        script(src="/admin/js/account/accountTrash.js" type="module")
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
+        a(
+            href="/admin/accounts"
+            class="btn btn-primary"
+        ) Quay lại trang tài khoản

@@ -1,18 +1,20 @@
-mixin delete-update(item, pageCurrent)
+mixin delete-update(item, pageCurrent, authorization)
     a(
         href=`/${prefixAdmin}/${pageCurrent}/detail/${item._id}`
         class="btn btn-secondary btn-sm"
         data-id=item._id
         button-detail
     ) Chi tiết
-    a(
-        href=`/${prefixAdmin}/${pageCurrent}/edit/${item._id}`
-        class="btn btn-warning btn-sm"
-        data-id=item._id
-        button-updated
-    ) Sửa
-    button(
-        class="btn btn-danger btn-sm ml-1"
-        data-id=item._id
-        button-delete
-    ) Xóa
+    if(authorization.includes('edit'))
+        a(
+            href=`/${prefixAdmin}/${pageCurrent}/edit/${item._id}`
+            class="btn btn-warning btn-sm"
+            data-id=item._id
+            button-updated
+        ) Sửa
+    if(authorization.includes('delete'))
+        button(
+            class="btn btn-danger btn-sm ml-1"
+            data-id=item._id
+            button-delete
+        ) Xóa

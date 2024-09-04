@@ -7,22 +7,28 @@ const md5 = require("md5");
 // Class to handle the authentication page
 class authenticationController {
     // [GET] admin page login
-    getLoginPage(req, res) {
+    async getLoginPage(req, res) {
         // Get token
         const token = req.cookies.token;
 
-        // Get account by token
-        const account = Account.findOne({ token: token });
+        // Check token
+        if (!token) {
+            res.render("admin/pages/authentication/login", {
+                pageTitle: "Trang đăng nhập",
+            });
+        } else {
+            // Get account by token
+            const account = await Account.findOne({ token: token });
 
-        // Redirect to dashboard if token exist
-        if (account) {
-            res.redirect("/admin/dashboard");
-            return;
+            // Check account
+            if (account) {
+                res.redirect("/admin/dashboard");
+            } else {
+                res.render("admin/pages/authentication/login", {
+                    pageTitle: "Trang đăng nhập",
+                });
+            }
         }
-
-        res.render("admin/pages/authentication/login", {
-            pageTitle: "Trang đăng nhập",
-        });
     }
 
     // [POST] admin page login

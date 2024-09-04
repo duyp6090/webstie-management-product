@@ -17,54 +17,59 @@ include ../../mixin/search.pug
 
 
 block main 
-    h1(class="mb-4") Nhóm quyền
+    if(role.permissions.groupRole && role.permissions.groupRole.includes('view'))
+        h1(class="mb-4") Nhóm quyền
 
-    .card.mb-3 
-        .card-header Tìm kiếm 
-        .card-body 
-            .row
-                .col-6
-                    +search(searchFind)
+        .card.mb-3 
+            .card-header Tìm kiếm 
+            .card-body 
+                .row
+                    .col-6
+                        +search(searchFind)
 
-    .card.mb-3 
-        .card-header Danh sách nhóm quyền
-        .card-body 
-            .row 
-                .col-6.text-center
-                    //- save trash
-                    if(deletedRoles.length > 0)
-                        +save-trash(`/${prefixAdmin}/roles/trash`)
-                .col-6.text-center
-                    //- Create new role
-                    a(
-                        href=`/${prefixAdmin}/roles/create`
-                        class="btn btn-primary"
-                    ) + Tạo mới
-            //- table products
-            table.table.table-hover.table-sm 
-                thead 
-                    tr 
-                        th STT
-                        th Nhóm quyền
-                        th Mô tả ngắn
-                        th Hành động
-                    tbody
-                        each item, index in roles
-                            tr 
-                                td #{index + 1}
-                                td #{item.title}
-                                td #{item.description}
-                                td
-                                    +delete-update(item, pageCurrent)
-    +paginationPages(paginations)
-    
-    //- Form delete
-    form(
-        action=""
-        method="POST"
-        id="form-delete-role"
-        data-path=`/${prefixAdmin}/roles/delete`
-        class="d-none"
-    )
-    //- Link script
-    script(src="/admin/js/role/roleCurrent.js" type="module")
+        .card.mb-3 
+            .card-header Danh sách nhóm quyền
+            .card-body 
+                .row 
+                    .col-6.text-center
+                        //- save trash
+                        if(deletedRoles.length > 0)
+                            +save-trash(`/${prefixAdmin}/roles/trash`)
+                    .col-6.text-center
+                        if(role.permissions.groupRole.includes('create'))
+                            //- Create new role
+                            a(
+                                href=`/${prefixAdmin}/roles/create`
+                                class="btn btn-primary"
+                            ) + Tạo mới
+                //- table products
+                table.table.table-hover.table-sm 
+                    thead 
+                        tr 
+                            th STT
+                            th Nhóm quyền
+                            th Mô tả ngắn
+                            th Hành động
+                        tbody
+                            each item, index in roles
+                                tr 
+                                    td #{index + 1}
+                                    td #{item.title}
+                                    td #{item.description}
+                                    td
+                                        +delete-update(item, pageCurrent, role.permissions.groupRole)
+        +paginationPages(paginations)
+        
+        //- Form delete
+        form(
+            action=""
+            method="POST"
+            id="form-delete-role"
+            data-path=`/${prefixAdmin}/roles/delete`
+            class="d-none"
+        )
+        //- Link script
+        script(src="/admin/js/role/roleCurrent.js" type="module")
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
+        a(href="/admin/dashboard") Quay lại trang chủ

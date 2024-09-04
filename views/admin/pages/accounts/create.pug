@@ -1,128 +1,135 @@
 extends ../../layouts/default.pug 
 
 block main 
-    h1(class="mb-4") Thêm mới tài khoản
+    if(role.permissions.account && role.permissions.account.includes('create'))
+        h1(class="mb-4") Thêm mới tài khoản
 
-    //- Check if roles exist
-    if(roles.length > 0)
-        //- form create account
-        form(
-            action=`/${prefixAdmin}/accounts/create`
-            method='POST'
-            enctype="multipart/form-data"
-        )
-            div(class="form-group")
-                label(for="fullName") Họ tên
-                input(
-                    type="text",
-                    class="form-control",
-                    id="fullName",
-                    name="fullName",
-                    placeholder="Nhập họ và tên"
-                )
+        //- Check if roles exist
+        if(roles.length > 0)
+            //- form create account
+            form(
+                action=`/${prefixAdmin}/accounts/create`
+                method='POST'
+                enctype="multipart/form-data"
+            )
+                div(class="form-group")
+                    label(for="fullName") Họ tên
+                    input(
+                        type="text",
+                        class="form-control",
+                        id="fullName",
+                        name="fullName",
+                        placeholder="Nhập họ và tên"
+                    )
 
-            div(class="form-group")
-                label(for="email") Email
-                input(
-                    name="email"
-                    id="email"
-                    class="form-control"
-                    type="email"
-                    placeholder="Nhập email"
-                )
+                div(class="form-group")
+                    label(for="email") Email
+                    input(
+                        name="email"
+                        id="email"
+                        class="form-control"
+                        type="email"
+                        placeholder="Nhập email"
+                    )
 
-            div(class="form-group")
-                label(for="password") Mật khẩu
-                input(
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    name="password" 
-                    placeholder="Nhập mật khẩu "
-                )
+                div(class="form-group")
+                    label(for="password") Mật khẩu
+                    input(
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password" 
+                        placeholder="Nhập mật khẩu "
+                    )
 
-            div(class="form-group")
-                label(for="phone") Số điện thoại
-                input(
-                    type="text"
-                    id="phone"
-                    name="phone"
-                    class="form-control" 
-                    placeholder="Nhập số điện thoại"
-                )
-            
-            //- Loop through roles
-            div(class="form-group")
-                select(
-                    name="roleId"
-                    id="roleId"
-                    class="form-control"
-                )
-                    option(
-                        value=""
-                    ) Chọn quyền
-                    each role in roles
+                div(class="form-group")
+                    label(for="phone") Số điện thoại
+                    input(
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        class="form-control" 
+                        placeholder="Nhập số điện thoại"
+                    )
+                
+                //- Loop through roles
+                div(class="form-group")
+                    select(
+                        name="roleId"
+                        id="roleId"
+                        class="form-control"
+                    )
                         option(
-                            value=role._id
-                        ) #{role.title}
+                            value=""
+                        ) Chọn quyền
+                        each role in roles
+                            option(
+                                value=role._id
+                            ) #{role.title}
 
-            div(
-                class="form-group form-check form-check-inline"
-            )
-                input(
-                    type="radio"
-                    class="form-check-input"
-                    id="statusActive"
-                    name="status"
-                    value="active"
+                div(
+                    class="form-group form-check form-check-inline"
                 )
-                label(
-                    for="statusActive"
-                    class="form-check-label"
-                ) Hoạt động
+                    input(
+                        type="radio"
+                        class="form-check-input"
+                        id="statusActive"
+                        name="status"
+                        value="active"
+                    )
+                    label(
+                        for="statusActive"
+                        class="form-check-label"
+                    ) Hoạt động
 
-            div(
-                class="form-group form-check form-check-inline"
-            )
-                input(
-                    type="radio"
-                    class="form-check-input"
-                    id="statusInActive"
-                    name="status"
-                    value ="inactive"
+                div(
+                    class="form-group form-check form-check-inline"
                 )
-                label(
-                    for="statusInActive"
-                    class="form-check-label"
-                ) Dừng hoạt động
-            
-            div(
-                class="form-group upload-image"
-            )
-                label(for="avatar") Avartar 
-                input(
-                    type="file"
-                    class="form-control-file"
-                    id="avatar"
-                    name="avatar"
-                    accept="image/*"
+                    input(
+                        type="radio"
+                        class="form-check-input"
+                        id="statusInActive"
+                        name="status"
+                        value ="inactive"
+                    )
+                    label(
+                        for="statusInActive"
+                        class="form-check-label"
+                    ) Dừng hoạt động
+                
+                div(
+                    class="form-group upload-image"
                 )
-                img(
-                    src=""
-                    alt="Your Image"
-                    class="preview-img"
-                    width="100px"
-                    height="auto"
-                )
-            div(class="form-group")
-                button(
-                    type="submit"
-                    class="btn btn-primary"
-                ) Thêm mới
-    else
-        //- No roles
-        p(class="text-danger") Bạn cần tạo quyền trước khi tạo tài khoản
+                    label(for="avatar") Avartar 
+                    input(
+                        type="file"
+                        class="form-control-file"
+                        id="avatar"
+                        name="avatar"
+                        accept="image/*"
+                    )
+                    img(
+                        src=""
+                        alt="Your Image"
+                        class="preview-img"
+                        width="100px"
+                        height="auto"
+                    )
+                div(class="form-group")
+                    button(
+                        type="submit"
+                        class="btn btn-primary"
+                    ) Thêm mới
+        else
+            //- No roles
+            p(class="text-danger") Bạn cần tạo quyền trước khi tạo tài khoản
+            a(
+                href=`/${prefixAdmin}/roles/create`
+                class="btn btn-primary"
+            ) + Tạo mới quyền
+    else 
+        h1(class="mb-4") Bạn không có quyền truy cập trang này
         a(
-            href=`/${prefixAdmin}/roles/create`
+            href="/admin/accounts"
             class="btn btn-primary"
-        ) + Tạo mới quyền
+        ) Quay lại trang tài khoản
