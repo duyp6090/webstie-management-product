@@ -19,6 +19,9 @@ include ../../mixin/delete-restore.pug
 //- Sort target product
 include ../../mixin/sort-target-product.pug
 
+//- Format date time
+include ../../mixin/momentDateTime.pug
+
 
 block main 
     if(role.permissions.product && role.permissions.product.includes('view'))
@@ -64,6 +67,7 @@ block main
                             th Tiêu đề
                             th Giá
                             th Trạng thái
+                            th Người xóa
                             th Hành động
                     tbody
                         each item, index in products
@@ -99,6 +103,9 @@ block main
                                             ) Hoạt động
                                 else 
                                     td
+                                td 
+                                    p #{item.accountFullName}
+                                    +formatDateTime(item.deleteBy.deletedAt)
                                 td
                                     +delete-restore(item, role.permissions.product)
         +paginationPages(paginations)

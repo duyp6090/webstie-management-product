@@ -4,6 +4,9 @@ const Product = require("../../../model/product.model.js");
 // Import categories model
 const Categories = require("../../../model/categories.model.js");
 
+// Import account model
+const Account = require("../../../model/account.model.js");
+
 // Import fillterStatus
 const fillterStatusHelper = require("../../../helper/fillterStatus.js");
 
@@ -81,6 +84,17 @@ class productAdminController {
             .sort(sort)
             .limit(objectPagination.limit)
             .skip(objectPagination.skip);
+
+        // Loop through products to get full name of account
+        for (let i = 0; i < products.length; i++) {
+            // Get category by id
+            const account = await Account.findOne({ _id: products[i].createBy.account_id });
+
+            // Assign category to product
+            if (account) {
+                products[i].accountFullName = account.fullName;
+            }
+        }
 
         res.render("admin/pages/product/index.pug", {
             title: "Products",
@@ -217,6 +231,17 @@ class productAdminController {
             .sort(sort)
             .limit(objectPagination.limit)
             .skip(objectPagination.skip);
+
+        // Loop through products to get full name of account
+        for (let i = 0; i < products.length; i++) {
+            // Get category by id
+            const account = await Account.findOne({ _id: products[i].createBy.account_id });
+
+            // Assign category to product
+            if (account) {
+                products[i].accountFullName = account.fullName;
+            }
+        }
 
         res.render("admin/pages/product/trash-product.pug", {
             title: "Products",
@@ -404,6 +429,11 @@ class productAdminController {
             dataProduct.images = `http://localhost:3000/uploads/${req.files["images"][0].filename}`;
         }
 
+        // Get account create by user
+        dataProduct.createBy = {
+            account_id: res.locals.account._id,
+        };
+
         // Create new product
         const product = new Product({
             title: dataProduct.title,
@@ -432,6 +462,7 @@ class productAdminController {
             },
             images: dataProduct.images,
             thumbnail: dataProduct.thumbnails,
+            createBy: dataProduct.createBy,
         });
 
         // Save product

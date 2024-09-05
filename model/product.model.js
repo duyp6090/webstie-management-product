@@ -61,6 +61,20 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    createBy: {
+        account_id: String,
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+    },
+    deleteBy: {
+        account_id: String,
+        deletedAt: {
+            type: Date,
+            default: Date.now,
+        },
+    },
 });
 
 // Create Model Of Products

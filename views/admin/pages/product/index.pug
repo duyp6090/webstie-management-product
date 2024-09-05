@@ -21,6 +21,9 @@ include ../../mixin/delete-update.pug
 //- sort target product
 include ../../mixin/sort-target-product.pug
 
+//- format date time
+include ../../mixin/momentDateTime.pug
+
 block main
     if(role.permissions.product && role.permissions.product.includes('view'))
         h1 Danh sách sản phẩm
@@ -72,6 +75,7 @@ block main
                             th Tiêu đề
                             th Giá
                             th Trạng thái
+                            th Người tạo
                             th Hành động
                     tbody
                         each item, index in products
@@ -107,6 +111,9 @@ block main
                                             ) Hoạt động
                                 else 
                                     td
+                                td 
+                                    p #{item.accountFullName}
+                                    +formatDateTime(item.createBy.createdAt)
                                 td
                                     +delete-update(item, pageCurrent, role.permissions.product)
         +paginationPages(paginations)

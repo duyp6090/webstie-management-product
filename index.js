@@ -27,6 +27,9 @@ const systemConfig = require("./config/system.js");
 // Import cookie - parser
 const cookieParser = require("cookie-parser");
 
+// Import moment
+const moment = require("moment");
+
 // Config view engine
 app.set("view engine", "pug");
 app.set("views", `${__dirname}/views`);
@@ -49,6 +52,9 @@ app.use("/tinymce", express.static(path.join(__dirname, "node_modules", "tinymce
 
 // Use cookie parser
 app.use(cookieParser());
+
+// Use moment
+app.locals.moment = moment;
 
 // Use Amin router
 webInitRouteAdmin(app);
