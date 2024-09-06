@@ -200,14 +200,16 @@ class accountsController {
         const anotherAccount = await Account.findOne({ email: dataAccount.email });
 
         // Check another account is exist
-        if (anotherAccount._id == id) {
+        if (anotherAccount && anotherAccount._id.toString() != id.toString()) {
+            console.log("Email is exist");
+        } else {
             // Check image is exist
             if (req.files["avatar"]) {
                 dataAccount.avatar = `http://localhost:3000/uploads/${req.files["avatar"][0].filename}`;
             }
 
             // Hash password
-            dataAccount.password = md5(dataAccount.password);
+            if (dataAccount.password) dataAccount.password = md5(dataAccount.password);
 
             // Find and update account
             await Account.findByIdAndUpdate(

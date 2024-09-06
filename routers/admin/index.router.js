@@ -16,6 +16,9 @@ const accountRouter = require("./account.router.js");
 // Import Authentication Admin
 const authenticationRouter = require("./authentication.router.js");
 
+// Import My-account Admin
+const myAccountRouter = require("./my-account.router.js");
+
 // Import Middleware
 const requireAuthentication = require("../../middleware/admin/auth.middleware.js");
 
@@ -34,6 +37,8 @@ function webInitRouteAdmin(app) {
     app.use(`/${prefixAdmin}/accounts`, requireAuthentication, accountRouter);
 
     app.use(`/${prefixAdmin}/auth`, authenticationRouter);
+
+    app.use(`/${prefixAdmin}/my-account`, requireAuthentication, myAccountRouter);
 }
 
 module.exports = webInitRouteAdmin;

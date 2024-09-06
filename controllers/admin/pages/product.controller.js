@@ -117,7 +117,13 @@ class productAdminController {
         // Find product by id
         await Product.updateOne(
             { _id: idProducts },
-            { availabilityStatus: statusProducts == "active" ? "Stock" : "No Stock" }
+            {
+                availabilityStatus: statusProducts == "active" ? "Stock" : "No Stock",
+                updateBy: {
+                    account_id: res.locals.account._id,
+                    updatedAt: Date.now(),
+                },
+            }
         );
 
         // Redirect
@@ -136,12 +142,24 @@ class productAdminController {
         switch (type) {
             case "active":
                 optionUpdate.availabilityStatus = "Stock";
+                optionUpdate.updateBy = {
+                    account_id: res.locals.account._id,
+                    updatedAt: Date.now(),
+                };
                 break;
             case "inactive":
                 optionUpdate.availabilityStatus = "No Stock";
+                optionUpdate.updateBy = {
+                    account_id: res.locals.account._id,
+                    updatedAt: Date.now(),
+                };
                 break;
             case "delete":
                 optionUpdate.deleted = true;
+                optionUpdate.deleteBy = {
+                    account_id: res.locals.account._id,
+                    deletedAt: Date.now(),
+                };
                 break;
         }
 
@@ -170,7 +188,16 @@ class productAdminController {
         const id = req.params.id;
 
         // Find product by id
-        await Product.updateOne({ _id: id }, { deleted: true });
+        await Product.updateOne(
+            { _id: id },
+            {
+                deleted: true,
+                deleteBy: {
+                    account_id: res.locals.account._id,
+                    deletedAt: Date.now(),
+                },
+            }
+        );
 
         // Redirect
         res.redirect("back");
@@ -235,7 +262,7 @@ class productAdminController {
         // Loop through products to get full name of account
         for (let i = 0; i < products.length; i++) {
             // Get category by id
-            const account = await Account.findOne({ _id: products[i].createBy.account_id });
+            const account = await Account.findOne({ _id: products[i].deleteBy.account_id });
 
             // Assign category to product
             if (account) {
@@ -299,6 +326,12 @@ class productAdminController {
         // Get data from body
         const dataProduct = req.body;
 
+        // Assign updated by account
+        dataProduct.updateBy = {
+            account_id: res.locals.account._id,
+            updatedAt: Date.now(),
+        };
+
         // Convert some data type string to number
         dataProduct.price = parseInt(dataProduct.price);
         dataProduct.discount = parseInt(dataProduct.discount);
@@ -359,6 +392,7 @@ class productAdminController {
                     },
                     images: dataProduct.images,
                     thumbnail: dataProduct.thumbnails,
+                    updateBy: dataProduct.updateBy,
                 }
             );
         } catch (error) {

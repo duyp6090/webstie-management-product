@@ -1,0 +1,29 @@
+//- Extends layouts default
+extends ../../layouts/default
+
+block main 
+    h1(class="mb-4") Thông tin tài khoản
+
+    if(account.avatar)
+        img(src=account.avatar class="mb-3" width="100px" alt="wrong link")
+
+    if(account.fullname)
+        p(class="mb-3") Họ tên: #{account.fullname}
+    
+    if(account.email)
+        p(class="mb-3") Email: #{account.email}
+    
+    if(account.phone)
+        p(class="mb-3") Số điện thoại: #{account.phone}
+    
+    if(account.status)
+        p(class="mb-3") Trạng thái: #{account.status == "active" ? "Hoạt động" : "Không hoạt động"}
+
+    if(role.title)
+        p(class="mb-3") Vai trò: #{role.title}
+    
+    a(
+        href=`/${prefixAdmin}/my-account/edit`,
+        class="btn btn-primary btn-sm"
+    ) Chỉnh sửa thông tin
+    

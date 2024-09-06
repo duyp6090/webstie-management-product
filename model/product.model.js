@@ -75,6 +75,13 @@ const productSchema = new mongoose.Schema({
             default: Date.now,
         },
     },
+    updateBy: {
+        account_id: String,
+        updatedAt: {
+            type: Date,
+            default: Date.now,
+        },
+    },
 });
 
 // Create Model Of Products
