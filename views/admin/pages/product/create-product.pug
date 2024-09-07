@@ -232,6 +232,35 @@ block main
                 span(class="error-message")
 
             div(
+                class="form-group form-check form-check-inline"
+            )
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusFeatured"
+                    name="featured"
+                    value="featured"
+                )
+                label(
+                    for="statusFeatured"
+                    class="form-check-label"
+                ) Nổi bật
+
+            div(
+                class="form-group form-check form-check-inline"
+            )
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusUnFeatured"
+                    name="featured"
+                    value ="unfeatured"
+                )
+                label(
+                    for="statusUnFeatured"
+                    class="form-check-label"
+                ) Không nổi bật 
+            div(
                 class="form-group upload-image"
             )
                 label(for="images") Ảnh

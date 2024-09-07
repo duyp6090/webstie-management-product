@@ -1,5 +1,13 @@
 extends ../../layouts/default.pug 
+
+//- Import box-head
 include ../../mixin/box-head.pug
+
+//- Import sreach
+include ../../mixin/search.pug
+
+//- Import products layout
+include ../../mixin/products-layouts.pug
 
 block main 
     .container.my-3 
@@ -7,13 +15,9 @@ block main
             .col-12
                 +box-head('Danh sách sản phẩm!')
         .row 
-            each product in products
-                .col-4.mb-3 
-                    .product-item 
-                        .inner-img 
-                            img(src=product.thumbnail alt="Product image")
-                        .inner-content
-                            a(href=`/product/${product.slug}`) #{product.title}
-                            .inner-price-new #{product.newPrice}$
-                            .inner-price-old #{product.price}$
-                            .inner-discount -#{product.discountPercentage}%
+            .col-6 
+                +search(searchFind)
+        .row 
+            +products-grid(products)
+    //- Link js
+    script(src="/js/script.js")

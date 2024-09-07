@@ -52,6 +52,10 @@ const productSchema = new mongoose.Schema({
     },
     images: [String],
     thumbnail: String,
+    featured: {
+        type: String,
+        default: "unfeatured",
+    },
     slug: {
         type: String,
         slug: "title",

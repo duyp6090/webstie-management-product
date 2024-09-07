@@ -1,0 +1,6 @@
+//- Include product-item layout
+include ./product-item.pug
+
+mixin products-grid(products)
+    each product in products
+        +product-item(product)

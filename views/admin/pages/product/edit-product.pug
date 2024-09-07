@@ -247,6 +247,38 @@ block main
                     value = product.meta.qrCode
                 )
                 span(class="error-message")
+            
+            div(
+                class="form-group form-check form-check-inline"
+            )
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusFeatured"
+                    name="featured"
+                    value="featured"
+                    checked=product.featured == "featured" ? true : false
+                )
+                label(
+                    for="statusFeatured"
+                    class="form-check-label"
+                ) Nổi bật
+
+            div(
+                class="form-group form-check form-check-inline"
+            )
+                input(
+                    type="radio"
+                    class="form-check-input"
+                    id="statusUnFeatured"
+                    name="featured"
+                    value ="unfeatured"
+                    checked=product.featured == "unfeatured" ? true : false
+                )
+                label(
+                    for="statusUnFeatured"
+                    class="form-check-label"
+                ) Không nổi bật 
 
             div(
                 class="form-group upload-image"

@@ -3,7 +3,8 @@ block main
     .container.my-3 
         .row 
             .col-12 
-                h1 #{product.title}
+                if(product.title)
+                    h1 #{product.title}
 
                 if(product.price)
                     div(class="mb-4") Giá: #{product.price}

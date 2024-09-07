@@ -393,6 +393,7 @@ class productAdminController {
                     images: dataProduct.images,
                     thumbnail: dataProduct.thumbnails,
                     updateBy: dataProduct.updateBy,
+                    featured: dataProduct.featured,
                 }
             );
         } catch (error) {
@@ -497,6 +498,7 @@ class productAdminController {
             images: dataProduct.images,
             thumbnail: dataProduct.thumbnails,
             createBy: dataProduct.createBy,
+            featured: dataProduct.featured,
         });
 
         // Save product

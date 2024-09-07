@@ -1,18 +1,16 @@
 extends ../../layouts/default.pug 
+
+//- Include box-head title
 include ../../mixin/box-head.pug
 
+//- Include products layout
+include ../../mixin/products-layouts.pug
+
 block main 
+    h1 Trang chủ
     .container.my-3 
         .row
             .col-12
-                +box-head('Danh sách sản phẩm!')
+                +box-head('Sản phẩm nổi bật!')
         .row 
-            .col-4.mb-3 
-                .product-item 
-                    .inner-img 
-                        img(src="/img/iphone9.webp" alt="Product image")
-                    .inner-content
-                        h3.inner-title Iphone9 
-                        .inner-price-new 1000$
-                        .inner-price-old 1200$
-                        .inner-discount 20% off
+            +products-grid(products)

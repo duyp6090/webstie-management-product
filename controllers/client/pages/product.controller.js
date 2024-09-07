@@ -1,6 +1,9 @@
 // Import model
 const Product = require("../../../model/product.model.js");
 
+// Import searchHelper
+const searchHelper = require("../../../helper/search.js");
+
 // Class to handle Product Page - Client
 class productController {
     // [GET] Products Page
@@ -9,6 +12,13 @@ class productController {
         let find = {
             availabilityStatus: { $ne: "No Stock" },
         };
+
+        // Search
+        let search = searchHelper(req.query);
+
+        if (search.keyword) {
+            find["title"] = search.regex;
+        }
 
         // Get all products
         const products = await Product.find(find);
@@ -22,7 +32,8 @@ class productController {
 
         // Render products page
         res.render("client/pages/products/index.pug", {
-            products: products,
+            products: newProducts,
+            searchFind: search.keyword,
         });
     }
 

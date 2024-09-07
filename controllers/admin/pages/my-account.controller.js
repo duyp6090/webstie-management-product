@@ -41,17 +41,7 @@ class myAccountController {
             if (dataAccount.password) dataAccount.password = md5(dataAccount.password);
 
             // Find and update account
-            await Account.findByIdAndUpdate(
-                { _id: id },
-                {
-                    fullName: dataAccount.fullName,
-                    email: dataAccount.email,
-                    password: dataAccount.password,
-                    phone: dataAccount.phone,
-                    status: dataAccount.status,
-                    avatar: dataAccount.avatar,
-                }
-            );
+            await Account.findByIdAndUpdate({ _id: id }, dataAccount);
         }
 
         // Redirect to page account
