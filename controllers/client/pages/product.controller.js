@@ -1,8 +1,17 @@
-// Import model
+// Import product model
 const Product = require("../../../model/product.model.js");
+
+// Import category model
+const Category = require("../../../model/categories.model.js");
+
+// Import findSubcategories
+const findSubcategories = require("../../../helper/findSubCategories.js");
 
 // Import searchHelper
 const searchHelper = require("../../../helper/search.js");
+
+// Import calculationDiscountHelper
+const calculationDiscountHelper = require("../../../helper/calculationDiscount.js");
 
 // Class to handle Product Page - Client
 class productController {
@@ -23,17 +32,17 @@ class productController {
         // Get all products
         const products = await Product.find(find);
 
-        const newProducts = products.map((product) => {
-            product.newPrice = Math.floor(
-                product.price - (product.price * product.discountPercentage) / 100
-            );
-            return product;
-        });
+        // Calculation new price for products
+        const newProducts = calculationDiscountHelper(products);
+
+        // Get list categories
+        const categories = await Category.find({ parent_id: "" });
 
         // Render products page
         res.render("client/pages/products/index.pug", {
             products: newProducts,
             searchFind: search.keyword,
+            categories: categories,
         });
     }
 
@@ -48,6 +57,49 @@ class productController {
         // Render product detail page
         res.render("client/pages/products/detail-product.pug", {
             product: product,
+        });
+    }
+
+    // [GET] Products By Category Page
+    async getProductsByCategory(req, res) {
+        // Get slug from params
+        const slug = req.params.slug;
+
+        // Find condition
+        let find = {
+            availabilityStatus: { $ne: "No Stock" },
+        };
+
+        // Search
+        let search = searchHelper(req.query);
+
+        if (search.keyword) {
+            find["title"] = search.regex;
+        }
+
+        // Get category by slug
+        const category = await Category.findOne({ slug: slug });
+
+        // Get all categories
+        const categories = await Category.find();
+
+        // Get parent category
+        const parentCategories = categories.filter((item) => {
+            return item.parent_id == "";
+        });
+
+        // Find subcategories
+        const subcategories = findSubcategories(category._id.toString(), categories);
+
+        // Find products by category
+        const products = await Product.find({
+            category_id: { $in: subcategories },
+            ...find,
+        });
+
+        res.render("client/pages/products/product-by-category.pug", {
+            products: products,
+            categories: parentCategories,
         });
     }
 }

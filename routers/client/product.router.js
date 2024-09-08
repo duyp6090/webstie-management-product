@@ -11,4 +11,7 @@ router.get("/", productController.getProductsPage);
 // Get detail product page
 router.get("/:slug", productController.getProductDetailPage);
 
+// Get products by category page
+router.get("/category/:slug", productController.getProductsByCategory);
+
 module.exports = router;

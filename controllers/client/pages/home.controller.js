@@ -1,6 +1,9 @@
 // Import product model
 const Product = require("../../../model/product.model");
 
+// Import calculateDiscountHelper
+const calculateDiscountHelper = require("../../../helper/calculationDiscount.js");
+
 // Class to handdle Home Page - Client
 class homeController {
     // Get Home Page
@@ -13,15 +16,20 @@ class homeController {
         });
 
         // Calculation new price
-        const newFeaturedProducts = featuredProducts.map((product) => {
-            product.newPrice = Math.floor(
-                product.price - (product.price * product.discountPercentage) / 100
-            );
-            return product;
-        });
+        const newFeaturedProducts = calculateDiscountHelper(featuredProducts);
+
+        // Get new products with created date
+        const latestProducts = await Product.find({
+            deleted: false,
+            availabilityStatus: "Stock",
+        }).sort({ "createBy.createdAt": -1 });
+
+        // Calculation new price
+        const newLatestProducts = calculateDiscountHelper(latestProducts);
 
         res.render("client/pages/home/index.pug", {
             products: newFeaturedProducts,
+            newProducts: newLatestProducts,
         });
     }
 }

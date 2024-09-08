@@ -1,6 +1,7 @@
 function findSubcategories(idCategory, categories) {
     // List of subcategories
     let subcategories = [idCategory];
+
     // Loop through the categories
     categories.forEach((category) => {
         // Get parent_id of category
@@ -15,7 +16,7 @@ function findSubcategories(idCategory, categories) {
 
             // Find parent category
             let parentCategory = categories.find((category) => {
-                return category._id == parentId;
+                return category._id.toString() == parentId;
             });
 
             // Not found parent category
