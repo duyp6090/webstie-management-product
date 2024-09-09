@@ -5,6 +5,9 @@ block main
             .col-12 
                 if(product.title)
                     h1 #{product.title}
+                
+                if(category)
+                    div(class="mb-4") Danh mục sản phẩm: #{category.title}
 
                 if(product.price)
                     div(class="mb-4") Giá: #{product.price}
@@ -23,4 +26,4 @@ block main
                             class="img-fluid"
                         )
                 if(product.description)
-                    div(class="mb-4") Mô tả: #{product.description}
+                    div(class="mb-4") Mô tả: !{product.description}

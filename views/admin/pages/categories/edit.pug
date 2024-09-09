@@ -34,10 +34,10 @@ block main
                     id="parent_id"
                     class="form-control"
                 )
-                    option(value="" selected=category.parent_id=="") Không có danh mục
-                    if (subTitleObjects)
-                        each subTitleObject, key in subTitleObjects
-                            +getCategories(subTitleObject, key, subTitleObjects, level=1, category.parent_id) 
+                    option(value="" ) Không có danh mục
+                    if (arrParentCategories)
+                        each item in arrParentCategories
+                            +getCategories(item, level=1, category.parent_id) 
 
             div(class="form-group")
                 label(for="desc") Mô tả

@@ -54,9 +54,19 @@ class productController {
         // Get product by slug
         const product = await Product.findOne({ slug: slug });
 
+        const newProduct = calculationDiscountHelper([product]);
+
+        // Get category by product
+        const category = await Category.findOne({
+            _id: product.category_id,
+            deleted: false,
+            status: "active",
+        });
+
         // Render product detail page
         res.render("client/pages/products/detail-product.pug", {
-            product: product,
+            product: newProduct[0],
+            category: category,
         });
     }
 

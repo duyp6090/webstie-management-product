@@ -167,13 +167,13 @@ class categoriesController {
         // Get categories
         const categories = await Categories.find(find);
 
-        // Find subtitle by id
-        const subTitleObjects = findParentIdHelper(categories);
+        // Get parent categories
+        const arrParentCategories = findParentIdHelper(categories);
 
         // Render create category page
         res.render("admin/pages/categories/create.pug", {
             categories: categories,
-            subTitleObjects: subTitleObjects,
+            arrParentCategories: arrParentCategories,
         });
     }
 
@@ -212,14 +212,14 @@ class categoriesController {
         // Get all categories
         const categories = await Categories.find({ deleted: false });
 
-        // Get subtitle category by id
-        const subTitleObjects = findParentIdHelper(categories);
+        // Get parent categories
+        const arrParentCategories = findParentIdHelper(categories);
 
         // Render edit category page
         res.render("admin/pages/categories/edit.pug", {
             title: "Chỉnh sửa danh mục",
             category: category,
-            subTitleObjects: subTitleObjects,
+            arrParentCategories: arrParentCategories,
         });
     }
 

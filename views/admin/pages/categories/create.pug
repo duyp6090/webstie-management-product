@@ -31,9 +31,9 @@ block main
                     class="form-control"
                 )
                     option(value="") -- Chọn danh mục cha --
-                    if (subTitleObjects)
-                        each subTitleObject, key in subTitleObjects
-                            +getCategories(subTitleObject, key, subTitleObjects, level = 1)  
+                    if (arrParentCategories)
+                        each category in arrParentCategories
+                            +getCategories(category, level=1) 
 
             div(class="form-group")
                 label(for="desc") Mô tả

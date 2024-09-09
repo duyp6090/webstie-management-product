@@ -19,8 +19,8 @@ const paginationHelper = require("../../../helper/pagination.js");
 // Import sortHelper
 const sortHelper = require("../../../helper/sort.js");
 
-// Import findParentById
-const findParentById = require("../../../helper/findParentId.js");
+// Import findParentByIdHelper
+const findParentByIdHelper = require("../../../helper/findParentId.js");
 
 // Class to handle product - Admin
 class productAdminController {
@@ -308,13 +308,15 @@ class productAdminController {
         const categories = await Categories.find({
             deleted: false,
         });
-        const subTitleObjects = findParentById(categories);
+
+        // Get parent categories
+        const arrParentCategories = findParentByIdHelper(categories);
 
         // Render view
         res.render("admin/pages/product/edit-product.pug", {
             title: "Chỉnh sửa sản phẩm",
             product: product,
-            subTitleObjects: subTitleObjects,
+            arrParentCategories: arrParentCategories,
         });
     }
 
@@ -423,12 +425,12 @@ class productAdminController {
             deleted: false,
         });
 
-        // Get subTitleObjects
-        const subTitleObjects = findParentById(categories);
+        // Get parent categories
+        const arrParentCategories = findParentByIdHelper(categories);
 
         res.render("admin/pages/product/create-product.pug", {
             title: "Create Product",
-            subTitleObjects: subTitleObjects,
+            arrParentCategories: arrParentCategories,
         });
     }
 
