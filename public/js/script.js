@@ -1,27 +1,27 @@
-// Get oject url
-let url = new URL(window.location.href);
+// // Get oject url
+// let url = new URL(window.location.href);
 
-// Form search
-const formSearch = document.querySelector("#search-form");
+// // Form search
+// const formSearch = document.querySelector("#search-form");
 
-// Check searchform
-if (formSearch) {
-    // Add event listener to form search
-    formSearch.addEventListener("submit", (e) => {
-        // Prevent default action
-        e.preventDefault();
+// // Check searchform
+// if (formSearch) {
+//     // Add event listener to form search
+//     formSearch.addEventListener("submit", (e) => {
+//         // Prevent default action
+//         e.preventDefault();
 
-        // Get the value of the search input
-        const keySearch = formSearch.querySelector("input[name='search']").value;
+//         // Get the value of the search input
+//         const keySearch = formSearch.querySelector("input[name='search']").value;
 
-        console.log(keySearch);
+//         console.log(keySearch);
 
-        // If search is not empty
-        if (keySearch) {
-            url.searchParams.set("search", keySearch);
-        } else url.searchParams.delete("search");
+//         // If search is not empty
+//         if (keySearch) {
+//             url.searchParams.set("search", keySearch);
+//         } else url.searchParams.delete("search");
 
-        // Re-set location
-        window.location.href = url.href;
-    });
-}
+//         // Re-set location
+//         window.location.href = url.href;
+//     });
+// }

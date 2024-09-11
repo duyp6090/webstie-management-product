@@ -22,6 +22,9 @@ include ../../mixin/form-change-multi.pug
 //- save trash
 include ../../mixin/save-trash.pug
 
+//- get-categories
+include ../../mixin/get-categories.pug
+
 block main 
     if(role.permissions.category && role.permissions.category.includes('view'))
         h1 Danh sách danh mục
@@ -68,46 +71,14 @@ block main
                                         type="checkbox"
                                         name="check-all"
                                     )
-                                th STT
+                                //- th STT
                                 th Hình ảnh
                                 th Tiêu đề
                                 th Trạng thái
                                 th Hành động
                         tbody
-                            each item, index in categories
-                                tr 
-                                    th 
-                                        input(
-                                            type="checkbox"
-                                            name="id"
-                                            value=item.id
-                                        )
-                                    td #{index + 1}
-                                    td 
-                                        img(src=item.thumbnail, alt="" width="100px" height="auto")
-                                    td #{item.title} 
-                                    if(role.permissions.category.includes('edit'))   
-                                        td
-                                            if (item.status == 'inactive')
-                                                a(
-                                                    href="javascript:;"
-                                                    data-status=item.status
-                                                    data-id=`${item._id}` 
-                                                    button-change-status
-                                                    class="btn btn-danger"
-                                                ) Dừng hoạt động
-                                            else 
-                                                a(
-                                                    href="javascript:;"
-                                                    data-status=item.status
-                                                    data-id=`${item._id}`
-                                                    button-change-status
-                                                    class="btn btn-success"
-                                                ) Hoạt động
-                                    else 
-                                        td
-                                    td
-                                        +delete-update(item, pageCurrent, role.permissions.category)
+                            each item in newCategories
+                                +getFullCategories(item, level=1)
         +paginationPages(paginations)
 
         //- form change status

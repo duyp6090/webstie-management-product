@@ -1,0 +1,22 @@
+extends ../../layouts/default.pug 
+
+//- Include box-head title
+include ../../mixin/box-head.pug
+
+//- Include products layout
+include ../../mixin/products-layouts.pug
+
+block main 
+    .container.my-3 
+        .row
+            .col-12
+                +box-head(title)
+        .row 
+            +products-grid(products)
+
+    //- .container.my-3 
+    //-     .row
+    //-         .col-12
+    //-             +box-head('Sản phẩm mới nhất!')
+    //-     .row 
+    //-         +products-grid(newProducts)

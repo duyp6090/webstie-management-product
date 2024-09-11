@@ -73,22 +73,19 @@ class categoriesController {
         const sortParams = req.query.sort;
 
         // Get categories
-        const categories = await Categories.find(find)
-            .sort(sort)
-            .limit(objectPagination.limit)
-            .skip(objectPagination.skip);
+        const categories = await Categories.find(find);
+        // .sort(sort)
+        // .limit(objectPagination.limit)
+        // .skip(objectPagination.skip);
 
-        // const category = await Categories.find(find);
-
-        // const newCategories = findParentIdHelper(category);
-
-        // console.log(newCategories);
+        const newCategories = findParentIdHelper(categories);
 
         // Render categories page
         res.render("admin/pages/categories/index.pug", {
             pageTitle: "Categories",
             pageCurrent: "categories",
             categories: categories,
+            newCategories: newCategories,
             fillterStatus: fillterStatus,
             searchFind: objectSeacrh.keyword,
             paginations: objectPagination,

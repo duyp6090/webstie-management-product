@@ -7,37 +7,10 @@ function findParentById(categories) {
         idConvertToCategory[category._id] = category;
     });
 
-    // subTitleIdObject
-    let titleIdObject = {};
+    // array to store parent categories
+    arrParentCategories = [];
 
     // Loop through the categories
-    categories.forEach((category) => {
-        // Check parent_id and parent exists in list categories
-        if (category.parent_id && idConvertToCategory[category.parent_id]) {
-            // Convert parent_id to category
-            let parentCategory = idConvertToCategory[category.parent_id];
-
-            // Get parent title
-            let parentTitle = parentCategory.title;
-
-            // Check if parent_id exists in the object
-            if (titleIdObject[parentTitle]) {
-                titleIdObject[parentTitle].push(category);
-            } else {
-                // Add category to subtiteIdObject
-                titleIdObject[parentTitle] = [parentCategory, category];
-            }
-        } else {
-            // Convert _id to title
-            let parentCategory = idConvertToCategory[category._id];
-
-            // Add category to subtiteIdObject
-            titleIdObject[parentCategory.title] = [parentCategory];
-        }
-    });
-
-    // Test
-    arrParentCategories = [];
     categories.forEach((category) => {
         if (category.parent_id && idConvertToCategory[category.parent_id]) {
             parentCategory = idConvertToCategory[category.parent_id];

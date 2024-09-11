@@ -1,3 +1,6 @@
+//- delete-update mixin
+include ./delete-update.pug
+
 mixin getCategories(category, level=1, categoryId="") 
     //- Check if subTtileObject not undefined
     if(category)
@@ -7,3 +10,45 @@ mixin getCategories(category, level=1, categoryId="")
         if (category.subCategory)
             each item in category.subCategory
                 +getCategories(item, level + 1, categoryId)
+
+mixin getFullCategories(item, level=1)
+    tr 
+        th 
+            input(
+                type="checkbox"
+                name="id"
+                value=item._id
+            )
+
+        td 
+            img(src=item.thumbnail, alt="" width="100px" height="auto")
+
+        - let prefix = Array(level).join('-- ')
+        td #{prefix}#{item.title} 
+
+        if(role.permissions.category.includes('edit'))   
+            td
+                if (item.status == 'inactive')
+                    a(
+                        href="javascript:;"
+                        data-status=item.status
+                        data-id=`${item._id}` 
+                        button-change-status
+                        class="btn btn-danger"
+                    ) Dừng hoạt động
+                else 
+                    a(
+                        href="javascript:;"
+                        data-status=item.status
+                        data-id=`${item._id}`
+                        button-change-status
+                        class="btn btn-success"
+                    ) Hoạt động
+        else 
+            td
+        td
+            +delete-update(item, pageCurrent, role.permissions.category)
+
+    if (item.subCategory)
+        each subItem in item.subCategory
+            +getFullCategories(subItem, level + 1)

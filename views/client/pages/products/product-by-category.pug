@@ -3,9 +3,6 @@ extends ../../layouts/default.pug
 //- Import box-head
 include ../../mixin/box-head.pug
 
-//- Import sreach
-include ../../mixin/search.pug
-
 //- Import products layout
 include ../../mixin/products-layouts.pug
 
@@ -14,9 +11,6 @@ block main
         .row
             .col-12
                 +box-head('Danh sách sản phẩm!')
-        .row 
-            .col-6 
-                +search(searchFind)
         .row 
             .col-3 
                 h2

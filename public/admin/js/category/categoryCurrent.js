@@ -23,7 +23,6 @@ buttonChnageStatus.forEach((button) => {
         formChangeStatus.submit();
     });
 });
-
 // End change status one category
 
 // Change multi status products
@@ -81,5 +80,4 @@ buttonDeleteproduct.forEach((button) => {
         }
     });
 });
-
 // End delete category temporatity

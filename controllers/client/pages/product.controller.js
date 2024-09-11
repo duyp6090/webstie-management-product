@@ -22,13 +22,6 @@ class productController {
             availabilityStatus: { $ne: "No Stock" },
         };
 
-        // Search
-        let search = searchHelper(req.query);
-
-        if (search.keyword) {
-            find["title"] = search.regex;
-        }
-
         // Get all products
         const products = await Product.find(find);
 
@@ -79,13 +72,6 @@ class productController {
         let find = {
             availabilityStatus: { $ne: "No Stock" },
         };
-
-        // Search
-        let search = searchHelper(req.query);
-
-        if (search.keyword) {
-            find["title"] = search.regex;
-        }
 
         // Get category by slug
         const category = await Category.findOne({ slug: slug });

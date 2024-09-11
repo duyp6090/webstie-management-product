@@ -6,7 +6,7 @@ function search(query) {
     };
 
     // Search Find
-    objectSeacrh.keyword = query.search;
+    objectSeacrh.keyword = query.search || query.keyword;
 
     // Check keyword by regex
     if (objectSeacrh.keyword) {
