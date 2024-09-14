@@ -9,14 +9,35 @@ block main
                 if(category)
                     div(class="mb-4") Danh mục sản phẩm: #{category.title}
 
+                if(product.newPrice)
+                    div(class="mb-4") Giá mới: #{product.newPrice}
+
                 if(product.price)
-                    div(class="mb-4") Giá: #{product.price}
+                    div(class="mb-4") Giá cũ: #{product.price}
 
                 if(product.discountPercentage)
                     div(class="mb-4") Giảm giá: #{product.discountPercentage}%
 
                 if(product.stock)
-                    div(class="mb-4") Số lượng: #{product.stock}
+                    div(class="mb-4") Còn lại: #{product.stock}
+
+                form(
+                    action=`/cart/add/${product.id}`,
+                    method="post"
+                )
+                    input(
+                        type="number", 
+                        name="quantity", 
+                        id="quantity", 
+                        class="form-control mb-2", 
+                        value="1", 
+                        min="1"
+                        max=product.stock
+                    )
+                    button(
+                        type="submit", 
+                        class="btn btn-primary"
+                    ) Thêm vào giỏ hàng
 
                 if(product.thumbnail)
                     div(class="mb-4")
