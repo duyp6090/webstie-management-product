@@ -1,0 +1,57 @@
+//- extend layoutrs default
+extends ../../layouts/default.pug 
+
+//- Include boxheader
+include ../../mixin/box-head.pug 
+
+block main 
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head(title)
+    
+        .row 
+            .col-12 
+                table(class = "table table-bordered table-hover")
+                    thead 
+                        tr 
+                            th STT
+                            th Ảnh 
+                            th Tên 
+                            th Giá
+                            th Số lượng
+                            th Thành tiền
+                            th Hành động 
+                    tbody 
+                        if(cartDetail.products.length > 0)
+                            each product, index in cartDetail.products
+                                tr 
+                                    td 1
+                                    td 
+                                        img(src=product.productDetail.thumbnail, alt=product.productDetail.title, width="80px")
+                                    td  
+                                        a(href=`/products/detail/${product.productDetail.slug}`) #{product.productDetail.title}
+                                    td #{product.productDetail.newPrice}$
+                                    td 
+                                        input(
+                                            type="number",
+                                            name="quantity",
+                                            value=product.quantity,
+                                            min="1",
+                                            product-id=product._id,
+                                            style="width: 60px"
+                                        )
+                                    td #{product.productDetail.totalPrice}$
+                                    td 
+                                        a(
+                                            href=`/cart/delete/${product.product_id}`,
+                                            class="btn btn-danger"
+                                        ) Xóa
+                        else 
+                            td 
+                                p.text-center(colspan="7") Không có sản phẩm nào trong giỏ hàng
+
+                h3(class="text-right") Tổng tiền: #{cartDetail.totalPriceAllProducts}$
+
+                div(class="text-right mt-3")
+                    a(href="/checkout" class="btn btn-primary") Thanh toán

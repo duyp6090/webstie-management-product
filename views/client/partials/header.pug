@@ -24,5 +24,9 @@ header.header
                     ul 
                         li 
                             a(href="/") Trang chủ
+
                         li(class="sub-menu") 
                             a(href="/product") Sản phẩm 
+                        
+                        li
+                            a(href="/cart") Giỏ hàng(#{miniCart ? miniCart.totalQuantity : "0"})

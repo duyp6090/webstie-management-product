@@ -6,6 +6,44 @@ const Cart = require("../../../model/cart.model.js");
 
 // Class handle cart page
 class cartController {
+    // [GET] Cart page
+    async getCartPage(req, res) {
+        // Get cart id
+        const cartId = req.cookies.cartId;
+
+        // Get cart
+        const cart = await Cart.findOne({ _id: cartId });
+
+        if (cart.products.length > 0) {
+            let totalPriceAllProducts = 0;
+            for (const product of cart.products) {
+                // Get product detail
+                const productDetail = await Product.findOne({ _id: product.product_id });
+
+                // calculate new price of product
+                productDetail.newPrice = Math.floor(
+                    productDetail.price -
+                        (productDetail.price * productDetail.discountPercentage) / 100
+                );
+
+                // Total price of product
+                productDetail.totalPrice = productDetail.newPrice * product.quantity;
+
+                // Total all products
+                totalPriceAllProducts += productDetail.totalPrice;
+
+                product.productDetail = productDetail;
+            }
+            // Assign total all products to cart
+            cart.totalPriceAllProducts = totalPriceAllProducts;
+        }
+
+        res.render("client/pages/cart/index.pug", {
+            title: "Giỏ hàng",
+            cartDetail: cart,
+        });
+    }
+
     // [POST] Add product
     async addProductToCart(req, res) {
         // Get product id

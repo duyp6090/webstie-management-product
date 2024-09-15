@@ -1,6 +1,6 @@
 const Cart = require("../../model/cart.model.js");
 
-function handleCart(req, res, next) {
+async function handleCart(req, res, next) {
     // Check cookie cart id
     if (!req.cookies.cartId) {
         // Create new cart
@@ -17,6 +17,18 @@ function handleCart(req, res, next) {
             expires: expiresTime,
         });
     } else {
+        // Get cart by id
+        const cart = await Cart.findById({
+            _id: req.cookies.cartId,
+        });
+
+        // Get quantity of products in cart
+        cart.totalQuantity = cart.products.reduce((total, product) => {
+            return total + product.quantity;
+        }, 0);
+
+        // save to locals
+        res.locals.miniCart = cart;
     }
 
     // Next to the next middleware
